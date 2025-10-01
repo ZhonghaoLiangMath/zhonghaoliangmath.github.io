@@ -1,0 +1,274 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zhonghao Liang</title>
+    <script>
+        window.MathJax = {
+            tex: {
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$']]
+            },
+            options: {
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+            }
+        };
+    </script>
+    <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "Times New Roman", Georgia, serif;
+        }
+        body {
+            line-height: 1.6;
+            color: #333;
+            padding: 20px;
+        }
+        h1 {
+            color: #2c3e50;
+            margin-bottom: 15px;
+            border-bottom: 2px solid #3498db;
+            padding-bottom: 8px;
+        }
+        h2 {
+            color: #2c3e50;
+            margin: 30px 0 15px;
+            padding-left: 10px;
+            border-left: 4px solid #3498db;
+        }
+        #tlayout {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        #layout-menu {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-radius: 5px;
+            vertical-align: top; /* 确保菜单顶部对齐 */
+        }
+        .menu-item {
+            margin: 10px 0;
+        }
+        .menu-item a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .menu-item a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+        #layout-content {
+            padding: 0 20px;
+            width: 100%;
+        }
+        
+        /* --- 关键修改：使用 Flexbox 布局个人信息区域 --- */
+        .img-flex-container {
+            display: flex;              /* 启用 Flexbox 布局 */
+            align-items: flex-start;    /* 子元素顶部对齐 */
+            gap: 15px;                  /* 照片和文字之间的间距，可按需调整 */
+            margin-bottom: 30px;        /* 整体区域与下方内容的距离 */
+        }
+        .img-wrapper img {
+            height: 12em;
+            width: auto;
+            border-radius: 5px;
+        }
+        .info-wrapper {
+            flex-grow: 1; /* 让信息区域自动填充剩余空间 */
+        }
+        /* --- Flexbox 布局结束 --- */
+
+        ul {
+            margin-left: 25px;
+            margin-bottom: 20px;
+        }
+        li {
+            margin: 8px 0;
+        }
+        a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        a:hover {
+            color: #2980b9;
+            text-decoration: underline;
+        }
+        /* 可选：给下载链接加小图标样式，更直观 */
+        .download-link::before {
+            content: "📄 "; /* 文档图标，可替换为其他符号如"↓ " */
+        }
+        @media (max-width: 768px) {
+            #tlayout tr {
+                display: flex;
+                flex-direction: column;
+            }
+            #layout-menu {
+                margin-bottom: 20px;
+            }
+            .img-flex-container {
+                flex-direction: column; /* 移动端垂直排列 */
+                align-items: center;    /* 居中对齐 */
+                text-align: center;     /* 文字居中 */
+            }
+        }
+    </style>
+</head>
+<body>
+    <table summary="Page layout table" id="tlayout">
+        <tr>
+            <td id="layout-menu">
+                <div class="menu-item"><a href="#home">Home</a></div>
+                <div class="menu-item"><a href="#education">Education Background</a></div>
+                <div class="menu-item"><a href="#research">Research Interests</a></div>                
+                <div class="menu-item"><a href="#teaching">Teaching Assistant Experience</a></div> 
+                <div class="menu-item"><a href="#awards">Awards & Honors</a></div>
+                <div class="menu-item"><a href="#publications">Publications</a></div>
+                <div class="menu-item"><a href="#preprints">Arxiv Preprints</a></div>
+            </td>
+
+            <!-- 修正：所有内容必须在这个 <td> 单元格内 -->
+            <td id="layout-content">
+                <!-- 个人信息区域 -->
+                <div id="home">
+                    <h1>Zhonghao Liang</h1>
+                    <!-- 使用 Flex 容器替代原有的表格布局 -->
+                    <div class="img-flex-container">
+                        <div class="img-wrapper">
+                            <img src="zhl.jpg" alt="Zhonghao Liang" />
+                        </div>
+                        <div class="info-wrapper">
+                            <p><span style="font-size: 125%;"><b>Zhonghao Liang (梁钟浩)</b></span></p>
+                            <p>Master's Student in Mathematical Sciences</p>
+                            <p>
+                                <a href="https://msi.sicnu.edu.cn/" target="_blank">School of Mathematical Sciences</a><br>
+                                <a href="https://www.sicnu.edu.cn/" target="_blank">Sichuan Normal University</a><br>
+                                Chengdu, Sichuan, China
+                            </p>
+                            <p>E-mail: <a href="mailto:liangzhongh0807@163.com">liangzhongh0807@163.com</a></p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 教育背景 -->
+                <div id="education">
+                    <h2>Education Background</h2>
+                    <ul>
+                        <li>
+                            <p>Bachelor of Science in Mathematics<br>
+                            <a href="https://sj.abtu.edu.cn/" target="_blank">School of Mathematical,</a> <a href="https://www.abtu.edu.cn/" target="_blank">Aba Teachers University</a>, Wenchuan, Sichuan<br>
+                            Sep 2019 – Jun 2023<br>
+                            Supervisor: <a href="https://sj.abtu.edu.cn/info/1049/4838.htm" target="_blank">Prof. Shichun Yang</a></p>
+                        </li>
+                        <li>
+                            <p>Master of Science in Mathematical Sciences (Candidate)<br>
+                            <a href="https://msi.sicnu.edu.cn/" target="_blank">School of Mathematical Sciences</a>, <a href="https://www.sicnu.edu.cn/" target="_blank">Sichuan Normal University</a><br>
+                            Sep 2024 – Present<br>
+                            Supervisor: <a href="http://139.155.71.72:81/HomePage.aspx?ID=44" target="_blank">Prof. Qunying Liao</a></p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 研究方向 -->
+                <div id="research">
+                    <h2>Research Interests</h2>
+                    <ul>
+                        <li><p>Algebraic Coding Theory over Finite Fields</p></li>
+                        <li><p>Elementary Number Theory</p></li>
+                    </ul>
+                </div>
+
+                <!-- 助教经历 -->
+                <div id="teaching">
+                    <h2>Teaching Assistant Experience</h2>
+                    <ul>
+                        <li>
+                            <p><i>Abstract Algebra</i><br>
+                            School of Mathematical Sciences, Sichuan Normal University<br>
+                            Sep 2024 – Jan 2025</p>
+                        </li>
+                        <li>
+                            <p><i>Elementary Number Theory</i><br>
+                            School of Mathematical Sciences, Sichuan Normal University<br>
+                            Mar 2025 – Jul 2025</p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 获奖经历 -->
+                <div id="awards">
+                    <h2>Awards & Honors</h2>
+                    <ul>
+                        <li><p>President's Scholarship for Graduate Students, Sichuan Normal University<br>2024 – 2025 Academic Year</p></li>
+                        <li><p>First Prize for Outstanding Undergraduate Thesis, Aba Teachers University<br> Class of 2023</p></li>
+                        <li><p>"Merit Student" Honor, Aba Teachers University<br>2019 – 2020 Academic Year</p></li>
+                    </ul>
+                </div>
+
+                <!-- 已发表论文（新增下载地址） -->
+                <div id="publications">
+                    <h2>Publications</h2>
+                    <ul>
+                        <li>
+                            <p><b>Zhonghao Liang</b>, Shichun Yang. Further intensification of an inequality about the number of prime numbers[J]. <i>Journal of Science of Teachers' College and University</i>, 2024, 44(02): 6–8+14. (In Chinese) 
+                            <br>
+                           <a href="https://pan.baidu.com/s/1WRhJNXDFvCkKFzcYF_fFYA" target="_blank" class="download-link">Baidu Disk (Download PDF) | Code: 6666</a> <!-- 替换为论文2的实际下载链接 -->
+                            </p>
+                        </li>
+                        <li>
+                            <p><b>Zhonghao Liang</b>, Shichun Yang, Qunying Liao. Further Refinement of Estimates of $p_k$ and $\sum\limits_{k=1}^{n}kp_k$ True Bounds[J]. <i>College Mathematics</i>, 2025, 41(01): 16–22. (In Chinese)
+                            <br>
+                           <a href="https://pan.baidu.com/s/1A-vLMTAXJBk57OYN0oiZfw?pwd=6666" target="_blank" class="download-link">Baidu Disk (Download PDF) | Code: 6666</a> <!-- 替换为论文2的实际下载链接 -->
+                            </p>
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- 预印本（新增下载地址，ArXiv预印本可直接用ArXiv链接） -->
+                <div id="preprints">
+                    <h2>ArXiv Preprints</h2>
+                    <ul>
+                        <li>
+                            <p><b>Zhonghao Liang</b>, Qunying Liao. The Equivalent Condition for GRL Codes to Be MDS, AMDS or Self-Dual[R]. arXiv:2506.03874, 2025.
+                            <br>
+                            <a href="https://arxiv.org/abs/2506.03874" target="_blank" class="download-link">Access on arXiv (Download PDF)</a> <!-- ArXiv链接可直接访问/下载 -->
+                            </p>
+                        </li>
+                        <li>
+                            <p><b>Zhonghao Liang</b>, Qunying Liao. Two Classes of NMDS Codes from Roth-Lempel Codes[R]. arXiv:2506.19346, 2025.
+                            <br>
+                            <a href="https://arxiv.org/abs/2506.19346" target="_blank" class="download-link">Access on arXiv (Download PDF)</a>
+                            </p>
+                        </li>
+                        <li>
+                            <p><b>Zhonghao Liang</b>, Qunying Liao. The Extended Code for a Class of Generalized Roth-Lempel Codes and Their Properties[R]. arXiv:2508.12302, 2025.
+                            <br>
+                            <a href="https://arxiv.org/abs/2508.12302" target="_blank" class="download-link">Access on arXiv (Download PDF)</a>
+                            </p>
+                        </li>
+                        <li>
+                            <p><b>Zhonghao Liang</b>, Qunying Liao. Four Classes of LCD Codes from $(*)$-$(\mathcal{L},\mathcal{P})$-Twisted Generalized Reed-Solomon Codes[R]. arXiv:2509.14878, 2025.
+                            <br>
+                            <a href="https://arxiv.org/abs/2509.14878" target="_blank" class="download-link">Access on arXiv (Download PDF)</a>
+                            </p>
+                        </li>
+                        <li>
+                            <p> Yongkang Wan, <b>Zhonghao Liang</b>, Qunying Liao. The inverse of the (alternating) infinite sum of the reciprocal of the weighted sum for generalized Fibonacci sub-sequences[J]. arXiv preprint arXiv:2509.14569, 2025.
+                            <br>
+                            <a href="https://arxiv.org/abs/2509.14569" target="_blank" class="download-link">Access on arXiv (Download PDF)</a>
+                            </p>
+                        </li>
+                    </ul>
+                </div> 
+            </td>
+        </tr>
+    </table>
+</body>
+</html>
