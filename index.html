@@ -4,271 +4,928 @@
     <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zhonghao Liang</title>
+    <title>Zhonghao Liang - Academic Profile</title>
     <script>
+        // 修复后的MathJax配置：启用自动渲染+优化加载逻辑
         window.MathJax = {
             tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
-                displayMath: [['$$', '$$']]
+                inlineMath: [['$', '$'], ['\\(', '\\)']], // 行内公式分隔符
+                displayMath: [['$$', '$$']], // 块级公式分隔符
+                processEscapes: true // 允许用\$表示纯文本美元符号
+            },
+            svg: {
+                fontCache: 'global' // 优化SVG字体缓存，提升渲染效率
+            },
+            startup: {
+                pageReady: function() {
+                    // 初始化后自动渲染页面所有公式
+                    return MathJax.startup.defaultPageReady().then(function() {
+                        return MathJax.typeset();
+                    });
+                }
             },
             options: {
-                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'], // 跳过无需渲染的标签
+                enableMenu: false // 关闭右键菜单（避免干扰页面交互，可按需开启）
             }
         };
     </script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-color: #3498db;
+            --accent-dark: #2980b9;
+            --light-bg: #f8f9fa;
+            --border-color: #e1e4e8;
+            --text-color: #333;
+            --text-light: #666;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: "Times New Roman", Georgia, serif;
-        }
-        body {
-            line-height: 1.6;
-            color: #333;
-            padding: 20px;
-        }
-        h1 {
-            color: #2c3e50;
-            margin-bottom: 15px;
-            border-bottom: 2px solid #3498db;
-            padding-bottom: 8px;
-        }
-        h2 {
-            color: #2c3e50;
-            margin: 30px 0 15px;
-            padding-left: 10px;
-            border-left: 4px solid #3498db;
-        }
-        #tlayout {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        #layout-menu {
-            background-color: #f8f9fa;
-            padding: 15px;
-            border-radius: 5px;
-            vertical-align: top; /* 确保菜单顶部对齐 */
-        }
-        .menu-item {
-            margin: 10px 0;
-        }
-        .menu-item a {
-            color: #3498db;
-            text-decoration: none;
-            font-weight: 500;
-        }
-        .menu-item a:hover {
-            color: #2980b9;
-            text-decoration: underline;
-        }
-        #layout-content {
-            padding: 0 20px;
-            width: 100%;
+            font-family: "Times New Roman", Georgia, "SimSun", "STSong", serif;
         }
         
-        /* --- 关键修改：使用 Flexbox 布局个人信息区域 --- */
-        .img-flex-container {
-            display: flex;              /* 启用 Flexbox 布局 */
-            align-items: flex-start;    /* 子元素顶部对齐 */
-            gap: 15px;                  /* 照片和文字之间的间距，可按需调整 */
-            margin-bottom: 30px;        /* 整体区域与下方内容的距离 */
+        body {
+            line-height: 1.7;
+            color: var(--text-color);
+            background-color: #fff;
+            padding: 0;
+            scroll-behavior: smooth;
         }
-        .img-wrapper img {
-            height: 12em;
-            width: auto;
-            border-radius: 5px;
+        
+        .container {
+            display: flex;
+            min-height: 100vh;
+            gap: 0;
         }
-        .info-wrapper {
-            flex-grow: 1; /* 让信息区域自动填充剩余空间 */
+        
+        /* 侧边栏样式 */
+        .sidebar {
+            width: 240px;
+            background-color: var(--light-bg);
+            padding: 30px 20px;
+            border-right: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            height: 100vh;
+            overflow-y: auto;
+            transition: all 0.3s ease;
+            flex-shrink: 0;
         }
-        /* --- Flexbox 布局结束 --- */
-
-        ul {
-            margin-left: 25px;
+        
+        .menu-toggle {
+            display: none;
+            position: fixed;
+            top: 15px;
+            left: 15px;
+            z-index: 100;
+            background-color: var(--accent-color);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            box-shadow: var(--shadow);
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .menu-title {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: var(--primary-color);
             margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid var(--border-color);
         }
-        li {
-            margin: 8px 0;
+        
+        .menu-item {
+            margin: 12px 0;
         }
-        a {
-            color: #3498db;
+        
+        .menu-item a {
+            color: var(--primary-color);
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            transition: all 0.2s ease;
+            padding: 5px 10px;
+            border-radius: 4px;
+        }
+        
+        .menu-item a:hover, .menu-item a.active {
+            color: var(--accent-color);
+            background-color: rgba(52, 152, 219, 0.1);
+        }
+        
+        .menu-item i {
+            margin-right: 10px;
+            width: 20px;
+            text-align: center;
+        }
+        
+        /* 主内容区样式 */
+        .main-content {
+            flex: 1;
+            padding: 40px 40px 40px 50px;
+            max-width: calc(100% - 240px);
+            width: 100%;
+            margin: 0;
+        }
+        
+        h1 {
+            color: var(--primary-color);
+            margin-bottom: 25px;
+            padding-bottom: 12px;
+            border-bottom: 2px solid var(--accent-color);
+            font-size: 2.2rem;
+        }
+        
+        h2 {
+            color: var(--primary-color);
+            margin: 40px 0 20px;
+            padding-left: 12px;
+            border-left: 4px solid var(--accent-color);
+            font-size: 1.6rem;
+        }
+        
+        /* 个人信息区域 */
+        .profile-header {
+            display: flex;
+            align-items: flex-start;
+            gap: 30px;
+            margin-bottom: 40px;
+            padding-bottom: 30px;
+            border-bottom: 1px solid var(--border-color);
+        }
+        
+        .profile-photo {
+            width: 180px;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: var(--shadow);
+            transition: transform 0.3s ease;
+        }
+        
+        .profile-photo:hover {
+            transform: scale(1.03);
+        }
+        
+        .profile-info h1 {
+            margin-bottom: 15px;
+        }
+        
+        .info-item {
+            margin: 10px 0;
+            display: flex;
+            align-items: flex-start;
+        }
+        
+        .info-item i {
+            color: var(--accent-color);
+            width: 24px;
+            margin-right: 10px;
+            margin-top: 3px;
+        }
+        
+        .info-item a {
+            color: var(--accent-color);
             text-decoration: none;
         }
-        a:hover {
-            color: #2980b9;
+        
+        .info-item a:hover {
+            color: var(--accent-dark);
             text-decoration: underline;
         }
-        /* 可选：给下载链接加小图标样式，更直观 */
-        .download-link::before {
-            content: "📄 "; /* 文档图标，可替换为其他符号如"↓ " */
+        
+        /* 列表样式 */
+        ul {
+            margin-left: 25px;
+            margin-bottom: 25px;
         }
-        @media (max-width: 768px) {
-            #tlayout tr {
-                display: flex;
+        
+        li {
+            margin: 12px 0;
+            position: relative;
+            padding-left: 5px;
+        }
+        
+        /* 论文和预印本样式 */
+        .publication {
+            padding: 12px 15px;
+            border-radius: 6px;
+            background-color: rgba(248, 249, 250, 0.5);
+            margin-bottom: 12px;
+            transition: background-color 0.2s ease;
+        }
+        
+        .publication:hover {
+            background-color: rgba(248, 249, 250, 0.9);
+        }
+        
+        .publication-citation {
+            line-height: 1.6;
+            margin-bottom: 8px;
+        }
+        
+        .publication-citation strong {
+            color: var(--primary-color);
+        }
+        
+        .publication-citation em {
+            color: var(--text-light);
+        }
+        
+        .download-link {
+            color: var(--accent-color);
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            margin-right: 15px;
+            transition: all 0.2s ease;
+            font-size: 0.95rem;
+        }
+        
+        .download-link:hover {
+            color: var(--accent-dark);
+            text-decoration: underline;
+        }
+        
+        .download-link i {
+            margin-right: 5px;
+        }
+        
+        /* PDF模态框样式 */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.85);
+            z-index: 1000;
+            overflow: auto;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+        
+        .modal.show {
+            opacity: 1;
+        }
+        
+        .modal-content {
+            position: relative;
+            background-color: #fefefe;
+            margin: 50px auto;
+            padding: 25px;
+            width: 90%;
+            max-width: 1100px;
+            border-radius: 8px;
+            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
+            transform: translateY(20px);
+            transition: transform 0.3s ease;
+        }
+        
+        .modal.show .modal-content {
+            transform: translateY(0);
+        }
+        
+        .close-modal {
+            position: absolute;
+            right: 20px;
+            top: 15px;
+            color: #aaa;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: color 0.2s ease;
+            z-index: 10;
+        }
+        
+        .close-modal:hover {
+            color: var(--primary-color);
+        }
+        
+        .pdf-container {
+            width: 100%;
+            height: 700px;
+            margin-top: 15px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+        }
+        
+        .modal-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: var(--primary-color);
+            padding-right: 40px;
+        }
+        
+        /* 百度网盘提示样式 */
+        .baidu-notice {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) scale(0.9);
+            background-color: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 5px 30px rgba(0,0,0,0.2);
+            z-index: 1001;
+            max-width: 400px;
+            text-align: center;
+            opacity: 0;
+            transition: all 0.3s ease;
+        }
+        
+        .baidu-notice.show {
+            opacity: 1;
+            transform: translate(-50%, -50%) scale(1);
+        }
+        
+        .notice-buttons {
+            margin-top: 20px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+        }
+        
+        .notice-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            background-color: var(--accent-color);
+            color: white;
+            transition: background-color 0.2s ease;
+            font-size: 14px;
+        }
+        
+        .notice-btn:hover {
+            background-color: var(--accent-dark);
+        }
+        
+        .notice-btn.cancel {
+            background-color: #95a5a6;
+        }
+        
+        .notice-btn.cancel:hover {
+            background-color: #7f8c8d;
+        }
+        
+        /* 回到顶部按钮 */
+        .back-to-top {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--accent-color);
+            color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            box-shadow: var(--shadow);
+            cursor: pointer;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 90;
+        }
+        
+        .back-to-top.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        .back-to-top:hover {
+            background-color: var(--accent-dark);
+            transform: translateY(-3px);
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 1200px) {
+            .main-content {
+                padding: 35px 30px 35px 40px;
+            }
+        }
+        
+        @media (max-width: 900px) {
+            .container {
                 flex-direction: column;
             }
-            #layout-menu {
-                margin-bottom: 20px;
+            
+            .sidebar {
+                width: 100%;
+                height: auto;
+                position: relative;
+                padding: 20px;
+                border-right: none;
+                border-bottom: 1px solid var(--border-color);
+                display: none;
             }
-            .img-flex-container {
-                flex-direction: column; /* 移动端垂直排列 */
-                align-items: center;    /* 居中对齐 */
-                text-align: center;     /* 文字居中 */
+            
+            .sidebar.show {
+                display: block;
+            }
+            
+            .menu-toggle {
+                display: flex;
+            }
+            
+            .main-content {
+                padding: 30px 20px;
+                margin-top: 60px;
+                max-width: 100%;
+            }
+            
+            .profile-header {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+                gap: 20px;
+            }
+            
+            .info-item {
+                justify-content: center;
+            }
+            
+            .pdf-container {
+                height: 500px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .main-content {
+                padding: 20px 15px;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.4rem;
+                margin: 30px 0 15px;
+            }
+            
+            .profile-photo {
+                width: 150px;
+            }
+            
+            .pdf-container {
+                height: 400px;
+            }
+            
+            .modal-content {
+                margin: 20px auto;
+                padding: 15px;
+            }
+            
+            .publication-citation {
+                font-size: 0.92rem;
             }
         }
     </style>
 </head>
 <body>
-    <table summary="Page layout table" id="tlayout">
-        <tr>
-            <td id="layout-menu">
-                <div class="menu-item"><a href="#home">Home</a></div>
-                <div class="menu-item"><a href="#education">Education Background</a></div>
-                <div class="menu-item"><a href="#research">Research Interests</a></div>                
-                <div class="menu-item"><a href="#teaching">Teaching Assistant Experience</a></div> 
-                <div class="menu-item"><a href="#awards">Awards & Honors</a></div>
-                <div class="menu-item"><a href="#publications">Publications</a></div>
-                <div class="menu-item"><a href="#preprints">Arxiv Preprints</a></div>
-            </td>
+    <button class="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+    
+    <div class="container">
+        <aside class="sidebar">
+            <div class="menu-title">Navigation</div>
+            <div class="menu-item"><a href="#home"><i class="fas fa-home"></i> Home</a></div>
+            <div class="menu-item"><a href="#education"><i class="fas fa-graduation-cap"></i> Education</a></div>
+            <div class="menu-item"><a href="#research"><i class="fas fa-flask"></i> Research Interests</a></div>                
+            <div class="menu-item"><a href="#teaching"><i class="fas fa-chalkboard-teacher"></i> Teaching Experience</a></div> 
+            <div class="menu-item"><a href="#awards"><i class="fas fa-trophy"></i> Awards & Honors</a></div>
+            <div class="menu-item"><a href="#publications"><i class="fas fa-file-alt"></i> Publications</a></div>
+            <div class="menu-item"><a href="#preprints"><i class="fas fa-file-export"></i> Arxiv Preprints</a></div>
+        </aside>
 
-            <!-- 修正：所有内容必须在这个 <td> 单元格内 -->
-            <td id="layout-content">
-                <!-- 个人信息区域 -->
-                <div id="home">
-                    <h1>Zhonghao Liang</h1>
-                    <!-- 使用 Flex 容器替代原有的表格布局 -->
-                    <div class="img-flex-container">
-                        <div class="img-wrapper">
-                            <img src="zhl.jpg" alt="Zhonghao Liang" />
+        <main class="main-content">
+            <!-- 个人信息区域 -->
+            <section id="home">
+                <div class="profile-header">
+                    <img src="zhl.jpg" alt="Zhonghao Liang" class="profile-photo" />
+                    <div class="profile-info">
+                        <h1>Zhonghao Liang (梁钟浩)</h1>
+                        <div class="info-item">
+                            <i class="fas fa-user-graduate"></i>
+                            <span>Master's degree in progress</span>
                         </div>
-                        <div class="info-wrapper">
-                            <p><span style="font-size: 125%;"><b>Zhonghao Liang (梁钟浩)</b></span></p>
-                            <p>Master's degree in progress</p>
-                            <p>
+                        <div class="info-item">
+                            <i class="fas fa-university"></i>
+                            <span>
                                 <a href="https://msi.sicnu.edu.cn/" target="_blank">School of Mathematical Sciences</a><br>
                                 <a href="https://www.sicnu.edu.cn/" target="_blank">Sichuan Normal University</a><br>
                                 Chengdu, Sichuan, China
-                            </p>
-                            <p>E-mail: <a href="mailto:liangzhongh0807@163.com">liangzhongh0807@163.com</a></p>
+                            </span>
+                        </div>
+                        <div class="info-item">
+                            <i class="fas fa-envelope"></i>
+                            <span><a href="mailto:liangzhongh0807@163.com">liangzhongh0807@163.com</a></span>
                         </div>
                     </div>
                 </div>
+            </section>
 
-                <!-- 教育背景 -->
-                <div id="education">
-                    <h2>Education Background</h2>
-                    <ul>
-                        <li>
-                            <p>Bachelor of Science in Mathematics<br>
-                            <a href="https://sj.abtu.edu.cn/" target="_blank">School of Mathematical,</a> <a href="https://www.abtu.edu.cn/" target="_blank">Aba Teachers University</a>, Wenchuan, Sichuan<br>
-                            Sep 2019 – Jun 2023<br>
-                            Supervisor: <a href="https://sj.abtu.edu.cn/info/1049/4838.htm" target="_blank">Prof. Shichun Yang</a></p>
-                        </li>
-                        <li>
-                            <p>Master's degree in progress<br>
-                            <a href="https://msi.sicnu.edu.cn/" target="_blank">School of Mathematical Sciences</a>, <a href="https://www.sicnu.edu.cn/" target="_blank">Sichuan Normal University</a><br>
-                            Sep 2024 – Present<br>
-                            Supervisor: <a href="http://139.155.71.72:81/HomePage.aspx?ID=44" target="_blank">Prof. Qunying Liao</a></p>
-                        </li>
-                    </ul>
+            <!-- 教育背景 -->
+            <section id="education">
+                <h2>Education Background</h2>
+                <ul>
+                    <li>
+                        <p><strong>Bachelor of Science in Mathematics</strong><br>
+                        <a href="https://sj.abtu.edu.cn/" target="_blank">School of Mathematics,</a> <a href="https://www.abtu.edu.cn/" target="_blank">Aba Teachers University</a>, Wenchuan, Sichuan<br>
+                        September 2019 – June 2023<br>
+                        Supervisor: <a href="https://sj.abtu.edu.cn/info/1049/4838.htm" target="_blank">Prof. Shichun Yang</a></p>
+                    </li>
+                    <li>
+                        <p><strong>Master's degree in progress</strong><br>
+                        <a href="https://msi.sicnu.edu.cn/" target="_blank">School of Mathematical Sciences</a>, <a href="https://www.sicnu.edu.cn/" target="_blank">Sichuan Normal University</a><br>
+                        September 2024 – Present<br>
+                        Supervisor: <a href="http://139.155.71.72:81/HomePage.aspx?ID=44" target="_blank">Prof. Qunying Liao</a></p>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- 研究方向 -->
+            <section id="research">
+                <h2>Research Interests</h2>
+                <ul>
+                    <li>
+                        <p><strong>Algebraic Coding Theory over Finite Fields</strong><br>
+                        Focusing on the construction and performance analysis of cyclic codes, Reed-Solomon codes, and their generalizations.</p>
+                    </li>
+                    <li>
+                        <p><strong>Elementary Number Theory</strong><br>
+                        Research on prime number distribution, Diophantine equations, and analytical number theory.</p>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- 助教经历 -->
+            <section id="teaching">
+                <h2>Teaching Assistant Experience</h2>
+                <ul>
+                    <li>
+                        <p><strong>Abstract Algebra</strong><br>
+                        School of Mathematical Sciences, Sichuan Normal University<br>
+                        September 2024 – January 2025</p>
+                    </li>
+                    <li>
+                        <p><strong>Elementary Number Theory</strong><br>
+                        School of Mathematical Sciences, Sichuan Normal University<br>
+                        March 2025 – July 2025</p>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- 获奖经历 -->
+            <section id="awards">
+                <h2>Awards & Honors</h2>
+                <ul>
+                    <li>
+                        <p>President's Scholarship for Graduate Students, Sichuan Normal University<br>
+                        2024 – 2025 Academic Year</p>
+                    </li>
+                    <li>
+                        <p><a href="https://jw.abtu.edu.cn/info/1131/3639.htm" target="_blank">The First Prize of Graduation Thesis for Undergraduate Students of the 2023 Cohort, Aba Teachers' University</a></p>
+                    </li>
+                    <li>
+                        <p>"Merit Student" Honor, Aba Teachers University<br>
+                        2019 – 2020 Academic Year</p>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- 已发表论文 - 标准引用格式 -->
+            <section id="publications">
+                <h2>Publications</h2>
+                <div class="publication">
+                    <div class="publication-citation">
+                        <strong>Liang Z</strong>, Yang S C. Further intensification of an inequality about the number of prime numbers[J]. <em>Journal of Science of Teachers' College and University</em>, 2024, 44(02): 6–8+14. (In Chinese)
+                    </div>
+                    <div>
+                        <a href="#" class="download-link pdf-link" data-type="baidu" data-title="Further intensification of an inequality about the number of prime numbers" data-url="https://pan.baidu.com/s/1WRhJNXDFvCkKFzcYF_fFYA">
+                            <i class="fas fa-file-pdf"></i> Baidu Disk (View PDF)
+                        </a> 
+                    </div>
+                </div>
+                
+                <div class="publication">
+                    <div class="publication-citation">
+                        <strong>Liang Z</strong>, Yang S C, Liao Q Y. Further refinement of estimates of $p_k$ and $\sum\limits_{k=1}^{n}kp_k$ true bounds[J]. <em>College Mathematics</em>, 2025, 41(01): 16–22. (In Chinese)
+                    </div>
+                    <div>
+                        <a href="#" class="download-link pdf-link" data-type="baidu" data-title="Further Refinement of Estimates of $p_k$ and $\sum\limits_{k=1}^{n}kp_k$ True Bounds" data-url="https://pan.baidu.com/s/1A-vLMTAXJBk57OYN0oiZfw?pwd=6666">
+                            <i class="fas fa-file-pdf"></i> Baidu Disk (View PDF)
+                        </a> 
+                    </div>
+                </div>
+            </section>
+
+            <!-- 预印本 - 标准引用格式 -->
+            <section id="preprints">
+                <h2>ArXiv Preprints</h2>
+                <div class="publication">
+                    <div class="publication-citation">
+                        <strong>Liang Z</strong>, Liao Q. The equivalent condition for GRL codes to be MDS, AMDS or self-dual[J]. arXiv preprint arXiv:2506.03874, 2025.
+                    </div>
+                    <div>
+                        <a href="#" class="download-link pdf-link" data-type="arxiv" data-title="The Equivalent Condition for GRL Codes to Be MDS, AMDS or Self-Dual" data-url="https://arxiv.org/pdf/2506.03874.pdf">
+                            <i class="fas fa-file-pdf"></i> Access on arXiv (View PDF)
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="publication">
+                    <div class="publication-citation">
+                        <strong>Liang Z</strong>, Liao Q. Two classes of NMDS codes from Roth-Lempel codes[J]. arXiv preprint arXiv:2506.19346, 2025.
+                    </div>
+                    <div>
+                        <a href="#" class="download-link pdf-link" data-type="arxiv" data-title="Two Classes of NMDS Codes from Roth-Lempel Codes" data-url="https://arxiv.org/pdf/2506.19346.pdf">
+                            <i class="fas fa-file-pdf"></i> Access on arXiv (View PDF)
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="publication">
+                    <div class="publication-citation">
+                       <strong>Liang Z</strong>, Liao Q. The extended code for a class of generalized Roth-Lempel codes and their properties[J]. arXiv preprint arXiv:2508.12302, 2025.
+                    </div>
+                    <div>
+                        <a href="#" class="download-link pdf-link" data-type="arxiv" data-title="The Extended Code for a Class of Generalized Roth-Lempel Codes and Their Properties" data-url="https://arxiv.org/pdf/2508.12302.pdf">
+                            <i class="fas fa-file-pdf"></i> Access on arXiv (View PDF)
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="publication">
+                    <div class="publication-citation">
+                        <strong>Liang Z</strong>, Liao Q. Four classes of LCD codes from (*)-(L, P)-twisted generalized Reed-Solomon codes[J]. arXiv preprint arXiv:2509.14878, 2025.
+                    </div>
+                    <div>
+                        <a href="#" class="download-link pdf-link" data-type="arxiv" data-title="Four Classes of LCD Codes from \(`(*)`\)-\(`(\mathcal{L},\mathcal{P})`\)-Twisted Generalized Reed-Solomon Codes" data-url="https://arxiv.org/pdf/2509.14878.pdf">
+                            <i class="fas fa-file-pdf"></i> Access on arXiv (View PDF)
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="publication">
+                    <div class="publication-citation">
+                        Wan Y, <strong>Liang Z</strong>, Liao Q. The inverse of the (alternating) infinite sum of the reciprocal of the weighted sum for generalized Fibonacci sub-sequences[J]. arXiv preprint arXiv:2509.14569, 2025.
+                    </div>
+                    <div>
+                        <a href="#" class="download-link pdf-link" data-type="arxiv" data-title="The inverse of the (alternating) infinite sum of the reciprocal of the weighted sum for generalized Fibonacci sub-sequences" data-url="https://arxiv.org/pdf/2509.14569.pdf">
+                            <i class="fas fa-file-pdf"></i> Access on arXiv (View PDF)
+                        </a>
+                    </div>
                 </div>
 
-                <!-- 研究方向 -->
-                <div id="research">
-                    <h2>Research Interests</h2>
-                    <ul>
-                        <li><p>Algebraic Coding Theory over Finite Fields</p></li>
-                        <li><p>Elementary Number Theory</p></li>
-                    </ul>
+                <div class="publication">
+                    <div class="publication-citation">
+                        Wan Y, <strong>Liang Z</strong>, Liao Q. The asymptotic estimation for two classes of generalized Fibonacci sub-sequences[J]. arXiv preprint arXiv:2510.13472, 2025.
+                    </div>
+                    <div>
+                        <a href="#" class="download-link pdf-link" data-type="arxiv" data-title="The asymptotic estimation for two classes of generalized Fibonacci sub-sequences" data-url="https://arxiv.org/pdf/2510.13472.pdf">
+                            <i class="fas fa-file-pdf"></i> Access on arXiv (View PDF)
+                        </a>
+                    </div>
                 </div>
+            </section> 
+        </main>
+    </div>
+    
+    <!-- PDF预览模态框 -->
+    <div id="pdfModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="modal-title" id="modalPdfTitle"></div>
+            <div class="pdf-container">
+                <iframe id="pdfViewer" width="100%" height="100%" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+    
+    <!-- 百度网盘提示框 -->
+    <div class="baidu-notice" id="baiduNotice">
+        <p>该论文存储在百度网盘中，将在新窗口打开。</p>
+        <p>提取码: 6666</p>
+        <div class="notice-buttons">
+            <button class="notice-btn" id="openBaiduBtn">打开百度网盘</button>
+            <button class="notice-btn cancel" id="cancelBaiduBtn">取消</button>
+        </div>
+    </div>
+    
+    <!-- 回到顶部按钮 -->
+    <div class="back-to-top" id="backToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
 
-                <!-- 助教经历 -->
-                <div id="teaching">
-                    <h2>Teaching Assistant Experience</h2>
-                    <ul>
-                        <li>
-                            <p><i>Abstract Algebra</i><br>
-                            School of Mathematical Sciences, Sichuan Normal University<br>
-                            Sep 2024 – Jan 2025</p>
-                        </li>
-                        <li>
-                            <p><i>Elementary Number Theory</i><br>
-                            School of Mathematical Sciences, Sichuan Normal University<br>
-                            Mar 2025 – Jul 2025</p>
-                        </li>
-                    </ul>
-                </div>
+    <script>
+        // 获取DOM元素
+        const modal = document.getElementById('pdfModal');
+        const pdfViewer = document.getElementById('pdfViewer');
+        const modalTitle = document.getElementById('modalPdfTitle');
+        const closeBtn = document.querySelector('.close-modal');
+        const pdfLinks = document.querySelectorAll('.pdf-link');
+        const baiduNotice = document.getElementById('baiduNotice');
+        const openBaiduBtn = document.getElementById('openBaiduBtn');
+        const cancelBaiduBtn = document.getElementById('cancelBaiduBtn');
+        const backToTopBtn = document.getElementById('backToTop');
+        const menuToggle = document.querySelector('.menu-toggle');
+        const sidebar = document.querySelector('.sidebar');
+        const navLinks = document.querySelectorAll('.menu-item a');
+        
+        let currentBaiduUrl = '';
 
-                <!-- 获奖经历 -->
-                <div id="awards">
-                    <h2>Awards & Honors</h2>
-                    <ul>
-                        <li><p>President's Scholarship for Graduate Students, Sichuan Normal University<br>2024 – 2025 Academic Year</p></li>
-                        <li><p>First Prize for Outstanding Undergraduate Thesis, Aba Teachers University<br> Class of 2023</p></li>
-                        <li><p>"Merit Student" Honor, Aba Teachers University<br>2019 – 2020 Academic Year</p></li>
-                    </ul>
-                </div>
+        // 侧边栏菜单切换（移动端）
+        menuToggle.addEventListener('click', () => {
+            sidebar.classList.toggle('show');
+        });
+        
+        // 导航链接点击事件 - 移动端自动关闭菜单
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (window.innerWidth <= 900) {
+                    sidebar.classList.remove('show');
+                }
+                
+                // 添加活跃状态
+                navLinks.forEach(l => l.classList.remove('active'));
+                link.classList.add('active');
+            });
+        });
 
-                <!-- 已发表论文（新增下载地址） -->
-                <div id="publications">
-                    <h2>Publications</h2>
-                    <ul>
-                        <li>
-                            <p><b>Zhonghao Liang</b>, Shichun Yang. Further intensification of an inequality about the number of prime numbers[J]. <i>Journal of Science of Teachers' College and University</i>, 2024, 44(02): 6–8+14. (In Chinese) 
-                            <br>
-                           <a href="https://pan.baidu.com/s/1WRhJNXDFvCkKFzcYF_fFYA" target="_blank" class="download-link">Baidu Disk (Download PDF) | Code: 6666</a> <!-- 替换为论文2的实际下载链接 -->
-                            </p>
-                        </li>
-                        <li>
-                            <p><b>Zhonghao Liang</b>, Shichun Yang, Qunying Liao. Further Refinement of Estimates of $p_k$ and $\sum\limits_{k=1}^{n}kp_k$ True Bounds[J]. <i>College Mathematics</i>, 2025, 41(01): 16–22. (In Chinese)
-                            <br>
-                           <a href="https://pan.baidu.com/s/1A-vLMTAXJBk57OYN0oiZfw?pwd=6666" target="_blank" class="download-link">Baidu Disk (Download PDF) | Code: 6666</a> <!-- 替换为论文2的实际下载链接 -->
-                            </p>
-                        </li>
-                    </ul>
-                </div>
+        // 打开模态框并加载PDF（新增：动态内容公式渲染）
+        pdfLinks.forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                // 获取论文标题、链接和类型
+                const title = this.getAttribute('data-title');
+                const pdfUrl = this.getAttribute('data-url');
+                const type = this.getAttribute('data-type');
+                
+                // 根据类型处理不同链接
+                if (type === 'arxiv') {
+                    // arXiv链接：在模态框中预览 + 渲染模态框内公式
+                    modalTitle.textContent = title;
+                    pdfViewer.src = pdfUrl;
+                    modal.style.display = 'block';
+                    // 添加动画类并触发公式渲染
+                    setTimeout(() => {
+                        modal.classList.add('show');
+                        // 关键修复：模态框显示后重新渲染公式
+                        if (window.MathJax) {
+                            MathJax.typeset();
+                        }
+                    }, 10);
+                    document.body.style.overflow = 'hidden';
+                } else if (type === 'baidu') {
+                    // 百度网盘链接：显示提示后在新窗口打开
+                    currentBaiduUrl = pdfUrl;
+                    baiduNotice.style.display = 'block';
+                    // 添加动画类
+                    setTimeout(() => {
+                        baiduNotice.classList.add('show');
+                    }, 10);
+                }
+            });
+        });
 
-                <!-- 预印本（新增下载地址，ArXiv预印本可直接用ArXiv链接） -->
-                <div id="preprints">
-                    <h2>ArXiv Preprints</h2>
-                    <ul>
-                        <li>
-                            <p><b>Zhonghao Liang</b>, Qunying Liao. The Equivalent Condition for GRL Codes to Be MDS, AMDS or Self-Dual[R]. arXiv:2506.03874, 2025.
-                            <br>
-                            <a href="https://arxiv.org/abs/2506.03874" target="_blank" class="download-link">Access on arXiv (Download PDF)</a> <!-- ArXiv链接可直接访问/下载 -->
-                            </p>
-                        </li>
-                        <li>
-                            <p><b>Zhonghao Liang</b>, Qunying Liao. Two Classes of NMDS Codes from Roth-Lempel Codes[R]. arXiv:2506.19346, 2025.
-                            <br>
-                            <a href="https://arxiv.org/abs/2506.19346" target="_blank" class="download-link">Access on arXiv (Download PDF)</a>
-                            </p>
-                        </li>
-                        <li>
-                            <p><b>Zhonghao Liang</b>, Qunying Liao. The Extended Code for a Class of Generalized Roth-Lempel Codes and Their Properties[R]. arXiv:2508.12302, 2025.
-                            <br>
-                            <a href="https://arxiv.org/abs/2508.12302" target="_blank" class="download-link">Access on arXiv (Download PDF)</a>
-                            </p>
-                        </li>
-                        <li>
-                            <p><b>Zhonghao Liang</b>, Qunying Liao. Four Classes of LCD Codes from $(*)$-$(\mathcal{L},\mathcal{P})$-Twisted Generalized Reed-Solomon Codes[R]. arXiv:2509.14878, 2025.
-                            <br>
-                            <a href="https://arxiv.org/abs/2509.14878" target="_blank" class="download-link">Access on arXiv (Download PDF)</a>
-                            </p>
-                        </li>
-                        <li>
-                            <p> Yongkang Wan, <b>Zhonghao Liang</b>, Qunying Liao. The inverse of the (alternating) infinite sum of the reciprocal of the weighted sum for generalized Fibonacci sub-sequences[J]. arXiv preprint arXiv:2509.14569, 2025.
-                            <br>
-                            <a href="https://arxiv.org/abs/2509.14569" target="_blank" class="download-link">Access on arXiv (Download PDF)</a>
-                            </p>
-                        </li>
-                    </ul>
-                </div> 
-            </td>
-        </tr>
-    </table>
+        // 百度网盘提示框按钮事件
+        openBaiduBtn.addEventListener('click', function() {
+            if (currentBaiduUrl) {
+                window.open(currentBaiduUrl, '_blank');
+                closeBaiduNotice();
+            }
+        });
+        
+        cancelBaiduBtn.addEventListener('click', closeBaiduNotice);
+        
+        function closeBaiduNotice() {
+            baiduNotice.classList.remove('show');
+            setTimeout(() => {
+                baiduNotice.style.display = 'none';
+            }, 300);
+            currentBaiduUrl = '';
+        }
+
+        // 关闭PDF模态框
+        closeBtn.addEventListener('click', closePdfModal);
+        
+        function closePdfModal() {
+            modal.classList.remove('show');
+            setTimeout(() => {
+                modal.style.display = 'none';
+                pdfViewer.src = '';
+                document.body.style.overflow = '';
+            }, 300);
+        }
+
+        // 点击模态框外部关闭
+        window.addEventListener('click', function(e) {
+            if (e.target === modal) {
+                closePdfModal();
+            }
+        });
+
+        // 按ESC键关闭模态框
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (modal.classList.contains('show')) {
+                    closePdfModal();
+                }
+                if (baiduNotice.classList.contains('show')) {
+                    closeBaiduNotice();
+                }
+            }
+        });
+        
+        // 回到顶部按钮逻辑
+        window.addEventListener('scroll', () => {
+            if (window.pageYOffset > 300) {
+                backToTopBtn.classList.add('show');
+            } else {
+                backToTopBtn.classList.remove('show');
+            }
+        });
+        
+        backToTopBtn.addEventListener('click', () => {
+            window.scrollTo({
+                top: 0,
+                behavior: 'smooth'
+            });
+        });
+        
+        // 平滑滚动到锚点
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 20,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+        
+        // 窗口大小变化时处理侧边栏
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 900) {
+                sidebar.classList.remove('show');
+                sidebar.style.display = 'block';
+            } else {
+                sidebar.style.display = '';
+            }
+        });
+        
+        // 初始化页面时设置当前活跃的导航项
+        function setActiveNavItem() {
+            const currentPath = window.location.hash || '#home';
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
+        
+        // 监听哈希变化，更新活跃导航项
+        window.addEventListener('hashchange', setActiveNavItem);
+        
+        // 初始化
+        setActiveNavItem();
+        
+        // 保留MathJax加载完成后的二次渲染（双重保障）
+        window.addEventListener('load', function() {
+            if (window.MathJax) {
+                MathJax.typeset();
+            }
+        });
+    </script>
 </body>
 </html>
