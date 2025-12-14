@@ -5,43 +5,64 @@
     <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zhonghao Liang - Academic Profile</title>
+    <!-- 预加载关键资源 -->
+    <link rel="preconnect" href="https://cdn.jsdelivr.net">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <!-- MathJax配置优化 -->
     <script>
-        // 修复后的MathJax配置：启用自动渲染+优化加载逻辑
         window.MathJax = {
             tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']], // 行内公式分隔符
-                displayMath: [['$$', '$$']], // 块级公式分隔符
-                processEscapes: true // 允许用\$表示纯文本美元符号
+                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                displayMath: [['$$', '$$']],
+                processEscapes: true,
+                packages: {'[+]': ['physics']} // 扩展数学包，增强公式支持
             },
             svg: {
-                fontCache: 'global' // 优化SVG字体缓存，提升渲染效率
+                fontCache: 'global',
+                scale: 1.05 // 公式略微放大，提升可读性
             },
             startup: {
                 pageReady: function() {
-                    // 初始化后自动渲染页面所有公式
                     return MathJax.startup.defaultPageReady().then(function() {
-                        return MathJax.typeset();
+                        return MathJax.typesetPromise(); // 使用异步渲染提升性能
                     });
                 }
             },
             options: {
-                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'], // 跳过无需渲染的标签
-                enableMenu: false // 关闭右键菜单（避免干扰页面交互，可按需开启）
+                skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
+                enableMenu: false,
+                renderActions: {
+                    findScript: [10, doc => {
+                        // 优化脚本查找逻辑
+                        for (const node of doc.querySelectorAll('script[type^="math/tex"]')) {
+                            MathJax.startup.document.convertMath(node);
+                        }
+                    }, false]
+                }
             }
         };
     </script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
         :root {
             --primary-color: #2c3e50;
             --accent-color: #3498db;
             --accent-dark: #2980b9;
+            --accent-light: #ebf5fb;
             --light-bg: #f8f9fa;
             --border-color: #e1e4e8;
             --text-color: #333;
             --text-light: #666;
+            --text-lighter: #888;
             --shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --shadow-hover: 0 5px 15px rgba(0,0,0,0.15);
+            --transition-fast: all 0.2s ease;
+            --transition-normal: all 0.3s ease;
+            --border-radius-sm: 4px;
+            --border-radius-md: 6px;
+            --border-radius-lg: 8px;
         }
         
         * {
@@ -57,15 +78,18 @@
             background-color: #fff;
             padding: 0;
             scroll-behavior: smooth;
+            -webkit-font-smoothing: antialiased; /* 字体抗锯齿 */
         }
         
         .container {
             display: flex;
             min-height: 100vh;
             gap: 0;
+            max-width: 1920px; /* 限制最大宽度，适配超宽屏 */
+            margin: 0 auto;
         }
         
-        /* 侧边栏样式 */
+        /* 侧边栏优化 */
         .sidebar {
             width: 240px;
             background-color: var(--light-bg);
@@ -75,8 +99,25 @@
             top: 0;
             height: 100vh;
             overflow-y: auto;
-            transition: all 0.3s ease;
+            transition: var(--transition-normal);
             flex-shrink: 0;
+            z-index: 90;
+            /* 侧边栏滚动条美化 */
+            scrollbar-width: thin;
+            scrollbar-color: var(--accent-color) transparent;
+        }
+        
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+        
+        .sidebar::-webkit-scrollbar-thumb {
+            background-color: var(--accent-color);
+            border-radius: var(--border-radius-sm);
+        }
+        
+        .sidebar::-webkit-scrollbar-track {
+            background: transparent;
         }
         
         .menu-toggle {
@@ -95,6 +136,12 @@
             box-shadow: var(--shadow);
             align-items: center;
             justify-content: center;
+            transition: var(--transition-fast);
+        }
+        
+        .menu-toggle:hover {
+            background-color: var(--accent-dark);
+            transform: scale(1.05);
         }
         
         .menu-title {
@@ -116,14 +163,34 @@
             font-weight: 500;
             display: flex;
             align-items: center;
-            transition: all 0.2s ease;
-            padding: 5px 10px;
-            border-radius: 4px;
+            transition: var(--transition-fast);
+            padding: 8px 12px; /* 增大点击区域 */
+            border-radius: var(--border-radius-sm);
+            position: relative;
+            overflow: hidden;
+        }
+        
+        /* 导航项hover效果优化 */
+        .menu-item a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(52, 152, 219, 0.05), transparent);
+            transition: 0.5s;
+        }
+        
+        .menu-item a:hover::before {
+            left: 100%;
         }
         
         .menu-item a:hover, .menu-item a.active {
             color: var(--accent-color);
-            background-color: rgba(52, 152, 219, 0.1);
+            background-color: var(--accent-light);
+            transform: translateX(2px);
+            box-shadow: 0 2px 5px rgba(52, 152, 219, 0.1);
         }
         
         .menu-item i {
@@ -132,21 +199,26 @@
             text-align: center;
         }
         
-        /* 主内容区样式 */
+        /* 主内容区优化 - 核心修改：放宽宽度限制 */
         .main-content {
             flex: 1;
             padding: 40px 40px 40px 50px;
+            width: calc(100% - 240px);
+            /* 移除过窄的最大宽度限制，让内容区更宽 */
             max-width: calc(100% - 240px);
-            width: 100%;
-            margin: 0;
+            /* 增加最小宽度，保证可读性 */
+            min-width: 0;
         }
         
+        /* 标题样式优化 */
         h1 {
             color: var(--primary-color);
             margin-bottom: 25px;
             padding-bottom: 12px;
             border-bottom: 2px solid var(--accent-color);
             font-size: 2.2rem;
+            font-weight: 700;
+            letter-spacing: -0.5px; /* 轻微收紧字母间距 */
         }
         
         h2 {
@@ -155,9 +227,23 @@
             padding-left: 12px;
             border-left: 4px solid var(--accent-color);
             font-size: 1.6rem;
+            font-weight: 600;
+            position: relative;
         }
         
-        /* 个人信息区域 */
+        /* 标题装饰线 */
+        h2::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 12px;
+            width: 60px;
+            height: 1px;
+            background-color: var(--accent-color);
+            opacity: 0.5;
+        }
+        
+        /* 个人信息区域优化 */
         .profile-header {
             display: flex;
             align-items: flex-start;
@@ -165,18 +251,21 @@
             margin-bottom: 40px;
             padding-bottom: 30px;
             border-bottom: 1px solid var(--border-color);
+            transition: var(--transition-normal);
         }
         
         .profile-photo {
             width: 180px;
             height: auto;
-            border-radius: 8px;
+            border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow);
-            transition: transform 0.3s ease;
+            transition: var(--transition-normal);
+            border: 3px solid white; /* 照片边框 */
         }
         
         .profile-photo:hover {
             transform: scale(1.03);
+            box-shadow: var(--shadow-hover);
         }
         
         .profile-info h1 {
@@ -187,6 +276,7 @@
             margin: 10px 0;
             display: flex;
             align-items: flex-start;
+            padding: 5px 0;
         }
         
         .info-item i {
@@ -194,19 +284,36 @@
             width: 24px;
             margin-right: 10px;
             margin-top: 3px;
+            font-size: 1.1em;
         }
         
         .info-item a {
             color: var(--accent-color);
             text-decoration: none;
+            position: relative;
+        }
+        
+        /* 链接下划线动画 */
+        .info-item a::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 1px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--accent-dark);
+            transition: var(--transition-fast);
+        }
+        
+        .info-item a:hover::after {
+            width: 100%;
         }
         
         .info-item a:hover {
             color: var(--accent-dark);
-            text-decoration: underline;
         }
         
-        /* 列表样式 */
+        /* 列表样式优化 */
         ul {
             margin-left: 25px;
             margin-bottom: 25px;
@@ -215,55 +322,90 @@
         li {
             margin: 12px 0;
             position: relative;
-            padding-left: 5px;
+            padding-left: 10px;
         }
         
-        /* 论文和预印本样式 */
+        /* 列表项自定义标记 */
+        li::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0.7em;
+            width: 4px;
+            height: 4px;
+            border-radius: 50%;
+            background-color: var(--accent-color);
+        }
+        
+        /* 论文和预印本样式优化 - 核心修改：加宽容器 */
         .publication {
-            padding: 12px 15px;
-            border-radius: 6px;
-            background-color: rgba(248, 249, 250, 0.5);
-            margin-bottom: 12px;
-            transition: background-color 0.2s ease;
+            padding: 18px 20px;
+            border-radius: var(--border-radius-md);
+            background-color: var(--light-bg);
+            margin-bottom: 18px;
+            transition: var(--transition-normal);
+            border-left: 3px solid transparent;
+            /* 关键修改：让容器占满父元素宽度 */
+            max-width: 100%;
+            width: 100%;
+            /* 优化文本换行规则 */
+            word-wrap: break-word;
+            word-break: normal;
+            hyphens: auto;
         }
         
         .publication:hover {
-            background-color: rgba(248, 249, 250, 0.9);
+            background-color: white;
+            border-left-color: var(--accent-color);
+            box-shadow: var(--shadow);
+            transform: translateY(-2px);
         }
         
         .publication-citation {
-            line-height: 1.6;
-            margin-bottom: 8px;
+            line-height: 1.8;
+            margin-bottom: 12px;
+            color: var(--text-color);
+            /* 优化长文本排版 */
+            font-size: 1rem;
+            white-space: normal;
         }
         
         .publication-citation strong {
             color: var(--primary-color);
+            font-weight: 600;
         }
         
         .publication-citation em {
             color: var(--text-light);
+            font-style: italic;
         }
         
+        /* 下载链接优化 */
         .download-link {
             color: var(--accent-color);
             text-decoration: none;
             display: inline-flex;
             align-items: center;
-            margin-right: 15px;
-            transition: all 0.2s ease;
+            margin-right: 20px;
+            transition: var(--transition-fast);
             font-size: 0.95rem;
+            padding: 5px 10px;
+            border-radius: var(--border-radius-sm);
         }
         
         .download-link:hover {
-            color: var(--accent-dark);
-            text-decoration: underline;
+            color: white;
+            background-color: var(--accent-color);
+            text-decoration: none;
+            box-shadow: 0 2px 5px rgba(52, 152, 219, 0.2);
         }
         
         .download-link i {
-            margin-right: 5px;
+            margin-right: 8px;
+            font-size: 1em;
         }
         
-        /* PDF模态框样式 */
+        /* PDF模态框优化 */
         .modal {
             display: none;
             position: fixed;
@@ -271,11 +413,12 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(0, 0, 0, 0.85);
+            background-color: rgba(0, 0, 0, 0.9);
             z-index: 1000;
             overflow: auto;
             opacity: 0;
             transition: opacity 0.3s ease;
+            backdrop-filter: blur(2px); /* 背景模糊 */
         }
         
         .modal.show {
@@ -285,42 +428,52 @@
         .modal-content {
             position: relative;
             background-color: #fefefe;
-            margin: 50px auto;
+            margin: 30px auto;
             padding: 25px;
             width: 90%;
-            max-width: 1100px;
-            border-radius: 8px;
-            box-shadow: 0 5px 25px rgba(0,0,0,0.3);
-            transform: translateY(20px);
-            transition: transform 0.3s ease;
+            max-width: 1400px; /* 加宽PDF模态框 */
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            transform: translateY(20px) scale(0.98);
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            max-height: 90vh;
+            overflow: hidden;
         }
         
         .modal.show .modal-content {
-            transform: translateY(0);
+            transform: translateY(0) scale(1);
         }
         
         .close-modal {
             position: absolute;
             right: 20px;
             top: 15px;
-            color: #aaa;
+            color: var(--text-lighter);
             font-size: 28px;
             font-weight: bold;
             cursor: pointer;
-            transition: color 0.2s ease;
+            transition: var(--transition-fast);
             z-index: 10;
+            width: 36px;
+            height: 36px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
         }
         
         .close-modal:hover {
             color: var(--primary-color);
+            background-color: var(--light-bg);
         }
         
         .pdf-container {
             width: 100%;
-            height: 700px;
+            height: 800px; /* 增高PDF预览区域 */
             margin-top: 15px;
-            border: 1px solid #eee;
-            border-radius: 4px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--border-radius-sm);
+            overflow: hidden;
         }
         
         .modal-title {
@@ -329,9 +482,10 @@
             margin-bottom: 15px;
             color: var(--primary-color);
             padding-right: 40px;
+            line-height: 1.4;
         }
         
-        /* 百度网盘提示样式 */
+        /* 百度网盘提示框优化 */
         .baidu-notice {
             display: none;
             position: fixed;
@@ -339,14 +493,15 @@
             left: 50%;
             transform: translate(-50%, -50%) scale(0.9);
             background-color: white;
-            padding: 25px;
-            border-radius: 8px;
-            box-shadow: 0 5px 30px rgba(0,0,0,0.2);
+            padding: 30px;
+            border-radius: var(--border-radius-lg);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
             z-index: 1001;
             max-width: 400px;
             text-align: center;
             opacity: 0;
-            transition: all 0.3s ease;
+            transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border-top: 5px solid var(--accent-color);
         }
         
         .baidu-notice.show {
@@ -362,18 +517,21 @@
         }
         
         .notice-btn {
-            padding: 10px 20px;
+            padding: 10px 24px;
             border: none;
-            border-radius: 4px;
+            border-radius: var(--border-radius-sm);
             cursor: pointer;
             background-color: var(--accent-color);
             color: white;
-            transition: background-color 0.2s ease;
+            transition: var(--transition-fast);
             font-size: 14px;
+            font-weight: 500;
         }
         
         .notice-btn:hover {
             background-color: var(--accent-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(52, 152, 219, 0.2);
         }
         
         .notice-btn.cancel {
@@ -384,7 +542,7 @@
             background-color: #7f8c8d;
         }
         
-        /* 回到顶部按钮 */
+        /* 回到顶部按钮优化 */
         .back-to-top {
             position: fixed;
             bottom: 30px;
@@ -402,8 +560,9 @@
             cursor: pointer;
             opacity: 0;
             visibility: hidden;
-            transition: all 0.3s ease;
+            transition: var(--transition-normal);
             z-index: 90;
+            border: none;
         }
         
         .back-to-top.show {
@@ -413,33 +572,74 @@
         
         .back-to-top:hover {
             background-color: var(--accent-dark);
-            transform: translateY(-3px);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: var(--shadow-hover);
         }
         
-        /* 响应式设计 */
-        @media (max-width: 1200px) {
+        /* 加载动画（可选） */
+        .loader {
+            display: none;
+            width: 48px;
+            height: 48px;
+            border: 5px solid var(--light-bg);
+            border-bottom-color: var(--accent-color);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+        
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        
+        /* 响应式设计增强 */
+        @media (max-width: 1600px) {
             .main-content {
                 padding: 35px 30px 35px 40px;
+            }
+            
+            .pdf-container {
+                height: 700px;
+            }
+        }
+        
+        @media (max-width: 1200px) {
+            .main-content {
+                padding: 30px 25px 30px 35px;
+            }
+            
+            .pdf-container {
+                height: 600px;
             }
         }
         
         @media (max-width: 900px) {
             .container {
                 flex-direction: column;
+                max-width: 100%;
             }
             
             .sidebar {
                 width: 100%;
                 height: auto;
-                position: relative;
-                padding: 20px;
+                position: fixed;
+                top: 0;
+                left: 0;
+                height: 100vh;
+                padding: 70px 20px 20px;
                 border-right: none;
-                border-bottom: 1px solid var(--border-color);
+                border-bottom: none;
                 display: none;
+                transform: translateX(-100%);
             }
             
             .sidebar.show {
                 display: block;
+                transform: translateX(0);
             }
             
             .menu-toggle {
@@ -448,8 +648,10 @@
             
             .main-content {
                 padding: 30px 20px;
-                margin-top: 60px;
+                margin-top: 0;
                 max-width: 100%;
+                width: 100%;
+                margin-left: 0;
             }
             
             .profile-header {
@@ -465,6 +667,14 @@
             
             .pdf-container {
                 height: 500px;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+            
+            h2 {
+                font-size: 1.5rem;
             }
         }
         
@@ -491,13 +701,73 @@
             }
             
             .modal-content {
-                margin: 20px auto;
+                margin: 15px auto;
                 padding: 15px;
+                width: 95%;
             }
             
             .publication-citation {
                 font-size: 0.92rem;
             }
+            
+            .back-to-top {
+                width: 45px;
+                height: 45px;
+                bottom: 20px;
+                right: 20px;
+            }
+            
+            .menu-toggle {
+                width: 36px;
+                height: 36px;
+            }
+            
+            .download-link {
+                display: block;
+                margin-bottom: 10px;
+                width: fit-content;
+            }
+        }
+        
+        /* 打印样式优化 */
+        @media print {
+            .sidebar, .menu-toggle, .back-to-top, .download-link, .modal, .baidu-notice {
+                display: none !important;
+            }
+            
+            .main-content {
+                max-width: 100%;
+                padding: 20px;
+                width: 100%;
+            }
+            
+            .publication {
+                box-shadow: none;
+                border: 1px solid var(--border-color);
+            }
+            
+            body {
+                print-color-adjust: exact;
+                -webkit-print-color-adjust: exact;
+            }
+        }
+
+        /* 新增：数学公式排版优化 */
+        mjx-container {
+            overflow-x: auto;
+            overflow-y: hidden;
+            padding: 0.2em 0;
+        }
+
+        /* 新增：平滑滚动优化 */
+        html {
+            scroll-padding-top: 20px;
+        }
+
+        /* 新增：链接焦点样式（无障碍优化） */
+        a:focus, button:focus {
+            outline: 2px solid var(--accent-color);
+            outline-offset: 2px;
         }
     </style>
 </head>
@@ -509,7 +779,7 @@
     <div class="container">
         <aside class="sidebar">
             <div class="menu-title">Navigation</div>
-            <div class="menu-item"><a href="#home"><i class="fas fa-home"></i> Home</a></div>
+            <div class="menu-item"><a href="#home" class="active"><i class="fas fa-home"></i> Home</a></div>
             <div class="menu-item"><a href="#education"><i class="fas fa-graduation-cap"></i> Education</a></div>
             <div class="menu-item"><a href="#research"><i class="fas fa-flask"></i> Research Interests</a></div>                
             <div class="menu-item"><a href="#teaching"><i class="fas fa-chalkboard-teacher"></i> Teaching Experience</a></div> 
@@ -610,17 +880,17 @@
                         2019 – 2020 Academic Year</p>
                     </li>
                     <li>
-    <p>First-Class Academic Scholarship for Graduate Students, Sichuan Normal University<br>
-    2025-2026 Academic Year</p>
-</li>
-<li>
-    <p>"Merit Student" Honor for Master's degree student, Sichuan Normal University<br>
-    2025-2026 Academic Year</p>
-</li>
+                        <p>First-Class Academic Scholarship for Graduate Students, Sichuan Normal University<br>
+                        2025-2026 Academic Year</p>
+                    </li>
+                    <li>
+                        <p>"Merit Student" Honor for Master's degree student, Sichuan Normal University<br>
+                        2025-2026 Academic Year</p>
+                    </li>
                 </ul>
             </section>
 
-            <!-- 已发表论文 - 标准引用格式 -->
+            <!-- 已发表论文 -->
             <section id="publications">
                 <h2>Publications</h2>
                 <div class="publication">
@@ -650,7 +920,7 @@
                         <strong>Liang Z</strong>, Liao Q. Two classes of NMDS codes from Roth-Lempel codes[J]. Finite Fields Appl. 111 (2026) 102779.
                     </div>
                     <div>
-                        <a href="#" class="download-link pdf-link" data-type="baidu" data-title="Two classes of NMDS codes from Roth-Lempel codes" data-url="https://pan.baidu.com/s/1Od6R-Kzi6neVADr8sOgRfQ?pwd=do41 ">
+                        <a href="#" class="download-link pdf-link" data-type="baidu" data-title="Two classes of NMDS codes from Roth-Lempel codes" data-url="https://pan.baidu.com/s/1Od6R-Kzi6neVADr8sOgRfQ?pwd=do41">
                             <i class="fas fa-file-pdf"></i> Baidu Disk (View PDF)
                         </a> 
                     </div>
@@ -658,7 +928,7 @@
             </section>
         
 
-            <!-- 预印本 - 标准引用格式 -->
+            <!-- 预印本 -->
             <section id="preprints">
                 <h2>ArXiv Preprints</h2>
                 <div class="publication">
@@ -726,6 +996,7 @@
             <div class="modal-title" id="modalPdfTitle"></div>
             <div class="pdf-container">
                 <iframe id="pdfViewer" width="100%" height="100%" frameborder="0"></iframe>
+                <div class="loader" id="pdfLoader"></div>
             </div>
         </div>
     </div>
@@ -741,12 +1012,12 @@
     </div>
     
     <!-- 回到顶部按钮 -->
-    <div class="back-to-top" id="backToTop">
+    <button class="back-to-top" id="backToTop">
         <i class="fas fa-arrow-up"></i>
-    </div>
+    </button>
 
     <script>
-        // 获取DOM元素
+        // DOM元素获取
         const modal = document.getElementById('pdfModal');
         const pdfViewer = document.getElementById('pdfViewer');
         const modalTitle = document.getElementById('modalPdfTitle');
@@ -759,63 +1030,106 @@
         const menuToggle = document.querySelector('.menu-toggle');
         const sidebar = document.querySelector('.sidebar');
         const navLinks = document.querySelectorAll('.menu-item a');
+        const pdfLoader = document.getElementById('pdfLoader');
         
         let currentBaiduUrl = '';
+        let pdfLoadTimeout = null;
 
         // 侧边栏菜单切换（移动端）
         menuToggle.addEventListener('click', () => {
             sidebar.classList.toggle('show');
+            // 阻止页面滚动
+            document.body.style.overflow = sidebar.classList.contains('show') ? 'hidden' : '';
         });
         
-        // 导航链接点击事件 - 移动端自动关闭菜单
+        // 导航链接点击事件优化
         navLinks.forEach(link => {
-            link.addEventListener('click', () => {
+            link.addEventListener('click', (e) => {
+                // 移动端自动关闭菜单
                 if (window.innerWidth <= 900) {
                     sidebar.classList.remove('show');
+                    document.body.style.overflow = '';
                 }
                 
-                // 添加活跃状态
+                // 活跃状态管理
                 navLinks.forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
+                
+                // 平滑滚动优化
+                const targetId = link.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) {
+                    e.preventDefault();
+                    const headerOffset = 20;
+                    const elementPosition = targetElement.getBoundingClientRect().top;
+                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
+                    
+                    window.scrollTo({
+                        top: offsetPosition,
+                        behavior: 'smooth'
+                    });
+                    
+                    // 更新URL哈希
+                    history.pushState(null, null, targetId);
+                }
             });
         });
 
-        // 打开模态框并加载PDF（新增：动态内容公式渲染）
+        // PDF链接点击处理
         pdfLinks.forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
                 
-                // 获取论文标题、链接和类型
                 const title = this.getAttribute('data-title');
                 const pdfUrl = this.getAttribute('data-url');
                 const type = this.getAttribute('data-type');
                 
-                // 根据类型处理不同链接
                 if (type === 'arxiv') {
-                    // arXiv链接：在模态框中预览 + 渲染模态框内公式
+                    // arXiv链接处理
                     modalTitle.textContent = title;
-                    pdfViewer.src = pdfUrl;
                     modal.style.display = 'block';
-                    // 添加动画类并触发公式渲染
+                    
+                    // 显示加载动画
+                    pdfLoader.style.display = 'block';
+                    pdfViewer.src = '';
+                    
+                    // 延迟加载PDF，避免卡顿
                     setTimeout(() => {
+                        pdfViewer.src = pdfUrl;
                         modal.classList.add('show');
-                        // 关键修复：模态框显示后重新渲染公式
+                        document.body.style.overflow = 'hidden';
+                        
+                        // 设置加载超时
+                        pdfLoadTimeout = setTimeout(() => {
+                            pdfLoader.style.display = 'none';
+                        }, 3000);
+                        
+                        // MathJax重新渲染
                         if (window.MathJax) {
-                            MathJax.typeset();
+                            MathJax.typesetPromise([modal]);
                         }
-                    }, 10);
-                    document.body.style.overflow = 'hidden';
+                    }, 100);
+                    
                 } else if (type === 'baidu') {
-                    // 百度网盘链接：显示提示后在新窗口打开
+                    // 百度网盘链接处理
                     currentBaiduUrl = pdfUrl;
                     baiduNotice.style.display = 'block';
-                    // 添加动画类
                     setTimeout(() => {
                         baiduNotice.classList.add('show');
                     }, 10);
                 }
             });
         });
+
+        // PDF加载完成监听
+        pdfViewer.onload = function() {
+            clearTimeout(pdfLoadTimeout);
+            pdfLoader.style.display = 'none';
+            // 确保PDF内公式渲染
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        };
 
         // 百度网盘提示框按钮事件
         openBaiduBtn.addEventListener('click', function() {
@@ -836,16 +1150,19 @@
         }
 
         // 关闭PDF模态框
-        closeBtn.addEventListener('click', closePdfModal);
-        
         function closePdfModal() {
             modal.classList.remove('show');
+            clearTimeout(pdfLoadTimeout);
+            
             setTimeout(() => {
                 modal.style.display = 'none';
                 pdfViewer.src = '';
+                pdfLoader.style.display = 'none';
                 document.body.style.overflow = '';
             }, 300);
         }
+        
+        closeBtn.addEventListener('click', closePdfModal);
 
         // 点击模态框外部关闭
         window.addEventListener('click', function(e) {
@@ -854,7 +1171,7 @@
             }
         });
 
-        // 按ESC键关闭模态框
+        // ESC键关闭模态框/提示框
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 if (modal.classList.contains('show')) {
@@ -863,16 +1180,24 @@
                 if (baiduNotice.classList.contains('show')) {
                     closeBaiduNotice();
                 }
+                if (sidebar.classList.contains('show')) {
+                    sidebar.classList.remove('show');
+                    document.body.style.overflow = '';
+                }
             }
         });
         
-        // 回到顶部按钮逻辑
+        // 回到顶部按钮优化
         window.addEventListener('scroll', () => {
+            // 滚动节流
             if (window.pageYOffset > 300) {
                 backToTopBtn.classList.add('show');
             } else {
                 backToTopBtn.classList.remove('show');
             }
+            
+            // 滚动时更新导航活跃状态
+            updateActiveNavItem();
         });
         
         backToTopBtn.addEventListener('click', () => {
@@ -882,34 +1207,50 @@
             });
         });
         
-        // 平滑滚动到锚点
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                
-                const targetId = this.getAttribute('href');
-                const targetElement = document.querySelector(targetId);
-                
-                if (targetElement) {
-                    window.scrollTo({
-                        top: targetElement.offsetTop - 20,
-                        behavior: 'smooth'
-                    });
+        // 根据滚动位置更新活跃导航项
+        function updateActiveNavItem() {
+            const sections = document.querySelectorAll('section');
+            let currentSection = '#home';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop - 100;
+                const sectionHeight = section.offsetHeight;
+                if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+                    currentSection = '#' + section.id;
                 }
             });
-        });
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentSection) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+        }
         
-        // 窗口大小变化时处理侧边栏
+        // 窗口大小变化处理
         window.addEventListener('resize', () => {
             if (window.innerWidth > 900) {
                 sidebar.classList.remove('show');
                 sidebar.style.display = 'block';
+                document.body.style.overflow = '';
             } else {
                 sidebar.style.display = '';
             }
+            updateActiveNavItem();
         });
         
-        // 初始化页面时设置当前活跃的导航项
+        // 初始化
+        document.addEventListener('DOMContentLoaded', () => {
+            setActiveNavItem();
+            // 预加载MathJax
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+        });
+        
+        // 设置初始活跃导航项
         function setActiveNavItem() {
             const currentPath = window.location.hash || '#home';
             navLinks.forEach(link => {
@@ -921,18 +1262,48 @@
             });
         }
         
-        // 监听哈希变化，更新活跃导航项
+        // 监听哈希变化
         window.addEventListener('hashchange', setActiveNavItem);
         
-        // 初始化
-        setActiveNavItem();
-        
-        // 保留MathJax加载完成后的二次渲染（双重保障）
+        // 窗口加载完成后的处理
         window.addEventListener('load', function() {
             if (window.MathJax) {
-                MathJax.typeset();
+                MathJax.typesetPromise();
+            }
+            updateActiveNavItem();
+        });
+        
+        // 错误处理
+        pdfViewer.addEventListener('error', () => {
+            clearTimeout(pdfLoadTimeout);
+            pdfLoader.style.display = 'none';
+            alert('PDF加载失败，请稍后重试或检查网络连接。');
+            closePdfModal();
+        });
+        
+        // 防止重复点击
+        let isProcessing = false;
+        document.addEventListener('click', (e) => {
+            if (e.target.closest('.pdf-link') && isProcessing) {
+                e.preventDefault();
+                return;
+            }
+            if (e.target.closest('.pdf-link')) {
+                isProcessing = true;
+                setTimeout(() => {
+                    isProcessing = false;
+                }, 500);
             }
         });
+
+        // 新增：优化MathJax渲染时机
+        if (window.MathJax) {
+            MathJax.startup.promise.then(() => {
+                console.log('MathJax loaded successfully');
+            }).catch(err => {
+                console.error('MathJax load error:', err);
+            });
+        }
     </script>
 </body>
 </html>
