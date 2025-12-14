@@ -2,49 +2,46 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Zhonghao Liang - Academic Profile</title>
-    <!-- 预加载关键资源 -->
+    
+    <!-- 预加载资源 -->
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    <!-- MathJax配置优化 -->
+    
+    <!-- MathJax配置 -->
     <script>
         window.MathJax = {
             tex: {
                 inlineMath: [['$', '$'], ['\\(', '\\)']],
                 displayMath: [['$$', '$$']],
                 processEscapes: true,
-                packages: {'[+]': ['physics']} // 扩展数学包，增强公式支持
+                packages: {'[+]': ['physics']}
             },
             svg: {
                 fontCache: 'global',
-                scale: 1.05 // 公式略微放大，提升可读性
+                scale: 1.05
             },
             startup: {
                 pageReady: function() {
                     return MathJax.startup.defaultPageReady().then(function() {
-                        return MathJax.typesetPromise(); // 使用异步渲染提升性能
+                        return MathJax.typesetPromise();
                     });
                 }
             },
             options: {
                 skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre'],
-                enableMenu: false,
-                renderActions: {
-                    findScript: [10, doc => {
-                        // 优化脚本查找逻辑
-                        for (const node of doc.querySelectorAll('script[type^="math/tex"]')) {
-                            MathJax.startup.document.convertMath(node);
-                        }
-                    }, false]
-                }
+                enableMenu: false
             }
         };
     </script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    <!-- Font Awesome -->
+    
+    <!-- Font Awesome 图标 -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -78,18 +75,81 @@
             background-color: #fff;
             padding: 0;
             scroll-behavior: smooth;
-            -webkit-font-smoothing: antialiased; /* 字体抗锯齿 */
+            -webkit-font-smoothing: antialiased;
+        }
+
+        /* 全局链接样式 - 移除所有下划线 */
+        a {
+            text-decoration: none !important;
         }
         
+        /* 语言切换按钮 */
+        .language-switcher {
+            position: fixed;
+            top: 15px;
+            right: 15px;
+            z-index: 100;
+            display: flex;
+            gap: 8px;
+            background-color: white;
+            padding: 5px;
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow);
+        }
+        
+        .lang-btn {
+            padding: 6px 14px;
+            border: none;
+            border-radius: var(--border-radius-sm);
+            background-color: var(--light-bg);
+            color: var(--primary-color);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            font-weight: 500;
+            font-size: 0.9rem;
+            pointer-events: auto;
+        }
+        
+        .lang-btn.active {
+            background-color: var(--accent-color);
+            color: white;
+        }
+        
+        .lang-btn:hover:not(.active) {
+            background-color: var(--accent-light);
+            color: var(--accent-color);
+        }
+        
+        /* 移动端语言按钮适配 */
+        @media (max-width: 900px) {
+            .language-switcher {
+                top: 15px;
+                right: 60px;
+            }
+        }
+        
+        @media (max-width: 576px) {
+            .language-switcher {
+                top: 10px;
+                right: 10px;
+            }
+            
+            .lang-btn {
+                padding: 5px 10px;
+                font-size: 0.8rem;
+            }
+        }
+        
+        /* 容器布局 */
         .container {
             display: flex;
             min-height: 100vh;
             gap: 0;
-            max-width: 1920px; /* 限制最大宽度，适配超宽屏 */
+            max-width: 1920px;
             margin: 0 auto;
         }
         
-        /* 侧边栏优化 */
+        /* 侧边栏 */
         .sidebar {
             width: 240px;
             background-color: var(--light-bg);
@@ -102,7 +162,6 @@
             transition: var(--transition-normal);
             flex-shrink: 0;
             z-index: 90;
-            /* 侧边栏滚动条美化 */
             scrollbar-width: thin;
             scrollbar-color: var(--accent-color) transparent;
         }
@@ -120,6 +179,7 @@
             background: transparent;
         }
         
+        /* 移动端菜单按钮 */
         .menu-toggle {
             display: none;
             position: fixed;
@@ -144,6 +204,7 @@
             transform: scale(1.05);
         }
         
+        /* 侧边栏菜单样式 */
         .menu-title {
             font-size: 1.2rem;
             font-weight: bold;
@@ -164,13 +225,12 @@
             display: flex;
             align-items: center;
             transition: var(--transition-fast);
-            padding: 8px 12px; /* 增大点击区域 */
+            padding: 8px 12px;
             border-radius: var(--border-radius-sm);
             position: relative;
             overflow: hidden;
         }
         
-        /* 导航项hover效果优化 */
         .menu-item a::before {
             content: '';
             position: absolute;
@@ -199,18 +259,16 @@
             text-align: center;
         }
         
-        /* 主内容区优化 - 核心修改：放宽宽度限制 */
+        /* 主内容区 */
         .main-content {
             flex: 1;
             padding: 40px 40px 40px 50px;
             width: calc(100% - 240px);
-            /* 移除过窄的最大宽度限制，让内容区更宽 */
             max-width: calc(100% - 240px);
-            /* 增加最小宽度，保证可读性 */
             min-width: 0;
         }
         
-        /* 标题样式优化 */
+        /* 标题样式 */
         h1 {
             color: var(--primary-color);
             margin-bottom: 25px;
@@ -218,7 +276,7 @@
             border-bottom: 2px solid var(--accent-color);
             font-size: 2.2rem;
             font-weight: 700;
-            letter-spacing: -0.5px; /* 轻微收紧字母间距 */
+            letter-spacing: -0.5px;
         }
         
         h2 {
@@ -231,7 +289,6 @@
             position: relative;
         }
         
-        /* 标题装饰线 */
         h2::after {
             content: '';
             position: absolute;
@@ -243,7 +300,7 @@
             opacity: 0.5;
         }
         
-        /* 个人信息区域优化 */
+        /* 个人信息区域 */
         .profile-header {
             display: flex;
             align-items: flex-start;
@@ -260,7 +317,7 @@
             border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow);
             transition: var(--transition-normal);
-            border: 3px solid white; /* 照片边框 */
+            border: 3px solid white;
         }
         
         .profile-photo:hover {
@@ -289,31 +346,20 @@
         
         .info-item a {
             color: var(--accent-color);
-            text-decoration: none;
             position: relative;
+            /* 移除 hover 时下划线效果 */
         }
         
-        /* 链接下划线动画 */
+        /* 移除 info-item 链接的下划线伪元素 */
         .info-item a::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 1px;
-            bottom: -2px;
-            left: 0;
-            background-color: var(--accent-dark);
-            transition: var(--transition-fast);
-        }
-        
-        .info-item a:hover::after {
-            width: 100%;
+            display: none !important;
         }
         
         .info-item a:hover {
             color: var(--accent-dark);
         }
         
-        /* 列表样式优化 */
+        /* 列表样式 */
         ul {
             margin-left: 25px;
             margin-bottom: 25px;
@@ -325,7 +371,6 @@
             padding-left: 10px;
         }
         
-        /* 列表项自定义标记 */
         li::before {
             content: '';
             position: absolute;
@@ -337,7 +382,7 @@
             background-color: var(--accent-color);
         }
         
-        /* 论文和预印本样式优化 - 核心修改：加宽容器 */
+        /* 论文卡片样式 */
         .publication {
             padding: 18px 20px;
             border-radius: var(--border-radius-md);
@@ -345,10 +390,8 @@
             margin-bottom: 18px;
             transition: var(--transition-normal);
             border-left: 3px solid transparent;
-            /* 关键修改：让容器占满父元素宽度 */
             max-width: 100%;
             width: 100%;
-            /* 优化文本换行规则 */
             word-wrap: break-word;
             word-break: normal;
             hyphens: auto;
@@ -365,7 +408,6 @@
             line-height: 1.8;
             margin-bottom: 12px;
             color: var(--text-color);
-            /* 优化长文本排版 */
             font-size: 1rem;
             white-space: normal;
         }
@@ -380,7 +422,18 @@
             font-style: italic;
         }
         
-        /* 下载链接优化 */
+        /* 论文引用中的链接样式 */
+        .publication-citation a {
+            color: var(--accent-color);
+            font-weight: 500;
+        }
+        
+        .publication-citation a:hover {
+            color: var(--accent-dark);
+            text-decoration: none;
+        }
+        
+        /* 下载链接 */
         .download-link {
             color: var(--accent-color);
             text-decoration: none;
@@ -405,7 +458,7 @@
             font-size: 1em;
         }
         
-        /* PDF模态框优化 */
+        /* PDF模态框 */
         .modal {
             display: none;
             position: fixed;
@@ -418,7 +471,7 @@
             overflow: auto;
             opacity: 0;
             transition: opacity 0.3s ease;
-            backdrop-filter: blur(2px); /* 背景模糊 */
+            backdrop-filter: blur(2px);
         }
         
         .modal.show {
@@ -431,7 +484,7 @@
             margin: 30px auto;
             padding: 25px;
             width: 90%;
-            max-width: 1400px; /* 加宽PDF模态框 */
+            max-width: 1400px;
             border-radius: var(--border-radius-lg);
             box-shadow: 0 10px 40px rgba(0,0,0,0.3);
             transform: translateY(20px) scale(0.98);
@@ -469,7 +522,7 @@
         
         .pdf-container {
             width: 100%;
-            height: 800px; /* 增高PDF预览区域 */
+            height: 800px;
             margin-top: 15px;
             border: 1px solid var(--border-color);
             border-radius: var(--border-radius-sm);
@@ -485,7 +538,7 @@
             line-height: 1.4;
         }
         
-        /* 百度网盘提示框优化 */
+        /* 百度网盘提示框 */
         .baidu-notice {
             display: none;
             position: fixed;
@@ -542,7 +595,7 @@
             background-color: #7f8c8d;
         }
         
-        /* 回到顶部按钮优化 */
+        /* 回到顶部按钮 */
         .back-to-top {
             position: fixed;
             bottom: 30px;
@@ -576,7 +629,7 @@
             box-shadow: var(--shadow-hover);
         }
         
-        /* 加载动画（可选） */
+        /* 加载动画 */
         .loader {
             display: none;
             width: 48px;
@@ -596,7 +649,7 @@
             100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
         
-        /* 响应式设计增强 */
+        /* 响应式适配 */
         @media (max-width: 1600px) {
             .main-content {
                 padding: 35px 30px 35px 40px;
@@ -729,9 +782,9 @@
             }
         }
         
-        /* 打印样式优化 */
+        /* 打印样式 */
         @media print {
-            .sidebar, .menu-toggle, .back-to-top, .download-link, .modal, .baidu-notice {
+            .sidebar, .menu-toggle, .back-to-top, .download-link, .modal, .baidu-notice, .language-switcher {
                 display: none !important;
             }
             
@@ -752,44 +805,109 @@
             }
         }
 
-        /* 新增：数学公式排版优化 */
+        /* 数学公式优化 */
         mjx-container {
             overflow-x: auto;
             overflow-y: hidden;
             padding: 0.2em 0;
         }
 
-        /* 新增：平滑滚动优化 */
+        /* 平滑滚动 */
         html {
             scroll-padding-top: 20px;
         }
 
-        /* 新增：链接焦点样式（无障碍优化） */
+        /* 焦点样式（无障碍） */
         a:focus, button:focus {
             outline: 2px solid var(--accent-color);
             outline-offset: 2px;
         }
+
+        /* 语言切换过渡 */
+        [data-lang] {
+            transition: opacity 0.3s ease;
+        }
     </style>
 </head>
 <body>
+    <!-- 语言切换按钮 -->
+    <div class="language-switcher">
+        <button id="langEn" class="lang-btn active">English</button>
+        <button id="langZh" class="lang-btn">中文</button>
+    </div>
+
+    <!-- 移动端菜单按钮 -->
     <button class="menu-toggle">
         <i class="fas fa-bars"></i>
     </button>
     
     <div class="container">
+        <!-- 侧边栏导航 -->
         <aside class="sidebar">
-            <div class="menu-title">Navigation</div>
-            <div class="menu-item"><a href="#home" class="active"><i class="fas fa-home"></i> Home</a></div>
-            <div class="menu-item"><a href="#education"><i class="fas fa-graduation-cap"></i> Education</a></div>
-            <div class="menu-item"><a href="#research"><i class="fas fa-flask"></i> Research Interests</a></div>                
-            <div class="menu-item"><a href="#teaching"><i class="fas fa-chalkboard-teacher"></i> Teaching Experience</a></div> 
-            <div class="menu-item"><a href="#awards"><i class="fas fa-trophy"></i> Awards & Honors</a></div>
-            <div class="menu-item"><a href="#publications"><i class="fas fa-file-alt"></i> Publications</a></div>
-            <div class="menu-item"><a href="#preprints"><i class="fas fa-file-export"></i> Arxiv Preprints</a></div>
+            <div class="menu-title" data-lang="en">Navigation</div>
+            <div class="menu-title" data-lang="zh" style="display: none;">导航菜单</div>
+            
+            <div class="menu-item">
+                <a href="#home" class="active">
+                    <i class="fas fa-home"></i> 
+                    <span data-lang="en">Home</span>
+                    <span data-lang="zh" style="display: none;">首页</span>
+                </a>
+            </div>
+            <div class="menu-item">
+                <a href="#education">
+                    <i class="fas fa-graduation-cap"></i> 
+                    <span data-lang="en">Education</span>
+                    <span data-lang="zh" style="display: none;">教育背景</span>
+                </a>
+            </div>
+            <div class="menu-item">
+                <a href="#research">
+                    <i class="fas fa-flask"></i> 
+                    <span data-lang="en">Research Interests</span>
+                    <span data-lang="zh" style="display: none;">研究方向</span>
+                </a>
+            </div>                
+            <div class="menu-item">
+                <a href="#teaching">
+                    <i class="fas fa-chalkboard-teacher"></i> 
+                    <span data-lang="en">Teaching Experience</span>
+                    <span data-lang="zh" style="display: none;">教学经历</span>
+                </a>
+            </div> 
+            <div class="menu-item">
+                <a href="#awards">
+                    <i class="fas fa-trophy"></i> 
+                    <span data-lang="en">Awards & Honors</span>
+                    <span data-lang="zh" style="display: none;">获奖荣誉</span>
+                </a>
+            </div>
+            <div class="menu-item">
+    <a href="#projects">
+        <i class="fas fa-project-diagram"></i> 
+        <span data-lang="en">Projects</span>
+        <span data-lang="zh" style="display: none;">主持/参与的项目</span>
+    </a>
+</div>
+            <div class="menu-item">
+                <a href="#publications">
+                    <i class="fas fa-file-alt"></i> 
+                    <span data-lang="en">Publications</span>
+                    <span data-lang="zh" style="display: none;">已发表论文</span>
+                </a>
+            </div>
+            <div class="menu-item">
+                <a href="#preprints">
+                    <i class="fas fa-file-export"></i> 
+                    <span data-lang="en">Arxiv Preprints</span>
+                    <span data-lang="zh" style="display: none;">预印本</span>
+                </a>
+            </div>
         </aside>
 
+        <!-- 主内容区 -->
         <main class="main-content">
-            <!-- 个人信息区域 -->
+            <!-- 个人信息 -->
             <section id="home">
                 <div class="profile-header">
                     <img src="zhl.jpg" alt="Zhonghao Liang" class="profile-photo" />
@@ -797,14 +915,20 @@
                         <h1>Zhonghao Liang (梁钟浩)</h1>
                         <div class="info-item">
                             <i class="fas fa-user-graduate"></i>
-                            <span>Master's degree in progress</span>
+                            <span data-lang="en">Master's degree in progress</span>
+                            <span data-lang="zh" style="display: none;">硕士研究生（在读）</span>
                         </div>
                         <div class="info-item">
                             <i class="fas fa-university"></i>
-                            <span>
+                            <span data-lang="en">
                                 <a href="https://msi.sicnu.edu.cn/" target="_blank">School of Mathematical Sciences</a><br>
                                 <a href="https://www.sicnu.edu.cn/" target="_blank">Sichuan Normal University</a><br>
                                 Chengdu, Sichuan, China
+                            </span>
+                            <span data-lang="zh" style="display: none;">
+                                <a href="https://msi.sicnu.edu.cn/" target="_blank">数学科学学院</a><br>
+                                <a href="https://www.sicnu.edu.cn/" target="_blank">四川师范大学</a><br>
+                                中国 四川省 成都市
                             </span>
                         </div>
                         <div class="info-item">
@@ -817,127 +941,230 @@
 
             <!-- 教育背景 -->
             <section id="education">
-                <h2>Education Background</h2>
+                <h2 data-lang="en">Education Background</h2>
+                <h2 data-lang="zh" style="display: none;">教育背景</h2>
                 <ul>
                     <li>
-                        <p><strong>Bachelor of Science in Mathematics</strong><br>
+                        <p data-lang="en"><strong>Bachelor of Science in Mathematics</strong><br>
                         <a href="https://sj.abtu.edu.cn/" target="_blank">School of Mathematics,</a> <a href="https://www.abtu.edu.cn/" target="_blank">Aba Teachers University</a>, Wenchuan, Sichuan<br>
                         September 2019 – June 2023<br>
                         Supervisor: <a href="https://sj.abtu.edu.cn/info/1049/4838.htm" target="_blank">Prof. Shichun Yang</a></p>
+                        <p data-lang="zh" style="display: none;"><strong>数学理学学士</strong><br>
+                        <a href="https://sj.abtu.edu.cn/" target="_blank">数学学院,</a> <a href="https://www.abtu.edu.cn/" target="_blank">阿坝师范学院</a>，四川 汶川<br>
+                        2019年9月 – 2023年6月<br>
+                        指导教师: <a href="https://sj.abtu.edu.cn/info/1049/4838.htm" target="_blank">杨仕椿 教授</a></p>
                     </li>
                     <li>
-                        <p><strong>Master's degree in progress</strong><br>
+                        <p data-lang="en"><strong>Master's degree in progress</strong><br>
                         <a href="https://msi.sicnu.edu.cn/" target="_blank">School of Mathematical Sciences</a>, <a href="https://www.sicnu.edu.cn/" target="_blank">Sichuan Normal University</a><br>
                         September 2024 – Present<br>
                         Supervisor: <a href="http://139.155.71.72:81/HomePage.aspx?ID=44" target="_blank">Prof. Qunying Liao</a></p>
+                        <p data-lang="zh" style="display: none;"><strong>硕士研究生（在读）</strong><br>
+                        <a href="https://msi.sicnu.edu.cn/" target="_blank">数学科学学院</a>，<a href="https://www.sicnu.edu.cn/" target="_blank">四川师范大学</a><br>
+                        2024年9月 – 至今<br>
+                        指导教师: <a href="http://139.155.71.72:81/HomePage.aspx?ID=44" target="_blank">廖群英 教授</a></p>
                     </li>
                 </ul>
             </section>
 
             <!-- 研究方向 -->
             <section id="research">
-                <h2>Research Interests</h2>
+                <h2 data-lang="en">Research Interests</h2>
+                <h2 data-lang="zh" style="display: none;">研究方向</h2>
                 <ul>
                     <li>
-                        <p><strong>Algebraic Coding Theory over Finite Fields</strong></p>
+                        <p data-lang="en"><strong>Algebraic Coding Theory over Finite Fields</strong></p>
+                        <p data-lang="zh" style="display: none;"><strong>有限域上的代数编码理论</strong></p>
                     </li>
                     <li>
-                        <p><strong>Elementary Number Theory</strong></p>
+                        <p data-lang="en"><strong>Elementary Number Theory</strong></p>
+                        <p data-lang="zh" style="display: none;"><strong>初等数论</strong></p>
                     </li>
                 </ul>
             </section>
 
-            <!-- 助教经历 -->
+            <!-- 教学经历 -->
             <section id="teaching">
-                <h2>Teaching Assistant Experience</h2>
+                <h2 data-lang="en">Teaching Assistant Experience</h2>
+                <h2 data-lang="zh" style="display: none;">教学经历</h2>
                 <ul>
                     <li>
-                        <p><strong>Abstract Algebra</strong><br>
+                        <p data-lang="en"><strong>Abstract Algebra</strong><br>
                         School of Mathematical Sciences, Sichuan Normal University<br>
                         September 2024 – January 2025</p>
+                        <p data-lang="zh" style="display: none;"><strong>抽象代数</strong><br>
+                        四川师范大学 数学科学学院<br>
+                        2024年9月 – 2025年1月</p>
                     </li>
                     <li>
-                        <p><strong>Elementary Number Theory</strong><br>
+                        <p data-lang="en"><strong>Elementary Number Theory</strong><br>
                         School of Mathematical Sciences, Sichuan Normal University<br>
                         March 2025 – July 2025</p>
+                        <p data-lang="zh" style="display: none;"><strong>初等数论</strong><br>
+                        四川师范大学 数学科学学院<br>
+                        2025年3月 – 2025年7月</p>
                     </li>
                 </ul>
             </section>
 
-            <!-- 获奖经历 -->
+            <!-- 获奖荣誉 -->
             <section id="awards">
-                <h2>Awards & Honors</h2>
+                <h2 data-lang="en">Awards & Honors</h2>
+                <h2 data-lang="zh" style="display: none;">获奖与荣誉</h2>
                 <ul>
+                    
                     <li>
-                        <p>President's Scholarship for Graduate Students, Sichuan Normal University<br>
-                        2024 – 2025 Academic Year</p>
-                    </li>
-                    <li>
-                        <p><a href="https://jw.abtu.edu.cn/info/1131/3639.htm" target="_blank">The First Prize of Graduation Thesis for Undergraduate Students of the 2023 Cohort, Aba Teachers' University</a></p>
-                    </li>
-                    <li>
-                        <p>"Merit Student" Honor, Aba Teachers University<br>
+                        <p data-lang="en">"Merit Student" Honor, Aba Teachers University<br>
                         2019 – 2020 Academic Year</p>
+                        <p data-lang="zh" style="display: none;">阿坝师范学院 "三好学生" 荣誉称号<br>
+                        2019 – 2020 学年</p>
+                    </li>
+                    
+                    <li>
+                        <p data-lang="en"><a href="https://jw.abtu.edu.cn/info/1131/3639.htm" target="_blank">The First Prize of Graduation Thesis for Undergraduate Students of the 2023 Cohort, Aba Teachers' University</a></p>
+                        <p data-lang="zh" style="display: none;"><a href="https://jw.abtu.edu.cn/info/1131/3639.htm" target="_blank">阿坝师范学院 2023届本科优秀毕业论文一等奖</a></p>
                     </li>
                     <li>
-                        <p>First-Class Academic Scholarship for Graduate Students, Sichuan Normal University<br>
-                        2025-2026 Academic Year</p>
+                        <p data-lang="en"><a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638670876702089484" target="_blank">President's Scholarship for Graduate Students, Sichuan Normal University</a><br>
+                        2024 Year</p>
+                        <p data-lang="zh" style="display: none;"><a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638670876702089484" target="_blank">四川师范大学 研究生校长奖学金</a><br>
+                        2024年</p>
                     </li>
                     <li>
-                        <p>"Merit Student" Honor for Master's degree student, Sichuan Normal University<br>
+                        <p data-lang="en"><a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638966614605863533" target="_blank">First-Class Academic Scholarship for Graduate Students, Sichuan Normal University</a><br>
+                        2025 Year</p>
+                        <p data-lang="zh" style="display: none;"><a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638966614605863533" target="_blank">四川师范大学 研究生学业一等奖学金</a><br>
+                        2025年</p>
+                    </li>
+                    <li>
+                        <p data-lang="en">"<a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638990825146339824" target="_blank">Merit Student" Honor for Master's degree student, Sichuan Normal University</a><br>
                         2025-2026 Academic Year</p>
+                        <p data-lang="zh" style="display: none;"><a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638990825146339824" target="_blank">四川师范大学 硕士研究生 "三好学生" 荣誉称号</a><br>
+                        2024-2025 学年</p>
                     </li>
                 </ul>
             </section>
+<!-- 主持/参与的项目 -->
+<section id="projects">
+    <h2 data-lang="en">Hosted/Participated Projects</h2>
+    <h2 data-lang="zh" style="display: none;">主持/参与的项目</h2>
+    <ul>
+        <!-- 示例1：主持项目 -->
+       <li>
+    <p data-lang="en">
+        <strong>Hosted Project</strong><br>
+        <a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638967198458156831" target="_blank">Exploration of the Properties of Generalized Roth-Lempel Codes</a><br>
+        Sichuan Normal University Graduate Student Innovation Ability Development Program<br>
+        2025 – 2026<br>
+        Project No.: KY2025022<br>
+        Supervisor: <a href="http://139.155.71.72:81/HomePage.aspx?ID=44" target="_blank">Prof. Qunying Liao</a>
+    </p>
+    <p data-lang="zh" style="display: none;">
+        <strong>主持项目</strong><br>
+        <a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638967198458156831" target="_blank">广义Roth-Lempel码的性质探究</a><br>
+        四川师范大学研究生创新能力培养项目<br>
+        2025年 – 2026年<br>
+        项目编号：KY2025022<br>
+        指导教师: <a href="http://139.155.71.72:81/HomePage.aspx?ID=44" target="_blank">廖群英 教授</a>
+    </p>
+</li>
 
+<li>
+    <p data-lang="en">
+        <strong>Hosted Project</strong><br>
+        Research on Stability of a Class of Quasilinear Differential Equations<br>
+        University-Level Quality Project of Aba Teachers University & Sichuan Provincial College Student Innovation Training Program<br>
+        2020 – 2023<br>
+        Project No.: 202020115 (University-Level) & S202110646050 (Provincial)<br>
+        Supervisor: <a href="#" target="_blank">Assoc. Prof. Biao Dong</a>
+    </p>
+    <p data-lang="zh" style="display: none;">
+        <strong>主持项目</strong><br>
+        一类拟线性微分方程稳定性研究<br>
+        阿坝师范学院校级质量工程和四川省大学生创新训练项目<br>
+        2020年 – 2023年<br>
+        项目编号：202020115（校级）和 S202110646050（省级）<br>
+        指导老师: <a href="#" target="_blank">董彪 副教授</a>
+    </p>
+</li>
+          
+    </ul>
+</section>
             <!-- 已发表论文 -->
             <section id="publications">
-                <h2>Publications</h2>
-                <div class="publication">
-                    <div class="publication-citation">
-                        <strong>Liang Z</strong>, Yang S C. Further intensification of an inequality about the number of prime numbers[J]. <em>Journal of Science of Teachers' College and University</em>, 2024, 44(02): 6–8+14. (In Chinese)
-                    </div>
-                    <div>
-                        <a href="#" class="download-link pdf-link" data-type="baidu" data-title="Further intensification of an inequality about the number of prime numbers" data-url="https://pan.baidu.com/s/1WRhJNXDFvCkKFzcYF_fFYA">
-                            <i class="fas fa-file-pdf"></i> Baidu Disk (View PDF)
-                        </a> 
-                    </div>
-                </div>
+                <h2 data-lang="en">Publications</h2>
+                <h2 data-lang="zh" style="display: none;">已发表论文</h2>
+                
+               <!-- 第一篇论文（中英文分开，英文按你要求的格式） -->
+<div class="publication">
+    <div class="publication-citation">
+        <!-- 英文引用（Liang Z + (In Chinese)） -->
+        <p data-lang="en">
+            <strong>Liang Z</strong>, Yang S C. <a href="https://www.glkx.cbpt.cnki.net/WKE/WebPublication/paperDigest.aspx?paperID=79b758a3-b527-4bed-96d2-5023295ba316" target="_blank">Further intensification of an inequality about the number of prime numbers</a>[J]. <em>Journal of Science of Teachers' College and University</em>, 2024, 44(02): 6–8+14. (In Chinese)
+        </p>
+        <!-- 中文引用（原版） -->
+        <p data-lang="zh" style="display: none;">
+            <strong>梁钟浩</strong>, 杨仕椿. <a href="https://www.glkx.cbpt.cnki.net/WKE/WebPublication/paperDigest.aspx?paperID=79b758a3-b527-4bed-96d2-5023295ba316" target="_blank">关于素数个数的一个不等式的加强</a>[J]. <em>高师理科学刊</em>, 2024, 44(02): 6–8+14.
+        </p>
+    </div>
+    <div>
+        <a href="#" class="download-link pdf-link" data-type="baidu" data-title="Further intensification of an inequality about the number of prime numbers" data-url="https://pan.baidu.com/s/1WRhJNXDFvCkKFzcYF_fFYA">
+            <i class="fas fa-file-pdf"></i> 
+            <span data-lang="en">Baidu Disk (View PDF)</span>
+            <span data-lang="zh" style="display: none;">百度网盘 (查看PDF)</span>
+        </a> 
+    </div>
+</div>
+
+<!-- 第二篇论文（中英文分开，英文按你要求的格式） -->
+<div class="publication">
+    <div class="publication-citation">
+        <!-- 英文引用（Liang Z + (In Chinese)） -->
+        <p data-lang="en">
+            <strong>Liang Z</strong>, Yang S C, Liao Q Y. <a href="https://gksx.cbpt.cnki.net/WKE2/WebPublication/paperDigest.aspx?paperID=fd66c66e-af28-4086-accc-eb1449d30733" target="_blank">Further refinement of estimates of $p_k$ and $\sum\limits_{k=1}^{n}kp_k$ true bounds</a>[J]. <em>College Mathematics</em>, 2025, 41(01): 16–22. (In Chinese)
+        </p>
+        <!-- 中文引用（原版，修正重复的[J]） -->
+        <p data-lang="zh" style="display: none;">
+            <strong>梁钟浩</strong>, 杨仕椿, 廖群英. <a href="https://gksx.cbpt.cnki.net/WKE2/WebPublication/paperDigest.aspx?paperID=fd66c66e-af28-4086-accc-eb1449d30733" target="_blank">关于 $p_k$、$\sum\limits_{k=1}^{n}kp_k$ 的确界估计的进一步精确</a>[J]. <em>大学数学</em>, 2025, 41(01): 16-22.
+        </p>
+    </div>
+    <div>
+        <a href="#" class="download-link pdf-link" data-type="baidu" data-title="Further Refinement of Estimates of $p_k$ and $\sum\limits_{k=1}^{n}kp_k$ True Bounds" data-url="https://pan.baidu.com/s/1A-vLMTAXJBk57OYN0oiZfw?pwd=6666">
+            <i class="fas fa-file-pdf"></i> 
+            <span data-lang="en">Baidu Disk (View PDF)</span>
+            <span data-lang="zh" style="display: none;">百度网盘 (查看PDF)</span>
+        </a> 
+    </div>
+</div>
                 
                 <div class="publication">
                     <div class="publication-citation">
-                        <strong>Liang Z</strong>, Yang S C, Liao Q Y. Further refinement of estimates of $p_k$ and $\sum\limits_{k=1}^{n}kp_k$ true bounds[J]. <em>College Mathematics</em>, 2025, 41(01): 16–22. (In Chinese)
-                    </div>
-                    <div>
-                        <a href="#" class="download-link pdf-link" data-type="baidu" data-title="Further Refinement of Estimates of $p_k$ and $\sum\limits_{k=1}^{n}kp_k$ True Bounds" data-url="https://pan.baidu.com/s/1A-vLMTAXJBk57OYN0oiZfw?pwd=6666">
-                            <i class="fas fa-file-pdf"></i> Baidu Disk (View PDF)
-                        </a> 
-                    </div>
-                </div>
-                
-                <div class="publication">
-                    <div class="publication-citation">
-                        <strong>Liang Z</strong>, Liao Q. Two classes of NMDS codes from Roth-Lempel codes[J]. Finite Fields Appl. 111 (2026) 102779.
+                        <strong>Liang Z</strong>, Liao Q. <a href="https://www.sciencedirect.com/science/article/pii/S1071579725002096" target="_blank">Two classes of NMDS codes from Roth-Lempel codes</a>[J]. Finite Fields Appl. 111 (2026) 102779.
                     </div>
                     <div>
                         <a href="#" class="download-link pdf-link" data-type="baidu" data-title="Two classes of NMDS codes from Roth-Lempel codes" data-url="https://pan.baidu.com/s/1Od6R-Kzi6neVADr8sOgRfQ?pwd=do41">
-                            <i class="fas fa-file-pdf"></i> Baidu Disk (View PDF)
+                            <i class="fas fa-file-pdf"></i> 
+                            <span data-lang="en">Baidu Disk (View PDF)</span>
+                            <span data-lang="zh" style="display: none;">百度网盘 (查看PDF)</span>
                         </a> 
                     </div>
                 </div>
             </section>
         
-
             <!-- 预印本 -->
             <section id="preprints">
-                <h2>ArXiv Preprints</h2>
+                <h2 data-lang="en">ArXiv Preprints</h2>
+                <h2 data-lang="zh" style="display: none;">ArXiv预印本</h2>
+                
                 <div class="publication">
                     <div class="publication-citation">
                         <strong>Liang Z</strong>, Liao Q. The equivalent condition for GRL codes to be MDS, AMDS or self-dual[J]. arXiv preprint arXiv:2506.03874, 2025.
                     </div>
                     <div>
                         <a href="#" class="download-link pdf-link" data-type="arxiv" data-title="The Equivalent Condition for GRL Codes to Be MDS, AMDS or Self-Dual" data-url="https://arxiv.org/pdf/2506.03874.pdf">
-                            <i class="fas fa-file-pdf"></i> Access on arXiv (View PDF)
+                            <i class="fas fa-file-pdf"></i> 
+                            <span data-lang="en">Access on arXiv (View PDF)</span>
+                            <span data-lang="zh" style="display: none;">在arXiv查看 (查看PDF)</span>
                         </a>
                     </div>
                 </div>
@@ -948,7 +1175,9 @@
                     </div>
                     <div>
                         <a href="#" class="download-link pdf-link" data-type="arxiv" data-title="The Extended Code for a Class of Generalized Roth-Lempel Codes and Their Properties" data-url="https://arxiv.org/pdf/2508.12302.pdf">
-                            <i class="fas fa-file-pdf"></i> Access on arXiv (View PDF)
+                            <i class="fas fa-file-pdf"></i> 
+                            <span data-lang="en">Access on arXiv (View PDF)</span>
+                            <span data-lang="zh" style="display: none;">在arXiv查看 (查看PDF)</span>
                         </a>
                     </div>
                 </div>
@@ -959,7 +1188,9 @@
                     </div>
                     <div>
                         <a href="#" class="download-link pdf-link" data-type="arxiv" data-title="Four Classes of LCD Codes from $(*)$-$(\mathcal{L},\mathcal{P})$-Twisted Generalized Reed-Solomon Codes" data-url="https://arxiv.org/pdf/2509.14878.pdf">
-                            <i class="fas fa-file-pdf"></i> Access on arXiv (View PDF)
+                            <i class="fas fa-file-pdf"></i> 
+                            <span data-lang="en">Access on arXiv (View PDF)</span>
+                            <span data-lang="zh" style="display: none;">在arXiv查看 (查看PDF)</span>
                         </a>
                     </div>
                 </div>
@@ -970,7 +1201,9 @@
                     </div>
                     <div>
                         <a href="#" class="download-link pdf-link" data-type="arxiv" data-title="The inverse of the (alternating) infinite sum of the reciprocal of the weighted sum for generalized Fibonacci sub-sequences" data-url="https://arxiv.org/pdf/2509.14569.pdf">
-                            <i class="fas fa-file-pdf"></i> Access on arXiv (View PDF)
+                            <i class="fas fa-file-pdf"></i> 
+                            <span data-lang="en">Access on arXiv (View PDF)</span>
+                            <span data-lang="zh" style="display: none;">在arXiv查看 (查看PDF)</span>
                         </a>
                     </div>
                 </div>
@@ -981,7 +1214,9 @@
                     </div>
                     <div>
                         <a href="#" class="download-link pdf-link" data-type="arxiv" data-title="The asymptotic estimation for two classes of generalized Fibonacci sub-sequences" data-url="https://arxiv.org/pdf/2510.13472.pdf">
-                            <i class="fas fa-file-pdf"></i> Access on arXiv (View PDF)
+                            <i class="fas fa-file-pdf"></i> 
+                            <span data-lang="en">Access on arXiv (View PDF)</span>
+                            <span data-lang="zh" style="display: none;">在arXiv查看 (查看PDF)</span>
                         </a>
                     </div>
                 </div>
@@ -1003,11 +1238,19 @@
     
     <!-- 百度网盘提示框 -->
     <div class="baidu-notice" id="baiduNotice">
-        <p>该论文存储在百度网盘中，将在新窗口打开。</p>
-        <p>提取码: 6666</p>
+        <p data-lang="en">This paper is stored in Baidu Netdisk and will open in a new window.</p>
+        <p data-lang="zh" style="display: none;">该论文存储在百度网盘中，将在新窗口打开。</p>
+        <p data-lang="en">Extraction Code: 6666</p>
+        <p data-lang="zh" style="display: none;">提取码: 6666</p>
         <div class="notice-buttons">
-            <button class="notice-btn" id="openBaiduBtn">打开百度网盘</button>
-            <button class="notice-btn cancel" id="cancelBaiduBtn">取消</button>
+            <button class="notice-btn" id="openBaiduBtn">
+                <span data-lang="en">Open Baidu Netdisk</span>
+                <span data-lang="zh" style="display: none;">打开百度网盘</span>
+            </button>
+            <button class="notice-btn cancel" id="cancelBaiduBtn">
+                <span data-lang="en">Cancel</span>
+                <span data-lang="zh" style="display: none;">取消</span>
+            </button>
         </div>
     </div>
     
@@ -1032,50 +1275,111 @@
         const navLinks = document.querySelectorAll('.menu-item a');
         const pdfLoader = document.getElementById('pdfLoader');
         
+        // 语言切换按钮
+        const langEnBtn = document.getElementById('langEn');
+        const langZhBtn = document.getElementById('langZh');
+        const langElements = document.querySelectorAll('[data-lang]');
+        
         let currentBaiduUrl = '';
         let pdfLoadTimeout = null;
+        let currentLang = 'en'; // 默认英文
+        
+        // ===================== 语言切换核心功能 =====================
+        langEnBtn.addEventListener('click', function() {
+            switchToLang('en');
+        });
+        
+        langZhBtn.addEventListener('click', function() {
+            switchToLang('zh');
+        });
+        
+        /**
+         * 切换语言
+         * @param {string} targetLang - 目标语言 (en/zh)
+         */
+        function switchToLang(targetLang) {
+            // 更新当前语言状态
+            currentLang = targetLang;
+            
+            // 更新按钮样式
+            if (targetLang === 'en') {
+                langEnBtn.classList.add('active');
+                langZhBtn.classList.remove('active');
+            } else {
+                langZhBtn.classList.add('active');
+                langEnBtn.classList.remove('active');
+            }
+            
+            // 保存滚动位置
+            const scrollPos = window.pageYOffset;
+            
+            // 切换所有语言元素的显示状态
+            langElements.forEach(el => {
+                if (el.dataset.lang === targetLang) {
+                    el.style.display = '';
+                    el.style.opacity = '1';
+                } else {
+                    el.style.display = 'none';
+                    el.style.opacity = '0';
+                }
+            });
+            
+            // 恢复滚动位置
+            window.scrollTo(0, scrollPos);
+            
+            // 重新渲染数学公式
+            if (window.MathJax) {
+                MathJax.typesetPromise();
+            }
+            
+            // 保存语言偏好到本地存储
+            localStorage.setItem('preferredLang', targetLang);
+        }
+        
+        /**
+         * 初始化语言设置
+         */
+        function initLanguage() {
+            const savedLang = localStorage.getItem('preferredLang');
+            if (savedLang === 'zh') {
+                switchToLang('zh');
+            } else {
+                switchToLang('en');
+            }
+        }
 
-        // 侧边栏菜单切换（移动端）
+        // ===================== 侧边栏菜单功能 =====================
         menuToggle.addEventListener('click', () => {
             sidebar.classList.toggle('show');
-            // 阻止页面滚动
             document.body.style.overflow = sidebar.classList.contains('show') ? 'hidden' : '';
         });
         
-        // 导航链接点击事件优化
+        // 导航链接点击事件
         navLinks.forEach(link => {
             link.addEventListener('click', (e) => {
-                // 移动端自动关闭菜单
+                // 移动端点击后关闭侧边栏
                 if (window.innerWidth <= 900) {
                     sidebar.classList.remove('show');
                     document.body.style.overflow = '';
                 }
                 
-                // 活跃状态管理
+                // 更新激活状态
                 navLinks.forEach(l => l.classList.remove('active'));
                 link.classList.add('active');
                 
-                // 平滑滚动优化
+                // 平滑滚动到目标区域
                 const targetId = link.getAttribute('href');
                 const targetElement = document.querySelector(targetId);
                 if (targetElement) {
                     e.preventDefault();
-                    const headerOffset = 20;
-                    const elementPosition = targetElement.getBoundingClientRect().top;
-                    const offsetPosition = elementPosition + window.pageYOffset - headerOffset;
-                    
-                    window.scrollTo({
-                        top: offsetPosition,
-                        behavior: 'smooth'
-                    });
-                    
-                    // 更新URL哈希
+                    const offsetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - 20;
+                    window.scrollTo({top: offsetPosition, behavior: 'smooth'});
                     history.pushState(null, null, targetId);
                 }
             });
         });
 
-        // PDF链接点击处理
+        // ===================== PDF预览功能 =====================
         pdfLinks.forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -1085,53 +1389,37 @@
                 const type = this.getAttribute('data-type');
                 
                 if (type === 'arxiv') {
-                    // arXiv链接处理
+                    // 显示ArXiv PDF
                     modalTitle.textContent = title;
                     modal.style.display = 'block';
-                    
-                    // 显示加载动画
                     pdfLoader.style.display = 'block';
                     pdfViewer.src = '';
                     
-                    // 延迟加载PDF，避免卡顿
                     setTimeout(() => {
                         pdfViewer.src = pdfUrl;
                         modal.classList.add('show');
                         document.body.style.overflow = 'hidden';
-                        
-                        // 设置加载超时
-                        pdfLoadTimeout = setTimeout(() => {
-                            pdfLoader.style.display = 'none';
-                        }, 3000);
-                        
-                        // MathJax重新渲染
-                        if (window.MathJax) {
-                            MathJax.typesetPromise([modal]);
-                        }
+                        pdfLoadTimeout = setTimeout(() => pdfLoader.style.display = 'none', 3000);
+                        if (window.MathJax) MathJax.typesetPromise([modal]);
                     }, 100);
                     
                 } else if (type === 'baidu') {
-                    // 百度网盘链接处理
+                    // 显示百度网盘提示
                     currentBaiduUrl = pdfUrl;
                     baiduNotice.style.display = 'block';
-                    setTimeout(() => {
-                        baiduNotice.classList.add('show');
-                    }, 10);
+                    setTimeout(() => baiduNotice.classList.add('show'), 10);
                 }
             });
         });
 
-        // PDF加载完成监听
+        // PDF加载完成
         pdfViewer.onload = function() {
             clearTimeout(pdfLoadTimeout);
             pdfLoader.style.display = 'none';
-            // 确保PDF内公式渲染
-            if (window.MathJax) {
-                MathJax.typesetPromise();
-            }
+            if (window.MathJax) MathJax.typesetPromise();
         };
 
-        // 百度网盘提示框按钮事件
+        // 打开百度网盘
         openBaiduBtn.addEventListener('click', function() {
             if (currentBaiduUrl) {
                 window.open(currentBaiduUrl, '_blank');
@@ -1139,8 +1427,12 @@
             }
         });
         
+        // 取消百度网盘提示
         cancelBaiduBtn.addEventListener('click', closeBaiduNotice);
         
+        /**
+         * 关闭百度网盘提示框
+         */
         function closeBaiduNotice() {
             baiduNotice.classList.remove('show');
             setTimeout(() => {
@@ -1149,11 +1441,12 @@
             currentBaiduUrl = '';
         }
 
-        // 关闭PDF模态框
+        /**
+         * 关闭PDF模态框
+         */
         function closePdfModal() {
             modal.classList.remove('show');
             clearTimeout(pdfLoadTimeout);
-            
             setTimeout(() => {
                 modal.style.display = 'none';
                 pdfViewer.src = '';
@@ -1162,24 +1455,17 @@
             }, 300);
         }
         
+        // 关闭模态框事件
         closeBtn.addEventListener('click', closePdfModal);
-
-        // 点击模态框外部关闭
-        window.addEventListener('click', function(e) {
-            if (e.target === modal) {
-                closePdfModal();
-            }
+        window.addEventListener('click', e => {
+            if (e.target === modal) closePdfModal();
         });
-
-        // ESC键关闭模态框/提示框
-        document.addEventListener('keydown', function(e) {
+        
+        // ESC键关闭弹窗
+        document.addEventListener('keydown', e => {
             if (e.key === 'Escape') {
-                if (modal.classList.contains('show')) {
-                    closePdfModal();
-                }
-                if (baiduNotice.classList.contains('show')) {
-                    closeBaiduNotice();
-                }
+                if (modal.classList.contains('show')) closePdfModal();
+                if (baiduNotice.classList.contains('show')) closeBaiduNotice();
                 if (sidebar.classList.contains('show')) {
                     sidebar.classList.remove('show');
                     document.body.style.overflow = '';
@@ -1187,49 +1473,39 @@
             }
         });
         
-        // 回到顶部按钮优化
+        // ===================== 回到顶部功能 =====================
         window.addEventListener('scroll', () => {
-            // 滚动节流
-            if (window.pageYOffset > 300) {
-                backToTopBtn.classList.add('show');
-            } else {
-                backToTopBtn.classList.remove('show');
-            }
-            
-            // 滚动时更新导航活跃状态
+            // 显示/隐藏回到顶部按钮
+            backToTopBtn.classList.toggle('show', window.pageYOffset > 300);
+            // 更新导航激活状态
             updateActiveNavItem();
         });
         
         backToTopBtn.addEventListener('click', () => {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
+            window.scrollTo({top: 0, behavior: 'smooth'});
         });
         
-        // 根据滚动位置更新活跃导航项
+        /**
+         * 根据滚动位置更新导航激活状态
+         */
         function updateActiveNavItem() {
             const sections = document.querySelectorAll('section');
             let currentSection = '#home';
             
             sections.forEach(section => {
-                const sectionTop = section.offsetTop - 100;
-                const sectionHeight = section.offsetHeight;
-                if (window.pageYOffset >= sectionTop && window.pageYOffset < sectionTop + sectionHeight) {
+                const top = section.offsetTop - 100;
+                const height = section.offsetHeight;
+                if (window.pageYOffset >= top && window.pageYOffset < top + height) {
                     currentSection = '#' + section.id;
                 }
             });
             
             navLinks.forEach(link => {
-                if (link.getAttribute('href') === currentSection) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
+                link.classList.toggle('active', link.getAttribute('href') === currentSection);
             });
         }
         
-        // 窗口大小变化处理
+        // ===================== 响应式适配 =====================
         window.addEventListener('resize', () => {
             if (window.innerWidth > 900) {
                 sidebar.classList.remove('show');
@@ -1241,47 +1517,45 @@
             updateActiveNavItem();
         });
         
-        // 初始化
+        // ===================== 初始化 =====================
         document.addEventListener('DOMContentLoaded', () => {
+            // 初始化语言
+            initLanguage();
+            // 设置初始导航激活状态
             setActiveNavItem();
-            // 预加载MathJax
-            if (window.MathJax) {
-                MathJax.typesetPromise();
-            }
+            // 渲染数学公式
+            if (window.MathJax) MathJax.typesetPromise();
         });
         
-        // 设置初始活跃导航项
+        /**
+         * 根据URL哈希设置导航激活状态
+         */
         function setActiveNavItem() {
-            const currentPath = window.location.hash || '#home';
+            const path = window.location.hash || '#home';
             navLinks.forEach(link => {
-                if (link.getAttribute('href') === currentPath) {
-                    link.classList.add('active');
-                } else {
-                    link.classList.remove('active');
-                }
+                link.classList.toggle('active', link.getAttribute('href') === path);
             });
         }
         
-        // 监听哈希变化
+        // 哈希变化时更新导航
         window.addEventListener('hashchange', setActiveNavItem);
         
-        // 窗口加载完成后的处理
-        window.addEventListener('load', function() {
-            if (window.MathJax) {
-                MathJax.typesetPromise();
-            }
+        // 页面加载完成后渲染公式
+        window.addEventListener('load', () => {
+            if (window.MathJax) MathJax.typesetPromise();
             updateActiveNavItem();
         });
         
-        // 错误处理
+        // PDF加载错误处理
         pdfViewer.addEventListener('error', () => {
             clearTimeout(pdfLoadTimeout);
             pdfLoader.style.display = 'none';
-            alert('PDF加载失败，请稍后重试或检查网络连接。');
+            const msg = currentLang === 'en' ? 'Failed to load PDF.' : 'PDF加载失败。';
+            alert(msg);
             closePdfModal();
         });
         
-        // 防止重复点击
+        // 防止重复点击PDF链接
         let isProcessing = false;
         document.addEventListener('click', (e) => {
             if (e.target.closest('.pdf-link') && isProcessing) {
@@ -1290,20 +1564,9 @@
             }
             if (e.target.closest('.pdf-link')) {
                 isProcessing = true;
-                setTimeout(() => {
-                    isProcessing = false;
-                }, 500);
+                setTimeout(() => isProcessing = false, 500);
             }
         });
-
-        // 新增：优化MathJax渲染时机
-        if (window.MathJax) {
-            MathJax.startup.promise.then(() => {
-                console.log('MathJax loaded successfully');
-            }).catch(err => {
-                console.error('MathJax load error:', err);
-            });
-        }
     </script>
 </body>
 </html>
