@@ -649,6 +649,68 @@
             100% { transform: translate(-50%, -50%) rotate(360deg); }
         }
         
+        /* 相册样式 */
+        .gallery-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 20px;
+            margin: 20px 0;
+        }
+        .gallery-item {
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: var(--transition-normal);
+            background: #fff;
+            cursor: pointer;
+        }
+        .gallery-item:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+        .gallery-item img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+        }
+        .gallery-caption {
+            padding: 10px;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            text-align: center;
+        }
+        
+        /* 图片预览大图模态框 */
+        #imageModal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.95);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        #modalImage {
+            max-width: 90%;
+            max-height: 90vh;
+            border-radius: 4px;
+            box-shadow: 0 0 30px rgba(255,255,255,0.2);
+        }
+        .close-image-modal {
+            position: absolute;
+            top: 20px;
+            right: 30px;
+            color: white;
+            font-size: 40px;
+            cursor: pointer;
+            user-select: none;
+        }
+        
         /* 响应式适配 */
         @media (max-width: 1600px) {
             .main-content {
@@ -780,11 +842,19 @@
                 margin-bottom: 10px;
                 width: fit-content;
             }
+            
+            .gallery-container {
+                grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+                gap: 12px;
+            }
+            .gallery-item img {
+                height: 140px;
+            }
         }
         
         /* 打印样式 */
         @media print {
-            .sidebar, .menu-toggle, .back-to-top, .download-link, .modal, .baidu-notice, .language-switcher {
+            .sidebar, .menu-toggle, .back-to-top, .download-link, .modal, .baidu-notice, .language-switcher, #imageModal {
                 display: none !important;
             }
             
@@ -794,7 +864,7 @@
                 width: 100%;
             }
             
-            .publication {
+            .publication, .gallery-item {
                 box-shadow: none;
                 border: 1px solid var(--border-color);
             }
@@ -901,6 +971,13 @@
                     <i class="fas fa-file-export"></i> 
                     <span data-lang="en">Arxiv Preprints</span>
                     <span data-lang="zh" style="display: none;">预印本</span>
+                </a>
+            </div>
+            <div class="menu-item">
+                <a href="#conference-gallery">
+                    <i class="fas fa-images"></i> 
+                    <span data-lang="en">Conference Gallery</span>
+                    <span data-lang="zh" style="display: none;">会议相册</span>
                 </a>
             </div>
         </aside>
@@ -1251,6 +1328,33 @@
 
                
             </section> 
+
+            <!-- 会议相册 -->
+            <section id="conference-gallery">
+                <h2 data-lang="en">Conference Photos</h2>
+                <h2 data-lang="zh" style="display: none;">会议参会照片</h2>
+
+                <div class="gallery-container">
+                    <!-- 照片1 -->
+                    <div class="gallery-item" onclick="openImageModal('con1.jpg', 'Conference 2025')">
+                        <img src="con1.jpg" alt="Conference">
+                        <div class="gallery-caption" data-lang="en">Academic Conference 2025</div>
+                        <div class="gallery-caption" data-lang="zh" style="display: none;">2025学术会议</div>
+                    </div>
+                    <!-- 照片2 -->
+                    <div class="gallery-item" onclick="openImageModal('con2.jpg', 'Academic Exchange')">
+                        <img src="con2.jpg" alt="Conference">
+                        <div class="gallery-caption" data-lang="en">Academic Exchange</div>
+                        <div class="gallery-caption" data-lang="zh" style="display: none;">学术交流</div>
+                    </div>
+                    <!-- 照片3 -->
+                    <div class="gallery-item" onclick="openImageModal('con3.jpg', 'Group Photo')">
+                        <img src="con3.jpg" alt="Conference">
+                        <div class="gallery-caption" data-lang="en">Group Photo</div>
+                        <div class="gallery-caption" data-lang="zh" style="display: none;">合影留念</div>
+                    </div>
+                </div>
+            </section>
         </main>
     </div>
     
@@ -1284,6 +1388,12 @@
         </div>
     </div>
     
+    <!-- 图片预览大图 -->
+    <div id="imageModal">
+        <span class="close-image-modal" onclick="closeImageModal()">&times;</span>
+        <img id="modalImage" src="" alt="Preview">
+    </div>
+    
     <!-- 回到顶部按钮 -->
     <button class="back-to-top" id="backToTop">
         <i class="fas fa-arrow-up"></i>
@@ -1304,6 +1414,8 @@
         const sidebar = document.querySelector('.sidebar');
         const navLinks = document.querySelectorAll('.menu-item a');
         const pdfLoader = document.getElementById('pdfLoader');
+        const imageModal = document.getElementById('imageModal');
+        const modalImage = document.getElementById('modalImage');
         
         // 语言切换按钮
         const langEnBtn = document.getElementById('langEn');
@@ -1491,11 +1603,28 @@
             if (e.target === modal) closePdfModal();
         });
         
+        // ===================== 图片预览功能 =====================
+        function openImageModal(src, alt) {
+            modalImage.src = src;
+            modalImage.alt = alt;
+            imageModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeImageModal() {
+            imageModal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+        // 点击空白关闭图片
+        imageModal.addEventListener('click', function(e) {
+            if (e.target === imageModal) closeImageModal();
+        });
+        
         // ESC键关闭弹窗
         document.addEventListener('keydown', e => {
             if (e.key === 'Escape') {
                 if (modal.classList.contains('show')) closePdfModal();
                 if (baiduNotice.classList.contains('show')) closeBaiduNotice();
+                if (imageModal.style.display === 'flex') closeImageModal();
                 if (sidebar.classList.contains('show')) {
                     sidebar.classList.remove('show');
                     document.body.style.overflow = '';
