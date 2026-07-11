@@ -51,7 +51,7 @@
             --text-light: #666;
             --text-lighter: #888;
             --shadow: 0 2px 10px rgba(0,0,0,0.1);
-            --shadow-hover: 0 5px 15px rgba(0,0,0,0.15);
+            --shadow-hover: 0 4px 12px rgba(52,152,219,0.12);
             --transition-fast: all 0.2s ease;
             --transition-normal: all 0.3s ease;
             --border-radius-sm: 4px;
@@ -79,6 +79,10 @@
         a {
             text-decoration: none !important;
         }
+        
+        /* MathJax 公式渲染优化 */
+        .mjx-chtml { visibility: hidden; }
+        .MathJax_Display { visibility: visible !important; }
         
         .language-switcher {
             position: fixed;
@@ -195,7 +199,6 @@
         .menu-item a:hover, .menu-item a.active {
             color: var(--accent-color);
             background-color: var(--accent-light);
-            transform: translateX(2px);
         }
         
         .menu-item i {
@@ -228,6 +231,14 @@
             border-left: 4px solid var(--accent-color);
             font-size: 1.6rem;
             font-weight: 600;
+        }
+
+        h3 {
+            margin: 30px 0 15px;
+            color: var(--primary-color);
+            border-bottom: 1px solid #eee;
+            padding-bottom: 6px;
+            font-size: 1.25rem;
         }
         
         .profile-header {
@@ -287,7 +298,7 @@
         .publication:hover {
             background-color: white;
             border-left-color: var(--accent-color);
-            box-shadow: var(--shadow);
+            box-shadow: var(--shadow-hover);
             transform: translateY(-2px);
         }
         
@@ -311,40 +322,6 @@
         .download-link:hover {
             color:white;
             background-color:var(--accent-color);
-        }
-
-        .gallery-wrapper {
-            width:100%;
-            overflow:hidden;
-            margin:20px 0;
-        }
-        .gallery-slider {
-            display:grid;
-            grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
-            gap:20px;
-        }
-        .gallery-slide {
-            border-radius:8px;
-            overflow:hidden;
-            box-shadow:var(--shadow);
-            background:#fff;
-            cursor:pointer;
-            transition:var(--transition-normal);
-        }
-        .gallery-slide:hover {
-            transform:translateY(-5px);
-            box-shadow:var(--shadow-hover);
-        }
-        .gallery-slide img {
-            width:100%;
-            height:180px;
-            object-fit:cover;
-            display:block;
-        }
-        .gallery-caption {
-            padding:10px;
-            text-align:center;
-            font-size:0.9rem;
         }
 
         #imageModal {
@@ -575,10 +552,10 @@
             <!-- 个人信息 -->
             <section id="home">
                 <div class="profile-header">
-                    <img src="zhl.jpg" alt="Zhonghao Liang" class="profile-photo" />
+                    <img src="zhl.jpg" alt="Zhonghao Liang" class="profile-photo" loading="lazy" onerror="this.style.display='none'"/>
                     <div class="profile-info">
                         <h1 data-lang="en">Zhonghao Liang</h1>
-                <h1 data-lang="zh" style="display: none;">梁钟浩</h1> 
+                        <h1 data-lang="zh" style="display: none;">梁钟浩</h1> 
                         <div class="info-item">
                             <i class="fas fa-user-graduate"></i>
                             <span data-lang="en">Master's degree in progress</span>
@@ -599,7 +576,7 @@
                         </div>
                         <div class="info-item">
                             <i class="fas fa-envelope"></i>
-                            <span><a href="mailto:liangzhongh0807@163.com">liangzhongh0807@163.com</a></span>
+                            <span><a href="mailto:liangzhongh0807@163.com" target="_blank">liangzhongh0807@163.com</a></span>
                         </div>
                     </div>
                 </div>
@@ -761,6 +738,7 @@
                 <h2 data-lang="en">Publications</h2>
                 <h2 data-lang="zh" style="display: none;">已发表论文</h2>
 
+                <h3>2026</h3>
                 <!-- 2026 IEEE TIT 最新 -->
                 <div class="publication">
                     <div class="publication-citation">
@@ -810,7 +788,7 @@
                         Wan Y, <strong>Liang Z</strong>, Liao Q. <a href="https://articles.math.cas.cz/10.21136/MB.2026.0161-25" target="_blank">The asymptotic estimation for two classes of generalized Fibonacci sub-sequences</a>[J]. Mathematica Bohemica. 2026.
                     </div>
                     <div>
-                        <a href="https://mbpapers.math.cas.cz/full/online1st/MB.2026.0161-25.pdf" target="_blank" class="download-link pdf-link" data-type="baidu" data-title="The asymptotic estimation for two classes of generalized Fibonacci sub-sequences" data-url="https://mbpapers.math.cas.cz/full/online1st/MB.2026.0161-25.pdf">
+                        <a href="https://mbpapers.math.cas.cz/full/online1st/MB.2026.0161-25.pdf" target="_blank" class="download-link pdf-link" data-type="official" data-title="The asymptotic estimation for two classes of generalized Fibonacci sub-sequences" data-url="https://mbpapers.math.cas.cz/full/online1st/MB.2026.0161-25.pdf">
                             <i class="fas fa-file-pdf"></i>
                             <span data-lang="en">Official website (View PDF)</span>
                             <span data-lang="zh" style="display: none;">官网PDF直达</span>
@@ -818,6 +796,7 @@
                     </div>
                 </div>
 
+                <h3>2025</h3>
                 <!-- 2025 大学数学 -->
                 <div class="publication">
                     <div class="publication-citation">
@@ -837,6 +816,7 @@
                     </div>
                 </div>
 
+                <h3>2024</h3>
                 <!-- 2024 高师理科学刊 最早 -->
                 <div class="publication">
                     <div class="publication-citation">
@@ -862,6 +842,7 @@
     <h2 data-lang="en">ArXiv Preprints</h2>
     <h2 data-lang="zh" style="display: none;">ArXiv预印本</h2>
 
+    <h3>2026</h3>
     <!-- 2607.07181 -->
     <div class="publication">
     <div class="publication-citation">
@@ -918,6 +899,7 @@
         </div>
     </div>
 
+    <h3>2025</h3>
     <!-- 2511.03398 -->
     <div class="publication">
         <div class="publication-citation">
@@ -971,9 +953,9 @@
     </ul>
 
     <div style="margin:15px 0;">
-        <img src="2026FFA1.jpg" style="width:30%;margin:5px;" onclick="openImageModal(this.src)">
-        <img src="2026FFA2.jpg" style="width:30%;margin:5px;" onclick="openImageModal(this.src)">
-        <img src="2026FFA4.jpg" style="width:30%;margin:5px;" onclick="openImageModal(this.src)">
+        <img src="2026FFA1.jpg" loading="lazy" style="width:30%;margin:5px;" onclick="openImageModal(this.src)">
+        <img src="2026FFA2.jpg" loading="lazy" style="width:30%;margin:5px;" onclick="openImageModal(this.src)">
+        <img src="2026FFA4.jpg" loading="lazy" style="width:30%;margin:5px;" onclick="openImageModal(this.src)">
     </div>
 </section>
         </main>
@@ -1029,6 +1011,38 @@
         function closeImageModal(){
             document.getElementById('imageModal').style.display = 'none';
         }
+
+        // 修复百度网盘PDF点击跳转
+        document.querySelectorAll('.pdf-link').forEach(link=>{
+            link.addEventListener('click', function(e){
+                const type = this.dataset.type;
+                const url = this.dataset.url;
+                if(type === "baidu"){
+                    window.open(url, '_blank');
+                    e.preventDefault();
+                }
+            })
+        })
+
+        // 滚动侧边栏导航自动高亮
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.menu-item a');
+        window.addEventListener('scroll', ()=>{
+            let current = "";
+            sections.forEach(sec=>{
+                const secTop = sec.offsetTop;
+                const secHeight = sec.offsetHeight;
+                if(window.scrollY >= secTop - 120){
+                    current = sec.getAttribute('id');
+                }
+            })
+            navLinks.forEach(link=>{
+                link.classList.remove('active');
+                if(link.getAttribute('href') === `#${current}`){
+                    link.classList.add('active');
+                }
+            })
+        })
     </script>
 </body>
 </html>
