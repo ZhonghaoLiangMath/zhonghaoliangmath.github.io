@@ -18,7 +18,7 @@
     <script>
         window.MathJax = {
             tex: {
-                inlineMath: [['$', '$'], ['\\(', '\\)']],
+                inlineMath: [['$', '$'], ['\<span data-type="inline-math" data-value="JywgJ1w="></span>']],
                 displayMath: [['$$', '$$']],
                 processEscapes: true,
                 packages: {'[+]': ['physics']}
@@ -57,18 +57,32 @@
             --bg-sidebar: #f7f9fc;
             --bg-card: #ffffff;
             --bg-hover: #f5f9ff;
+            --bg-tag: #edf4fc;
+            --bg-toast: #223344;
             --border: #e2e8f0;
+            --border-light: #edf2f9;
             --text-main: #2d3748;
             --text-secondary: #64748b;
             --text-light: #94a3b8;
+            --text-tag: #2574bb;
+            --success: #109872;
+            --warning: #d97706;
+            --danger: #c41e3a;
             --shadow-sm: 0 1px 3px rgba(0,0,0,0.06);
             --shadow-md: 0 2px 10px rgba(37, 116, 187, 0.08);
             --shadow-lg: 0 6px 18px rgba(37, 116, 187, 0.12);
+            --shadow-xl: 0 10px 30px rgba(37, 116, 187, 0.16);
             --radius-sm: 4px;
             --radius-md: 8px;
             --radius-lg: 12px;
+            --radius-full: 999px;
             --transition: all 0.25s ease;
             --scrollbar-width: 6px;
+            --space-xs: 4px;
+            --space-sm: 8px;
+            --space-md: 16px;
+            --space-lg: 24px;
+            --space-xl: 32px;
         }
         /* 暗黑模式变量 */
         [data-theme="dark"] {
@@ -80,10 +94,13 @@
             --bg-sidebar: #1e293b;
             --bg-card: #1e293b;
             --bg-hover: #27374d;
+            --bg-tag: #27374d;
             --border: #334155;
+            --border-light: #475569;
             --text-main: #f1f5f9;
             --text-secondary: #94a3b8;
             --text-light: #64748b;
+            --text-tag: #74b9ff;
         }
 
         * {
@@ -254,14 +271,14 @@
         }
         h2 {
             font-size: 1.65rem;
-            margin: 42px 0 22px;
+            margin: 42px 0 var(--space-lg);
             padding-left: 14px;
             border-left: 4px solid var(--accent);
             color: var(--primary);
         }
         h3 {
             font-size: 1.3rem;
-            margin: 32px 0 18px;
+            margin: var(--space-xl) 0 var(--space-md);
             padding-bottom: 6px;
             color: var(--primary);
             border-bottom: 1px dashed var(--border);
@@ -330,48 +347,226 @@
             padding-left: 8px;
         }
 
-        /* 论文卡片核心样式 */
+        /* ====================== 论文板块全新优化样式 ====================== */
+        /* 论文筛选栏 */
+        .pub-filter-bar {
+            display: flex;
+            gap: var(--space-sm);
+            margin-bottom: var(--space-lg);
+            flex-wrap: wrap;
+        }
+        .filter-btn {
+            padding: 6px 16px;
+            border: 1px solid var(--border);
+            border-radius: var(--radius-full);
+            background: transparent;
+            color: var(--text-secondary);
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: var(--transition);
+        }
+        .filter-btn.active {
+            background: var(--accent);
+            color: #fff;
+            border-color: var(--accent);
+        }
+        .filter-btn:hover:not(.active) {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+
+        /* 年份分组容器 */
+        .pub-year-group {
+            margin-bottom: var(--space-xl);
+        }
+
+        /* 论文卡片核心样式升级 */
         .publication {
             background: var(--bg-card);
             border: 1px solid var(--border);
-            border-left: 3px solid transparent;
+            border-left: 4px solid transparent;
             border-radius: var(--radius-md);
-            padding: 20px 24px;
-            margin-bottom: 20px;
+            padding: var(--space-lg);
+            margin-bottom: var(--space-md);
             transition: var(--transition);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+            position: relative;
         }
+        /* 不同状态左侧侧边条颜色区分 */
+        .pub-online { border-left-color: var(--success); }
+        .pub-accepted { border-left-color: var(--warning); }
+        .pub-arxiv { border-left-color: var(--accent); }
+
         .publication:hover {
-            border-left-color: var(--accent);
-            box-shadow: var(--shadow-lg);
-            transform: translateY(-3px);
+            border-color: var(--border-light);
+            box-shadow: var(--shadow-xl);
+            transform: translateY(-4px);
         }
+
+        /* 论文顶部：标签+状态徽章 */
+        .pub-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            flex-wrap: wrap;
+            gap: var(--space-sm);
+        }
+        .pub-tags {
+            display: flex;
+            gap: var(--space-xs);
+            flex-wrap: wrap;
+        }
+        .pub-tag {
+            font-size: 0.75rem;
+            padding: 2px 8px;
+            background: var(--bg-tag);
+            color: var(--text-tag);
+            border-radius: var(--radius-full);
+        }
+        .pub-status-badge {
+            font-size: 0.75rem;
+            padding: 3px 10px;
+            border-radius: var(--radius-full);
+            font-weight: 500;
+        }
+        .badge-online { background: #dcfce7; color: #15803d; }
+        .badge-accept { background: #fffbeb; color: #b45309; }
+        .badge-arxiv { background: var(--accent-light); color: var(--accent-dark); }
+        [data-theme="dark"] .badge-online { background: #16653440; color: #4ade80; }
+        [data-theme="dark"] .badge-accept { background: #92400e40; color: #fbbf24; }
+
+        /* 引用正文 */
         .publication-citation {
-            line-height: 1.8;
-            margin-bottom: 14px;
+            line-height: 1.85;
             word-break: break-word;
         }
         .publication-citation strong {
             color: var(--accent-dark);
         }
+        /* 本人名字加粗高亮 */
+        .self-author {
+            font-weight: 600;
+            color: var(--accent) !important;
+        }
+
+        /* 按钮操作栏 */
         .pub-buttons {
             display: flex;
             flex-wrap: wrap;
-            gap: 12px;
+            gap: var(--space-sm);
+            align-items: center;
         }
-        .download-link {
+        .pub-btn {
             display: inline-flex;
             align-items: center;
             gap: 6px;
             padding: 6px 12px;
             border-radius: var(--radius-sm);
-            font-size: 0.9rem;
+            font-size: 0.88rem;
+            transition: var(--transition);
+            cursor: pointer;
+            border: 1px solid transparent;
+        }
+        .download-link {
             color: var(--accent);
             border: 1px solid var(--accent);
-            transition: var(--transition);
         }
         .download-link:hover {
             background: var(--accent);
             color: #fff;
+        }
+        .cite-btn {
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+        .cite-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-light);
+        }
+        .bib-btn {
+            color: var(--text-secondary);
+            border: 1px solid var(--border);
+        }
+        .bib-btn:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: var(--accent-light);
+        }
+
+        /* BibTeX弹窗 */
+        .bib-modal {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.75);
+            z-index: 3000;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .bib-box {
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            width: min(800px, 95vw);
+            max-height: 80vh;
+            padding: var(--space-lg);
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-md);
+        }
+        .bib-top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .bib-close {
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+        .bib-code {
+            background: var(--bg-hover);
+            padding: var(--space-md);
+            border-radius: var(--radius-sm);
+            overflow-x: auto;
+            font-family: monospace;
+            font-size: 0.9rem;
+            white-space: pre;
+            line-height: 1.6;
+            border: 1px solid var(--border);
+        }
+        .bib-copy-btn {
+            align-self: flex-end;
+            padding: 6px 16px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: var(--radius-sm);
+            cursor: pointer;
+        }
+
+        /* 复制成功提示 Toast */
+        .toast {
+            position: fixed;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%) translateY(20px);
+            background: var(--bg-toast);
+            color: #fff;
+            padding: 10px 22px;
+            border-radius: var(--radius-sm);
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+            z-index: 4000;
+        }
+        .toast.show {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
         }
 
         /* 图片预览弹窗 */
@@ -495,7 +690,11 @@
                 font-size: 1.45rem;
             }
             .publication {
-                padding: 16px;
+                padding: var(--space-md);
+            }
+            .pub-buttons {
+                flex-direction: column;
+                align-items: flex-start;
             }
             #conference img {
                 width: 48% !important;
@@ -515,8 +714,8 @@
             #conference img {
                 width: 100% !important;
             }
-            .pub-buttons {
-                flex-direction: column;
+            .pub-filter-bar {
+                justify-content: center;
             }
         }
     </style>
@@ -524,7 +723,7 @@
 <body data-theme="light">
     <!-- 顶部控制栏 -->
     <div class="top-controls">
-        <button class="ctrl-btn" id="langEn">English</button>
+        <button class="ctrl-btn active" id="langEn">English</button>
         <button class="ctrl-btn" id="langZh">中文</button>
         <button class="ctrl-btn" id="themeToggle"><i class="fas fa-moon"></i></button>
     </div>
@@ -629,7 +828,7 @@
                 </ul>
             </section>
 
-            <!-- 教学经历、获奖、项目、论文、预印本、参会 内容完全保留你原有文本，结构未改动 -->
+            <!-- 教学经历、获奖、项目 -->
             <section id="teaching">
                 <h2 data-lang="en">Teaching Assistant Experience</h2>
                 <h2 data-lang="zh" style="display: none;">教学经历</h2>
@@ -685,62 +884,138 @@
                 </ul>
             </section>
 
-            <!-- 期刊论文区域 -->
+            <!-- 期刊论文区域（优化完整版） -->
             <section id="publications">
                 <h2 data-lang="en">Peer-Reviewed Journal Publications</h2>
                 <h2 data-lang="zh" style="display: none;">正式发表期刊论文</h2>
-                <h3>2026</h3>
-                <div class="publication">
-                    <div class="publication-citation">
-                        <strong>Liang Z</strong>, Liao Q. <a href="https://ieeexplore.ieee.org/document/11514098" target="_blank" class="external-link">Four classes of LCD codes from (∗)-(L, P)-twisted generalized Reed-Solomon codes</a>[J].
-                        <strong style="color:#c41e3a;">IEEE Transactions on Information Theory</strong>, 2026.
+
+                <!-- 论文筛选按钮 -->
+                <div class="pub-filter-bar">
+                    <button class="filter-btn active" data-filter="all">All Papers</button>
+                    <button class="filter-btn" data-filter="coding">Coding Theory</button>
+                    <button class="filter-btn" data-filter="nt">Number Theory</button>
+                </div>
+
+                <div class="pub-year-group" data-year="2026">
+                    <h3>2026</h3>
+                    <!-- 论文1 IEEE TIT -->
+                    <div class="publication pub-online" data-cat="coding">
+                        <div class="pub-header-row">
+                            <div class="pub-tags">
+                                <span class="pub-tag">IEEE TIT</span>
+                                <span class="pub-tag">LCD Codes</span>
+                                <span class="pub-tag">GRS Codes</span>
+                            </div>
+                            <span class="pub-status-badge badge-online">Online Published</span>
+                        </div>
+                        <div class="publication-citation">
+                            <span class="self-author">Liang Z</span>, Liao Q. <a href="https://ieeexplore.ieee.org/document/11514098" target="_blank" class="external-link">Four classes of LCD codes from (∗)-(L, P)-twisted generalized Reed-Solomon codes</a>[J].
+                            <strong style="color:#c41e3a;">IEEE Transactions on Information Theory</strong>, 2026.
+                        </div>
+                        <div class="pub-buttons">
+                            <a href="https://pan.baidu.com/s/1y9ZlpNCP4Bqu4nvdLs1OfQ?pwd=ae4w" target="_blank" class="pub-btn download-link"><i class="fas fa-file-pdf"></i> Baidu Disk PDF</a>
+                            <button class="pub-btn cite-btn" onclick="copyCite(this)"><i class="fas fa-quote-right"></i> Copy Citation</button>
+                            <button class="pub-btn bib-btn" onclick="openBibModal(0)"><i class="fas fa-code"></i> BibTeX</button>
+                        </div>
                     </div>
-                    <div class="pub-buttons">
-                        <a href="https://pan.baidu.com/s/1y9ZlpNCP4Bqu4nvdLs1OfQ?pwd=ae4w" target="_blank" class="download-link"><i class="fas fa-file-pdf"></i> Baidu Disk PDF</a>
+
+                    <!-- 论文2 Discrete Mathematics -->
+                    <div class="publication pub-online" data-cat="coding">
+                        <div class="pub-header-row">
+                            <div class="pub-tags">
+                                <span class="pub-tag">Discrete Math.</span>
+                                <span class="pub-tag">Roth-Lempel Codes</span>
+                            </div>
+                            <span class="pub-status-badge badge-online">Online Published</span>
+                        </div>
+                        <div class="publication-citation">
+                            <span class="self-author">Liang Z</span>, Liao Q. <a href="https://www.sciencedirect.com/science/article/pii/S0012365X26001081" target="_blank" class="external-link">The extended code for a class of generalized Roth-Lempel codes and their properties</a>[J]. Discrete Mathematics. 2026,349(8):115084.
+                        </div>
+                        <div class="pub-buttons">
+                            <a href="https://pan.baidu.com/s/1nIPy-Ljew282hblRmYspXg?pwd=mksr" target="_blank" class="pub-btn download-link"><i class="fas fa-file-pdf"></i> Baidu Disk PDF</a>
+                            <button class="pub-btn cite-btn" onclick="copyCite(this)"><i class="fas fa-quote-right"></i> Copy Citation</button>
+                            <button class="pub-btn bib-btn" onclick="openBibModal(1)"><i class="fas fa-code"></i> BibTeX</button>
+                        </div>
+                    </div>
+
+                    <!-- 论文3 Finite Fields Appl. -->
+                    <div class="publication pub-online" data-cat="coding">
+                        <div class="pub-header-row">
+                            <div class="pub-tags">
+                                <span class="pub-tag">FFA</span>
+                                <span class="pub-tag">NMDS Codes</span>
+                            </div>
+                            <span class="pub-status-badge badge-online">Online Published</span>
+                        </div>
+                        <div class="publication-citation">
+                            <span class="self-author">Liang Z</span>, Liao Q. <a href="https://www.sciencedirect.com/science/article/pii/S1071579725002096" target="_blank" class="external-link">Two classes of NMDS codes from Roth-Lempel codes</a>[J]. Finite Fields Appl. 2026, 111:102779.
+                        </div>
+                        <div class="pub-buttons">
+                            <a href="https://pan.baidu.com/s/1Od6R-Kzi6neVADr8sOgRfQ?pwd=do41" target="_blank" class="pub-btn download-link"><i class="fas fa-file-pdf"></i> Baidu Disk PDF</a>
+                            <button class="pub-btn cite-btn" onclick="copyCite(this)"><i class="fas fa-quote-right"></i> Copy Citation</button>
+                            <button class="pub-btn bib-btn" onclick="openBibModal(2)"><i class="fas fa-code"></i> BibTeX</button>
+                        </div>
+                    </div>
+
+                    <!-- 论文4 Mathematica Bohemica 数论 -->
+                    <div class="publication pub-online" data-cat="nt">
+                        <div class="pub-header-row">
+                            <div class="pub-tags">
+                                <span class="pub-tag">Number Theory</span>
+                                <span class="pub-tag">Fibonacci</span>
+                            </div>
+                            <span class="pub-status-badge badge-online">Online Published</span>
+                        </div>
+                        <div class="publication-citation">
+                            Wan Y, <span class="self-author">Liang Z</span>, Liao Q. <a href="https://articles.math.cas.cz/10.21136/MB.2026.0161-25" target="_blank" class="external-link">The asymptotic estimation for two classes of generalized Fibonacci sub-sequences</a>[J]. Mathematica Bohemica. 2026.
+                        </div>
+                        <div class="pub-buttons">
+                            <a href="https://mbpapers.math.cas.cz/full/online1st/MB.2026.0161-25.pdf" target="_blank" class="pub-btn download-link"><i class="fas fa-file-pdf"></i> Official PDF</a>
+                            <button class="pub-btn cite-btn" onclick="copyCite(this)"><i class="fas fa-quote-right"></i> Copy Citation</button>
+                            <button class="pub-btn bib-btn" onclick="openBibModal(3)"><i class="fas fa-code"></i> BibTeX</button>
+                        </div>
                     </div>
                 </div>
-                <div class="publication">
-                    <div class="publication-citation">
-                        <strong>Liang Z</strong>, Liao Q. <a href="https://www.sciencedirect.com/science/article/pii/S0012365X26001081" target="_blank" class="external-link">The extended code for a class of generalized Roth-Lempel codes and their properties</a>[J]. Discrete Mathematics. 2026,349(8):115084.
-                    </div>
-                    <div class="pub-buttons">
-                        <a href="https://pan.baidu.com/s/1nIPy-Ljew282hblRmYspXg?pwd=mksr" target="_blank" class="download-link"><i class="fas fa-file-pdf"></i> Baidu Disk PDF</a>
-                    </div>
-                </div>
-                <div class="publication">
-                    <div class="publication-citation">
-                        <strong>Liang Z</strong>, Liao Q. <a href="https://www.sciencedirect.com/science/article/pii/S1071579725002096" target="_blank" class="external-link">Two classes of NMDS codes from Roth-Lempel codes</a>[J]. Finite Fields Appl. 2026, 111:102779.
-                    </div>
-                    <div class="pub-buttons">
-                        <a href="https://pan.baidu.com/s/1Od6R-Kzi6neVADr8sOgRfQ?pwd=do41" target="_blank" class="download-link"><i class="fas fa-file-pdf"></i> Baidu Disk PDF</a>
-                    </div>
-                </div>
-                <div class="publication">
-                    <div class="publication-citation">
-                        Wan Y, <strong>Liang Z</strong>, Liao Q. <a href="https://articles.math.cas.cz/10.21136/MB.2026.0161-25" target="_blank" class="external-link">The asymptotic estimation for two classes of generalized Fibonacci sub-sequences</a>[J]. Mathematica Bohemica. 2026.
-                    </div>
-                    <div class="pub-buttons">
-                        <a href="https://mbpapers.math.cas.cz/full/online1st/MB.2026.0161-25.pdf" target="_blank" class="download-link"><i class="fas fa-file-pdf"></i> Official PDF</a>
+
+                <div class="pub-year-group" data-year="2025">
+                    <h3>2025</h3>
+                    <div class="publication pub-online" data-cat="nt">
+                        <div class="pub-header-row">
+                            <div class="pub-tags">
+                                <span class="pub-tag">Prime Estimation</span>
+                            </div>
+                            <span class="pub-status-badge badge-online">Published</span>
+                        </div>
+                        <div class="publication-citation">
+                            <p data-lang="en"><span class="self-author">Liang Z</span>, Yang S C, Liao Q Y. Further refinement of estimates of $p_k$ and $\sum\limits_{k=1}^{n}kp_k$ true bounds[J]. College Mathematics, 2025, 41(01): 16–22.</p>
+                            <p data-lang="zh" style="display: none;"><span class="self-author">梁钟浩</span>,杨仕椿,廖群英. 关于 $p_k$、$\sum\limits_{k=1}^{n}kp_k$ 的确界估计的进一步精确[J].大学数学,2025,41(01):16-22.</p>
+                        </div>
+                        <div class="pub-buttons">
+                            <a href="https://pan.baidu.com/s/1A-vLMTAXJBk57OYN0oiZfw?pwd=6666" target="_blank" class="pub-btn download-link"><i class="fas fa-file-pdf"></i> Baidu Disk PDF</a>
+                            <button class="pub-btn cite-btn" onclick="copyCite(this)"><i class="fas fa-quote-right"></i> Copy Citation</button>
+                            <button class="pub-btn bib-btn" onclick="openBibModal(4)"><i class="fas fa-code"></i> BibTeX</button>
+                        </div>
                     </div>
                 </div>
-                <h3>2025</h3>
-                <div class="publication">
-                    <div class="publication-citation">
-                        <p data-lang="en"><strong>Liang Z</strong>, Yang S C, Liao Q Y. Further refinement of estimates of $p_k$ and $\sum\limits_{k=1}^{n}kp_k$ true bounds[J]. College Mathematics, 2025, 41(01): 16–22.</p>
-                        <p data-lang="zh" style="display: none;"><strong>梁钟浩</strong>,杨仕椿,廖群英. 关于 $p_k$、$\sum\limits_{k=1}^{n}kp_k$ 的确界估计的进一步精确[J].大学数学,2025,41(01):16-22.</p>
-                    </div>
-                    <div class="pub-buttons">
-                        <a href="https://pan.baidu.com/s/1A-vLMTAXJBk57OYN0oiZfw?pwd=6666" target="_blank" class="download-link"><i class="fas fa-file-pdf"></i> Baidu Disk PDF</a>
-                    </div>
-                </div>
-                <h3>2024</h3>
-                <div class="publication">
-                    <div class="publication-citation">
-                        <p data-lang="en"><strong>Liang Z</strong>, Yang S C. Further intensification of an inequality about the number of prime numbers[J]. Journal of Science of Teachers' College and University, 2024, 44(02): 6–8+14.</p>
-                        <p data-lang="zh" style="display: none;"><strong>梁钟浩</strong>,杨仕椿. 关于素数个数的一个不等式的加强[J].高师理科学刊,2024,44(02):6–8+14.</p>
-                    </div>
-                    <div class="pub-buttons">
-                        <a href="https://pan.baidu.com/s/1WRhJNXDFvCkKFzcYF_fFYA" target="_blank" class="download-link"><i class="fas fa-file-pdf"></i> Baidu Disk PDF</a>
+
+                <div class="pub-year-group" data-year="2024">
+                    <h3>2024</h3>
+                    <div class="publication pub-online" data-cat="nt">
+                        <div class="pub-header-row">
+                            <div class="pub-tags">
+                                <span class="pub-tag">Prime Inequality</span>
+                            </div>
+                            <span class="pub-status-badge badge-online">Published</span>
+                        </div>
+                        <div class="publication-citation">
+                            <p data-lang="en"><span class="self-author">Liang Z</span>, Yang S C. Further intensification of an inequality about the number of prime numbers[J]. Journal of Science of Teachers' College and University, 2024, 44(02): 6–8+14.</p>
+                            <p data-lang="zh" style="display: none;"><span class="self-author">梁钟浩</span>,杨仕椿. 关于素数个数的一个不等式的加强[J].高师理科学刊,2024,44(02):6–8+14.</p>
+                        </div>
+                        <div class="pub-buttons">
+                            <a href="https://pan.baidu.com/s/1WRhJNXDFvCkKFzcYF_fFYA" target="_blank" class="pub-btn download-link"><i class="fas fa-file-pdf"></i> Baidu Disk PDF</a>
+                            <button class="pub-btn cite-btn" onclick="copyCite(this)"><i class="fas fa-quote-right"></i> Copy Citation</button>
+                            <button class="pub-btn bib-btn" onclick="openBibModal(5)"><i class="fas fa-code"></i> BibTeX</button>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -749,197 +1024,327 @@
             <section id="preprints">
                 <h2 data-lang="en">ArXiv Preprints</h2>
                 <h2 data-lang="zh" style="display: none;">ArXiv 预印本论文</h2>
-                <h3>2026</h3>
-                <div class="publication">
-                    <div class="publication-citation">
-                        Yue Huang, <strong>Liang Z</strong>, Chenlu Jia, Yongkang Wan, Qunying Liao. Four classes of few-weight self-orthogonal codes and their applications for LCD codes and quantum codes. arXiv:2607.07181, 2026.
-                    </div>
-                    <div class="pub-buttons">
-                        <a href="https://arxiv.org/pdf/2607.07181" target="_blank" class="download-link"><i class="fas fa-file-pdf"></i> arXiv PDF</a>
-                    </div>
+                <div class="pub-filter-bar">
+                    <button class="filter-btn active" data-filter="all">All Preprints</button>
+                    <button class="filter-btn" data-filter="coding">Coding Theory</button>
+                    <button class="filter-btn" data-filter="nt">Number Theory</button>
                 </div>
-                <div class="publication">
-                    <div class="publication-citation">
-                        Chenlu Jia, <strong>Liang Z</strong>, Yue Huang, Qunying Liao. The Hermitian Hull Dimensions for a Class of (L,P)-Twisted Generalized Reed-Solomon Codes. arXiv:2607.03802, 2026.
-                    </div>
-                    <div class="pub-buttons">
-                        <a href="https://arxiv.org/pdf/2607.03802" target="_blank" class="download-link"><i class="fas fa-file-pdf"></i> arXiv PDF</a>
-                    </div>
-                </div>
-                <div class="publication">
-                    <div class="publication-citation">
-                        <strong>Liang Z</strong>, Liao Q, Zhang J, Li X. The MDS or NMDS for Modified GRS codes with flexible hull dimensions and lengths. arXiv:2606.25662v1, 2026.
-                    </div>
-                    <div class="pub-buttons">
-                        <a href="https://arxiv.org/pdf/2606.25662v1" target="_blank" class="download-link"><i class="fas fa-file-pdf"></i> arXiv PDF</a>
-                    </div>
-                </div>
-                <div class="publication">
-                    <div class="publication-citation">
-                        <strong>Liang Z</strong>, Huang D, Liao Q, et al. Non-GRS type Euclidean and Hermitian LCD codes and Their Applications for EAQECCs. arXiv:2603.16187, 2026.
-                    </div>
-                    <div class="pub-buttons">
-                        <a href="https://arxiv.org/pdf/2603.16187" target="_blank" class="download-link"><i class="fas fa-file-pdf"></i> arXiv PDF</a>
-                    </div>
-                </div>
-                <h3>2025</h3>
-                <div class="publication">
-                    <div class="publication-citation">
-                        <strong>Liang Z</strong>, Jia C, Huang D, Liao Q, Tang C. Multi-Twisted Generalized Reed-Solomon Codes: Structure, Properties, and Constructions. arXiv:2511.03398, 2025.
-                    </div>
-                    <div class="pub-buttons">
-                        <a href="https://arxiv.org/pdf/2511.03398.pdf" target="_blank" class="download-link"><i class="fas fa-file-pdf"></i> arXiv PDF</a>
-                    </div>
-                </div>
-                <div class="publication">
-                    <div class="publication-citation">
-                        Wan Y, <strong>Liang Z</strong>, Liao Q. The inverse of the alternating infinite sum of reciprocal weighted sums for generalized Fibonacci sub-sequences. arXiv:2509.14569, 2025.
-                    </div>
-                    <div class="pub-buttons">
-                        <a href="https://arxiv.org/pdf/2509.14569.pdf" target="_blank" class="download-link"><i class="fas fa-file-pdf"></i> arXiv PDF</a>
-                    </div>
-                </div>
-                <div class="publication">
-                    <div class="publication-citation">
-                        <strong>Liang Z</strong>, Liao Q. The equivalent condition for GRL codes to be MDS, AMDS or self-dual. arXiv:2506.03874, 2025.
-                    </div>
-                    <div class="pub-buttons">
-                        <a href="https://arxiv.org/pdf/2506.03874.pdf" target="_blank" class="download-link"><i class="fas fa-file-pdf"></i> arXiv PDF</a>
+
+                <div class="pub-year-group" data-year="2026">
+                    <h3>2026</h3>
+                    <div class="publication pub-arxiv" data-cat="coding">
+                        <div class="pub-header-row">
+                            <div class="pub-tags">
+                                <span class="pub-tag">Self-orthogonal Codes</span>
+                                <span class="pub-tag">Quantum Codes</span>
+                            </div>
+                            <span class="pub-status-badge badge-arxiv">arXiv Preprint</span>
+                        </div>
+                        <div class="publication-citation">
+                            Yue Huang, <span class="self-author">Liang Z</span>, Chenlu Jia, Yongkang Wan, Qunying Liao. Four classes of few-weight self-orthogonal codes and their applications for LCD codes and quantum codes. arXiv:2607.07181, 2026.
+                        </div>
+                        <div class="pub-buttons">
+                            <a href="https://arxiv.org/pdf/2607.07181" target="_blank" class="pub-btn download-link"><i class="fas fa-file-pdf"></i> arXiv PDF</a>
+                            <button class="pub-btn cite-btn" onclick="copyCite(this)"><i class="fas fa-quote-right"></i> Copy Citation</button>
+                            <button class="pub-btn bib-btn" onclick="openBibModal(6)"><i class="fas fa-code"></i> BibTeX</button>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 参会经历 -->
-            <section id="conference">
-                <h2 data-lang="en">Conference Participation</h2>
-                <h2 data-lang="zh" style="display: none;">学术会议参会经历</h2>
-                <ul>
-                    <li data-lang="en"><a href="http://ffa2026.inconvene.com/meeting/home" target="_blank" class="external-link">12th Workshop on Finite Fields and Their Applications (FFA 2026)</a></li>
-                    <li data-lang="zh" style="display: none;"><a href="http://ffa2026.inconvene.com/meeting/home" target="_blank" class="external-link">第十二届有限域及其应用研讨会 FFA2026</a></li>
-                </ul>
-                <div style="margin:20px 0;">
-                    <img src="2026FFA1.jpg" loading="lazy" style="width:31%;margin:6px;cursor:pointer;" onclick="openImageModal(this.src)">
-                    <img src="2026FFA2.jpg" loading="lazy" style="width:31%;margin:6px;cursor:pointer;" onclick="openImageModal(this.src)">
-                    <img src="2026FFA4.jpg" loading="lazy" style="width:31%;margin:6px;cursor:pointer;" onclick="openImageModal(this.src)">
-                </div>
-            </section>
+<!-- 参会交流板块（修复截断英文语句） -->
+<section id="conference">
+    <h2 data-lang="en">Conference Presentations & Academic Exchanges</h2>
+    <h2 data-lang="zh" style="display: none;">学术会议与交流</h2>
+    <div style="line-height:1.8;">
+        <p data-lang="en">
+            I have participated in numerous domestic conferences focused on finite fields and coding theory. I attended cutting-edge academic lectures, exchanged research ideas with scholars specializing in algebraic coding and number theory, and presented partial findings via poster presentations at several annual conferences on algebraic combinatorics and coding theory.
+        </p>
+        <p data-lang="zh" style="display: none;">
+            多次参与国内有限域与编码理论相关学术会议，聆听领域前沿学术报告，与代数编码、数论方向同行学者交流研讨；在多届代数组合与编码理论学术年会上以海报形式汇报阶段性研究成果。
+        </p>
+        <div style="margin-top: 24px; display: flex; gap: 16px; flex-wrap: wrap;">
+            <!-- 预留会议照片位置，可自行替换图片地址 -->
+            <img src="conf1.jpg" style="width: 32%; border-radius: var(--radius-md); cursor: pointer;" onclick="openImgModal(this.src)" loading="lazy">
+            <img src="conf2.jpg" style="width: 32%; border-radius: var(--radius-md); cursor: pointer;" onclick="openImgModal(this.src)" loading="lazy">
+            <img src="conf3.jpg" style="width: 32%; border-radius: var(--radius-md); cursor: pointer;" onclick="openImgModal(this.src)" loading="lazy">
+        </div>
+    </div>
+</section>
 
             <!-- 页脚 -->
             <footer>
-                <p>Last Updated: August 2026 | Powered by HTML5 & CSS3</p>
-                <p data-lang="en">© 2026 Zhonghao Liang. All rights reserved.</p>
-                <p data-lang="zh" style="display: none;">© 2026 梁钟浩 保留所有权利</p>
+                <p data-lang="en">© 2024–2026 Zhonghao Liang | All Rights Reserved</p>
+                <p data-lang="zh" style="display: none;">© 2024–2026 梁钟浩 版权所有</p>
+                <p style="margin-top:8px; font-size:0.85rem;">
+                    Powered by HTML/CSS/JS · MathJax Rendering
+                </p>
             </footer>
         </main>
     </div>
 
-    <!-- 图片弹窗 -->
-    <div id="imageModal">
-        <span class="modal-close" onclick="closeImageModal()">&times;</span>
-        <i class="fas fa-chevron-left modal-arrow arrow-left" onclick="prevImg()"></i>
-        <img id="modalImage" src="">
-        <i class="fas fa-chevron-right modal-arrow arrow-right" onclick="nextImg()"></i>
+    <!-- BibTeX 弹窗容器 -->
+    <div class="bib-modal" id="bibModal">
+        <div class="bib-box">
+            <div class="bib-top-bar">
+                <h3>BibTeX Citation</h3>
+                <span class="bib-close" onclick="closeBibModal()">&times;</span>
+            </div>
+            <pre class="bib-code" id="bibContent"></pre>
+            <button class="bib-copy-btn" onclick="copyBibtex()">Copy BibTeX to Clipboard</button>
+        </div>
     </div>
 
+    <!-- 图片预览弹窗 -->
+    <div id="imageModal">
+        <span class="modal-close" onclick="closeImgModal()">&times;</span>
+        <img id="modalImage" src="" alt="Conference Photo">
+    </div>
+
+    <!-- 复制成功Toast提示 -->
+    <div class="toast" id="toastTip">Copied Successfully!</div>
+
     <!-- 返回顶部按钮 -->
-    <button class="back-top" id="backTop"><i class="fas fa-arrow-up fa-lg"></i></button>
+    <button class="back-top" id="backTopBtn"><i class="fas fa-arrow-up"></i></button>
 
     <script>
-        // ========== 全局变量 ==========
-        const btnEn = document.getElementById('langEn');
-        const btnZh = document.getElementById('langZh');
+        // ====================== 1. 双语切换逻辑 ======================
+        const langEnBtn = document.getElementById('langEn');
+        const langZhBtn = document.getElementById('langZh');
+        const allLangEn = document.querySelectorAll('[data-lang="en"]');
+        const allLangZh = document.querySelectorAll('[data-lang="zh"]');
+
+        function switchLang(isEn) {
+            if (isEn) {
+                allLangEn.forEach(el => el.style.display = 'block');
+                allLangZh.forEach(el => el.style.display = 'none');
+                langEnBtn.classList.add('active');
+                langZhBtn.classList.remove('active');
+                localStorage.setItem('siteLang', 'en');
+            } else {
+                allLangEn.forEach(el => el.style.display = 'none');
+                allLangZh.forEach(el => el.style.display = 'block');
+                langZhBtn.classList.add('active');
+                langEnBtn.classList.remove('active');
+                localStorage.setItem('siteLang', 'zh');
+            }
+        }
+        langEnBtn.onclick = () => switchLang(true);
+        langZhBtn.onclick = () => switchLang(false);
+
+        // 读取本地存储语言偏好
+        const savedLang = localStorage.getItem('siteLang');
+        if(savedLang === 'zh') switchLang(false);
+
+        // ====================== 2. 暗黑/亮色主题切换 ======================
         const themeToggle = document.getElementById('themeToggle');
-        const allLangItems = document.querySelectorAll('[data-lang]');
-        const navLinks = document.querySelectorAll('.nav-link');
-        const sections = document.querySelectorAll('section[id]');
-        const sidebar = document.querySelector('.sidebar');
+        const body = document.body;
+        const moonIcon = '<i class="fas fa-moon"></i>';
+        const sunIcon = '<i class="fas fa-sun"></i>';
+
+        function toggleTheme() {
+            if(body.dataset.theme === 'light') {
+                body.dataset.theme = 'dark';
+                themeToggle.innerHTML = sunIcon;
+                localStorage.setItem('siteTheme', 'dark');
+            } else {
+                body.dataset.theme = 'light';
+                themeToggle.innerHTML = moonIcon;
+                localStorage.setItem('siteTheme', 'light');
+            }
+        }
+        themeToggle.onclick = toggleTheme;
+
+        // 读取本地存储主题
+        const savedTheme = localStorage.getItem('siteTheme');
+        if(savedTheme === 'dark') {
+            body.dataset.theme = 'dark';
+            themeToggle.innerHTML = sunIcon;
+        }
+
+        // ====================== 3. 移动端侧边栏开关 ======================
         const menuToggle = document.querySelector('.menu-toggle');
-        const backTopBtn = document.getElementById('backTop');
-        const imgSources = ["2026FFA1.jpg","2026FFA2.jpg","2026FFA4.jpg"];
-        let currentImgIdx = 0;
-
-        // ========== 1. 语言切换 + 本地存储持久化 ==========
-        function setLanguage(lang) {
-            allLangItems.forEach(el => {
-                el.style.display = el.dataset.lang === lang ? '' : 'none';
-            });
-            btnEn.classList.toggle('active', lang === 'en');
-            btnZh.classList.toggle('active', lang === 'zh');
-            localStorage.setItem('homepageLang', lang);
-        }
-        btnEn.onclick = () => setLanguage('en');
-        btnZh.onclick = () => setLanguage('zh');
-        // 读取上次语言
-        const savedLang = localStorage.getItem('homepageLang') || 'en';
-        setLanguage(savedLang);
-
-        // ========== 2. 明暗主题切换 ==========
-        function setTheme(theme) {
-            document.body.dataset.theme = theme;
-            themeToggle.innerHTML = theme === 'light' ? '<i class="fas fa-moon"></i>' : '<i class="fas fa-sun"></i>';
-            localStorage.setItem('homepageTheme', theme);
-        }
-        themeToggle.onclick = () => {
-            const curr = document.body.dataset.theme;
-            setTheme(curr === 'light' ? 'dark' : 'light');
-        };
-        const savedTheme = localStorage.getItem('homepageTheme') || 'light';
-        setTheme(savedTheme);
-
-        // ========== 3. 移动端侧边栏：点击导航自动关闭 ==========
+        const sidebar = document.querySelector('.sidebar');
         menuToggle.onclick = () => sidebar.classList.toggle('show');
-        navLinks.forEach(link => {
-            link.addEventListener('click', () => {
+
+        // 点击导航链接关闭移动端侧边栏
+        document.querySelectorAll('.nav-link').forEach(link => {
+            link.onclick = () => {
                 if(window.innerWidth <= 900) sidebar.classList.remove('show');
-            })
+            }
         })
 
-        // ========== 4. 滚动导航高亮 + 返回顶部显示 ==========
-        function scrollHandler() {
-            // 导航高亮
-            let currentId = '';
-            sections.forEach(sec => {
-                const top = sec.offsetTop - 140;
-                if(window.scrollY >= top) currentId = sec.id;
-            })
-            navLinks.forEach(link => {
-                link.classList.toggle('active', link.getAttribute('href') === `#${currentId}`);
-            })
-            // 返回顶部按钮
-            backTopBtn.classList.toggle('show', window.scrollY > 400);
-        }
-        window.addEventListener('scroll', scrollHandler);
-        backTopBtn.onclick = () => window.scrollTo({top:0, behavior:'smooth'});
+        // ====================== 4. 论文分类筛选 ======================
+        const filterBtns = document.querySelectorAll('.filter-btn');
+        const allPubs = document.querySelectorAll('.publication');
 
-        // ========== 5. 图片弹窗完整功能 ==========
-        function openImageModal(src) {
-            currentImgIdx = imgSources.indexOf(src);
-            document.getElementById('modalImage').src = src;
-            document.getElementById('imageModal').style.display = 'flex';
+        filterBtns.forEach(btn => {
+            btn.onclick = () => {
+                // 切换按钮激活态
+                filterBtns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filterType = btn.dataset.filter;
+
+                allPubs.forEach(pub => {
+                    if(filterType === 'all' || pub.dataset.cat === filterType) {
+                        pub.style.display = 'flex';
+                    } else {
+                        pub.style.display = 'none';
+                    }
+                })
+            }
+        })
+
+        // ====================== 5. BibTeX 全套内容库（按论文顺序对应） ======================
+        const bibTexList = [
+// 0: IEEE TIT 2026
+`@article{liang2026four,
+  title={Four classes of LCD codes from (*)-(L, P)-twisted generalized Reed-Solomon codes},
+  author={Liang, Zhonghao and Liao, Qunying},
+  journal={IEEE Transactions on Information Theory},
+  year={2026},
+  publisher={IEEE}
+}`,
+// 1: Discrete Mathematics 2026
+`@article{liang2026extended,
+  title={The extended code for a class of generalized Roth-Lempel codes and their properties},
+  author={Liang, Zhonghao and Liao, Qunying},
+  journal={Discrete Mathematics},
+  volume={349},
+  number={8},
+  pages={115084},
+  year={2026},
+  publisher={Elsevier}
+}`,
+// 2: Finite Fields and Their Applications 2026
+`@article{liang2026twoclasses,
+  title={Two classes of NMDS codes from Roth-Lempel codes},
+  author={Liang, Zhonghao and Liao, Qunying},
+  journal={Finite Fields and Their Applications},
+  volume={111},
+  pages={102779},
+  year={2026},
+  publisher={Elsevier}
+}`,
+// 3: Mathematica Bohemica
+`@article{wan2026asymptotic,
+  title={The asymptotic estimation for two classes of generalized Fibonacci sub-sequences},
+  author={Wan, Yongkang and Liang, Zhonghao and Liao, Qunying},
+  journal={Mathematica Bohemica},
+  year={2026}
+}`,
+// 4: 大学数学 2025
+`@article{liang2025primebound,
+  title={Further refinement of estimates of $p_k$ and $\sum_{k=1}^{n}kp_k$ true bounds},
+  author={Liang, Zhonghao and Yang, Shichun and Liao, Qunying},
+  journal={College Mathematics},
+  volume={41},
+  number={1},
+  pages={16--22},
+  year={2025}
+}`,
+// 5: 高师理科学刊 2024
+`@article{liang2024primeineq,
+  title={Further intensification of an inequality about the number of prime numbers},
+  author={Liang, Zhonghao and Yang, Shichun},
+  journal={Journal of Science of Teachers' College and University},
+  volume={44},
+  number={2},
+  pages={6--8,14},
+  year={2024}
+}`,
+// 6: arXiv预印本
+`@misc{huang2026fewweight,
+  title={Four classes of few-weight self-orthogonal codes and their applications for LCD codes and quantum codes},
+  author={Huang, Yue and Liang, Zhonghao and Jia, Chenlu and Wan, Yongkang and Liao, Qunying},
+  year={2026},
+  eprint={2607.07181},
+  archivePrefix={arXiv},
+  primaryClass={cs.IT}
+}`
+        ];
+
+        let currentBibText = "";
+        const bibModal = document.getElementById('bibModal');
+        const bibContentBox = document.getElementById('bibContent');
+
+        // 打开Bib弹窗
+        function openBibModal(index) {
+            currentBibText = bibTexList[index];
+            bibContentBox.textContent = currentBibText;
+            bibModal.style.display = 'flex';
             document.body.style.overflow = 'hidden';
         }
-        function closeImageModal() {
-            document.getElementById('imageModal').style.display = 'none';
+        // 关闭Bib弹窗
+        function closeBibModal() {
+            bibModal.style.display = 'none';
             document.body.style.overflow = '';
         }
-        function prevImg() {
-            currentImgIdx = (currentImgIdx - 1 + imgSources.length) % imgSources.length;
-            document.getElementById('modalImage').src = imgSources[currentImgIdx];
+        // 复制BibTeX文本
+        async function copyBibtex() {
+            await navigator.clipboard.writeText(currentBibText);
+            showToast();
         }
-        function nextImg() {
-            currentImgIdx = (currentImgIdx + 1) % imgSources.length;
-            document.getElementById('modalImage').src = imgSources[currentImgIdx];
+        // 点击弹窗背景关闭
+        bibModal.onclick = (e) => {
+            if(e.target === bibModal) closeBibModal();
         }
-        // ESC关闭弹窗
-        document.addEventListener('keydown', e => {
-            if(e.key === 'Escape') closeImageModal();
-            if(e.key === 'ArrowLeft') prevImg();
-            if(e.key === 'ArrowRight') nextImg();
+
+        // ====================== 6. 复制引用文本 ======================
+        function copyCite(btnDom) {
+            const citationText = btnDom.closest('.publication-citation').innerText.trim();
+            navigator.clipboard.writeText(citationText).then(()=>showToast());
+        }
+
+        // ====================== 7. Toast复制成功提示 ======================
+        const toast = document.getElementById('toastTip');
+        function showToast() {
+            toast.classList.add('show');
+            setTimeout(()=>toast.classList.remove('show'), 2200);
+        }
+
+        // ====================== 8. 图片预览弹窗 ======================
+        const imgModal = document.getElementById('imageModal');
+        const modalImg = document.getElementById('modalImage');
+        function openImgModal(src) {
+            modalImg.src = src;
+            imgModal.style.display = 'flex';
+            document.body.style.overflow = 'hidden';
+        }
+        function closeImgModal() {
+            imgModal.style.display = 'none';
+            document.body.style.overflow = '';
+        }
+        imgModal.onclick = (e) => {
+            if(e.target === imgModal) closeImgModal();
+        }
+
+        // ====================== 9. 返回顶部按钮 ======================
+        const backTopBtn = document.getElementById('backTopBtn');
+        window.onscroll = () => {
+            if(window.scrollY > 350) {
+                backTopBtn.classList.add('show');
+            } else {
+                backTopBtn.classList.remove('show');
+            }
+        }
+        backTopBtn.onclick = () => window.scrollTo({top:0, behavior:'smooth'});
+
+        // ====================== 10. 滚动监听侧边导航高亮 ======================
+        const sections = document.querySelectorAll('section[id]');
+        const navLinks = document.querySelectorAll('.nav-link');
+        window.addEventListener('scroll', ()=>{
+            let current = '';
+            sections.forEach(sec => {
+                const secTop = sec.offsetTop - 120;
+                const secHeight = sec.offsetHeight;
+                if(window.scrollY >= secTop) current = sec.getAttribute('id');
+            })
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if(link.getAttribute('href') === `#${current}`) link.classList.add('active');
+            })
         })
-        // 点击背景关闭
-        document.getElementById('imageModal').addEventListener('click', e => {
-            if(e.target.id === 'imageModal') closeImageModal();
-        });
     </script>
 </body>
 </html>
