@@ -6,10 +6,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <title>Zhonghao Liang · Academic Profile</title>
-    
+
     <link rel="preconnect" href="https://cdn.jsdelivr.net">
     <link rel="preconnect" href="https://cdnjs.cloudflare.com">
-    
+
     <script>
         window.MathJax = {
             tex: {
@@ -36,9 +36,9 @@
         };
     </script>
     <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
-    
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-    
+
     <style>
         :root {
             --primary-color: #2c3e50;
@@ -58,14 +58,14 @@
             --border-radius-md: 6px;
             --border-radius-lg: 8px;
         }
-        
+
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
             font-family: "Times New Roman", Georgia, "SimSun", "STSong", serif;
         }
-        
+
         body {
             line-height: 1.7;
             color: var(--text-color);
@@ -79,10 +79,15 @@
         a {
             text-decoration: none !important;
         }
-        
-        .mjx-chtml { visibility: hidden; }
-        .MathJax_Display { visibility: visible !important; }
-        
+
+        .mjx-chtml {
+            visibility: hidden;
+        }
+
+        .MathJax_Display {
+            visibility: visible !important;
+        }
+
         .language-switcher {
             position: fixed;
             top: 15px;
@@ -95,7 +100,7 @@
             border-radius: var(--border-radius-md);
             box-shadow: var(--shadow);
         }
-        
+
         .lang-btn {
             padding: 6px 14px;
             border: none;
@@ -108,17 +113,17 @@
             font-size: 0.9rem;
             pointer-events: auto;
         }
-        
+
         .lang-btn.active {
             background-color: var(--accent-color);
             color: white;
         }
-        
+
         .lang-btn:hover:not(.active) {
             background-color: var(--accent-light);
             color: var(--accent-color);
         }
-        
+
         .container {
             display: flex;
             min-height: 100vh;
@@ -126,7 +131,7 @@
             max-width: 1920px;
             margin: 0 auto;
         }
-        
+
         .sidebar {
             width: 240px;
             background-color: var(--light-bg);
@@ -142,16 +147,16 @@
             scrollbar-width: thin;
             scrollbar-color: var(--accent-color) transparent;
         }
-        
+
         .sidebar::-webkit-scrollbar {
             width: 6px;
         }
-        
+
         .sidebar::-webkit-scrollbar-thumb {
             background-color: var(--accent-color);
             border-radius: var(--border-radius-sm);
         }
-        
+
         .menu-toggle {
             display: none;
             position: fixed;
@@ -170,7 +175,7 @@
             justify-content: center;
             transition: var(--transition-fast);
         }
-        
+
         .menu-title {
             font-size: 1.2rem;
             font-weight: bold;
@@ -179,11 +184,11 @@
             padding-bottom: 10px;
             border-bottom: 1px solid var(--border-color);
         }
-        
+
         .menu-item {
             margin: 12px 0;
         }
-        
+
         .menu-item a {
             color: var(--primary-color);
             text-decoration: none;
@@ -194,18 +199,19 @@
             padding: 8px 12px;
             border-radius: var(--border-radius-sm);
         }
-        
-        .menu-item a:hover, .menu-item a.active {
+
+        .menu-item a:hover,
+        .menu-item a.active {
             color: var(--accent-color);
             background-color: var(--accent-light);
         }
-        
+
         .menu-item i {
             margin-right: 10px;
             width: 20px;
             text-align: center;
         }
-        
+
         .main-content {
             flex: 1;
             padding: 40px 40px 40px 50px;
@@ -213,7 +219,7 @@
             max-width: calc(100% - 240px);
             min-width: 0;
         }
-        
+
         h1 {
             color: var(--primary-color);
             margin-bottom: 25px;
@@ -222,7 +228,7 @@
             font-size: 2.2rem;
             font-weight: 700;
         }
-        
+
         h2 {
             color: var(--primary-color);
             margin: 40px 0 20px;
@@ -243,7 +249,7 @@
             color: var(--primary-color);
             letter-spacing: 0.5px;
         }
-        
+
         .profile-header {
             display: flex;
             align-items: flex-start;
@@ -252,21 +258,21 @@
             padding-bottom: 30px;
             border-bottom: 1px solid var(--border-color);
         }
-        
+
         .profile-photo {
             width: 180px;
             height: auto;
             border-radius: var(--border-radius-lg);
             box-shadow: var(--shadow);
         }
-        
+
         .info-item {
             margin: 10px 0;
             display: flex;
             align-items: flex-start;
             padding: 5px 0;
         }
-        
+
         .info-item i {
             color: var(--accent-color);
             width: 24px;
@@ -274,19 +280,33 @@
             margin-top: 3px;
             font-size: 1.1em;
         }
-        
+
         .info-item a {
             color: var(--accent-color);
         }
-        
+
         ul {
             margin-left: 25px;
             margin-bottom: 25px;
         }
-        
+
         li {
             margin: 12px 0;
             padding-left: 10px;
+        }
+
+        /*
+         * 自动编号：
+         * 已发表论文和预印本各自从 1 开始。
+         * 计数器在整个栏目上重置，因此跨年份连续递增。
+         */
+        #publications,
+        #preprints {
+            counter-reset: paper;
+        }
+
+        .pub-list > li {
+            counter-increment: paper;
         }
 
         .pub-list {
@@ -309,7 +329,9 @@
             border-bottom: none;
         }
 
-        .pub-number {
+        /* 自动显示 [1]、[2]、[3] 等编号 */
+        .pub-list > li::before {
+            content: "[" counter(paper) "]";
             display: inline-block;
             min-width: 2.2em;
             font-weight: 600;
@@ -395,10 +417,12 @@
             justify-content: center;
             align-items: center;
         }
+
         #modalImage {
             max-width: 90%;
             max-height: 90vh;
         }
+
         .close-image-modal {
             position: absolute;
             top: 20px;
@@ -412,6 +436,7 @@
             .container {
                 flex-direction: column;
             }
+
             .sidebar {
                 width: 100%;
                 position: fixed;
@@ -421,26 +446,31 @@
                 display: none;
                 z-index: 150;
             }
+
             .sidebar.show {
                 display: block;
             }
+
             .menu-toggle {
                 display: flex;
                 top: 15px;
                 left: 15px;
                 z-index: 200;
             }
+
             .language-switcher {
                 top: 15px;
                 right: 15px;
                 z-index: 200;
             }
+
             .main-content {
                 width: 100% !important;
                 max-width: 100% !important;
                 padding: 80px 15px 30px 15px !important;
                 margin: 0 auto;
             }
+
             .profile-header {
                 flex-direction: column;
                 align-items: center;
@@ -448,42 +478,52 @@
                 gap: 20px;
                 padding: 0 10px 20px;
             }
+
             .profile-photo {
                 width: 150px;
                 max-width: 100%;
             }
+
             h1 {
                 font-size: 1.8rem;
                 text-align: center;
             }
+
             h2 {
                 font-size: 1.4rem;
                 margin: 30px 0 15px;
             }
+
             .year-heading {
                 font-size: 1.1rem;
                 padding: 5px 14px;
             }
+
             ul {
                 margin-left: 18px;
                 padding-right: 10px;
             }
+
             li {
                 padding-left: 5px;
             }
+
             .pub-list li {
                 padding: 12px 0;
                 flex-wrap: wrap;
             }
-            .pub-number {
+
+            .pub-list > li::before {
                 min-width: 2.2em;
                 margin-right: 4px;
             }
+
             .pub-downloads {
                 margin-left: 0;
                 margin-top: 4px;
                 width: 100%;
             }
+
             img[src*="FFA"] {
                 width: 48% !important;
                 margin: 5px 0 !important;
@@ -494,19 +534,24 @@
             .main-content {
                 padding: 75px 10px 20px 10px !important;
             }
+
             h1 {
                 font-size: 1.6rem;
             }
+
             h2 {
                 font-size: 1.3rem;
             }
+
             .year-heading {
                 font-size: 1rem;
                 padding: 4px 12px;
             }
+
             .profile-photo {
                 width: 130px;
             }
+
             img[src*="FFA"] {
                 width: 100% !important;
                 margin: 5px 0 !important;
@@ -520,13 +565,15 @@
         <button id="langZh" class="lang-btn">中文</button>
     </div>
 
-    <button class="menu-toggle"><i class="fas fa-bars"></i></button>
-    
+    <button class="menu-toggle">
+        <i class="fas fa-bars"></i>
+    </button>
+
     <div class="container">
         <aside class="sidebar">
             <div class="menu-title" data-lang="en">Navigation</div>
             <div class="menu-title" data-lang="zh" style="display: none;">导航菜单</div>
-            
+
             <div class="menu-item">
                 <a href="#home" class="active">
                     <i class="fas fa-home"></i>
@@ -534,6 +581,7 @@
                     <span data-lang="zh" style="display: none;">首页</span>
                 </a>
             </div>
+
             <div class="menu-item">
                 <a href="#education">
                     <i class="fas fa-graduation-cap"></i>
@@ -541,20 +589,23 @@
                     <span data-lang="zh" style="display: none;">教育背景</span>
                 </a>
             </div>
+
             <div class="menu-item">
                 <a href="#research">
                     <i class="fas fa-flask"></i>
                     <span data-lang="en">Research Interests</span>
                     <span data-lang="zh" style="display: none;">研究方向</span>
                 </a>
-            </div>                
+            </div>
+
             <div class="menu-item">
                 <a href="#teaching">
                     <i class="fas fa-chalkboard-teacher"></i>
                     <span data-lang="en">Teaching Experience</span>
                     <span data-lang="zh" style="display: none;">教学经历</span>
                 </a>
-            </div> 
+            </div>
+
             <div class="menu-item">
                 <a href="#awards">
                     <i class="fas fa-trophy"></i>
@@ -562,6 +613,7 @@
                     <span data-lang="zh" style="display: none;">获奖荣誉</span>
                 </a>
             </div>
+
             <div class="menu-item">
                 <a href="#projects">
                     <i class="fas fa-project-diagram"></i>
@@ -569,6 +621,7 @@
                     <span data-lang="zh" style="display: none;">主持/参与的项目</span>
                 </a>
             </div>
+
             <div class="menu-item">
                 <a href="#publications">
                     <i class="fas fa-file-alt"></i>
@@ -576,6 +629,7 @@
                     <span data-lang="zh" style="display: none;">已发表论文</span>
                 </a>
             </div>
+
             <div class="menu-item">
                 <a href="#preprints">
                     <i class="fas fa-file-export"></i>
@@ -583,6 +637,7 @@
                     <span data-lang="zh" style="display: none;">预印本</span>
                 </a>
             </div>
+
             <div class="menu-item">
                 <a href="#conference">
                     <i class="fas fa-images"></i>
@@ -590,6 +645,7 @@
                     <span data-lang="zh" style="display: none;">参会经历</span>
                 </a>
             </div>
+
             <div class="menu-item">
                 <a href="#services">
                     <i class="fas fa-user-check" aria-hidden="true"></i>
@@ -602,15 +658,24 @@
         <main class="main-content">
             <section id="home">
                 <div class="profile-header">
-                    <img src="zhl.jpg" alt="Zhonghao Liang" class="profile-photo" loading="lazy" onerror="this.style.display='none'"/>
+                    <img
+                        src="zhl.jpg"
+                        alt="Zhonghao Liang"
+                        class="profile-photo"
+                        loading="lazy"
+                        onerror="this.style.display='none'"
+                    />
+
                     <div class="profile-info">
                         <h1 data-lang="en">Zhonghao Liang</h1>
-                        <h1 data-lang="zh" style="display: none;">梁钟浩</h1> 
+                        <h1 data-lang="zh" style="display: none;">梁钟浩</h1>
+
                         <div class="info-item">
                             <i class="fas fa-user-graduate"></i>
                             <span data-lang="en">Master's degree in progress</span>
                             <span data-lang="zh" style="display: none;">硕士研究生（在读）</span>
                         </div>
+
                         <div class="info-item">
                             <i class="fas fa-university"></i>
                             <span data-lang="en">
@@ -624,9 +689,12 @@
                                 中国 四川省 成都市
                             </span>
                         </div>
+
                         <div class="info-item">
                             <i class="fas fa-envelope"></i>
-                            <span><a href="mailto:liangzhongh0807@163.com" target="_blank">liangzhongh0807@163.com</a></span>
+                            <span>
+                                <a href="mailto:liangzhongh0807@163.com" target="_blank">liangzhongh0807@163.com</a>
+                            </span>
                         </div>
                     </div>
                 </div>
@@ -635,26 +703,45 @@
             <section id="education">
                 <h2 data-lang="en">Education Background</h2>
                 <h2 data-lang="zh" style="display: none;">教育背景</h2>
+
                 <ul>
                     <li>
-                        <p data-lang="en"><strong>Bachelor of Science in Mathematics</strong><br>
-                        <a href="https://sj.abtu.edu.cn/" target="_blank">School of Mathematics,</a> <a href="https://www.abtu.edu.cn/" target="_blank">Aba Teachers University</a>, Wenchuan, Sichuan<br>
-                        September 2019 – June 2023<br>
-                        Supervisor: <a href="https://sj.abtu.edu.cn/info/1049/4838.htm" target="_blank">Prof. Shichun Yang</a></p>
-                        <p data-lang="zh" style="display: none;"><strong>数学理学学士</strong><br>
-                        <a href="https://sj.abtu.edu.cn/" target="_blank">数学学院,</a> <a href="https://www.abtu.edu.cn/" target="_blank">阿坝师范学院</a>，四川 汶川<br>
-                        2019年9月 – 2023年6月<br>
-                        指导教师: <a href="https://sj.abtu.edu.cn/info/1049/4838.htm" target="_blank">杨仕椿 教授</a></p>
+                        <p data-lang="en">
+                            <strong>Bachelor of Science in Mathematics</strong><br>
+                            <a href="https://sj.abtu.edu.cn/" target="_blank">School of Mathematics,</a>
+                            <a href="https://www.abtu.edu.cn/" target="_blank">Aba Teachers University</a>,
+                            Wenchuan, Sichuan<br>
+                            September 2019 – June 2023<br>
+                            Supervisor:
+                            <a href="https://sj.abtu.edu.cn/info/1049/4838.htm" target="_blank">Prof. Shichun Yang</a>
+                        </p>
+                        <p data-lang="zh" style="display: none;">
+                            <strong>数学理学学士</strong><br>
+                            <a href="https://sj.abtu.edu.cn/" target="_blank">数学学院,</a>
+                            <a href="https://www.abtu.edu.cn/" target="_blank">阿坝师范学院</a>，四川 汶川<br>
+                            2019年9月 – 2023年6月<br>
+                            指导教师:
+                            <a href="https://sj.abtu.edu.cn/info/1049/4838.htm" target="_blank">杨仕椿 教授</a>
+                        </p>
                     </li>
+
                     <li>
-                        <p data-lang="en"><strong>Master's degree in progress</strong><br>
-                        <a href="https://msi.sicnu.edu.cn/" target="_blank">School of Mathematical Sciences</a>, <a href="https://www.sicnu.edu.cn/" target="_blank">Sichuan Normal University</a><br>
-                        September 2024 – Present<br>
-                        Supervisor: <a href="http://139.155.71.72:81/HomePage.aspx?ID=44" target="_blank">Prof. Qunying Liao</a></p>
-                        <p data-lang="zh" style="display: none;"><strong>硕士研究生（在读）</strong><br>
-                        <a href="https://msi.sicnu.edu.cn/" target="_blank">数学科学学院</a>，<a href="https://www.sicnu.edu.cn/" target="_blank">四川师范大学</a><br>
-                        2024年9月 – 至今<br>
-                        指导教师: <a href="http://139.155.71.72:81/HomePage.aspx?ID=44" target="_blank">廖群英 教授</a></p>
+                        <p data-lang="en">
+                            <strong>Master's degree in progress</strong><br>
+                            <a href="https://msi.sicnu.edu.cn/" target="_blank">School of Mathematical Sciences</a>,
+                            <a href="https://www.sicnu.edu.cn/" target="_blank">Sichuan Normal University</a><br>
+                            September 2024 – Present<br>
+                            Supervisor:
+                            <a href="http://139.155.71.72:81/HomePage.aspx?ID=44" target="_blank">Prof. Qunying Liao</a>
+                        </p>
+                        <p data-lang="zh" style="display: none;">
+                            <strong>硕士研究生（在读）</strong><br>
+                            <a href="https://msi.sicnu.edu.cn/" target="_blank">数学科学学院</a>，
+                            <a href="https://www.sicnu.edu.cn/" target="_blank">四川师范大学</a><br>
+                            2024年9月 – 至今<br>
+                            指导教师:
+                            <a href="http://139.155.71.72:81/HomePage.aspx?ID=44" target="_blank">廖群英 教授</a>
+                        </p>
                     </li>
                 </ul>
             </section>
@@ -662,14 +749,24 @@
             <section id="research">
                 <h2 data-lang="en">Research Interests</h2>
                 <h2 data-lang="zh" style="display: none;">研究方向</h2>
+
                 <ul>
                     <li>
-                        <p data-lang="en"><strong>Algebraic Coding Theory over Finite Fields</strong></p>
-                        <p data-lang="zh" style="display: none;"><strong>有限域上的代数编码理论</strong></p>
+                        <p data-lang="en">
+                            <strong>Algebraic Coding Theory over Finite Fields</strong>
+                        </p>
+                        <p data-lang="zh" style="display: none;">
+                            <strong>有限域上的代数编码理论</strong>
+                        </p>
                     </li>
+
                     <li>
-                        <p data-lang="en"><strong>Elementary Number Theory</strong></p>
-                        <p data-lang="zh" style="display: none;"><strong>初等数论</strong></p>
+                        <p data-lang="en">
+                            <strong>Elementary Number Theory</strong>
+                        </p>
+                        <p data-lang="zh" style="display: none;">
+                            <strong>初等数论</strong>
+                        </p>
                     </li>
                 </ul>
             </section>
@@ -677,124 +774,179 @@
             <section id="teaching">
                 <h2 data-lang="en">Teaching Assistant Experience</h2>
                 <h2 data-lang="zh" style="display: none;">教学经历</h2>
+
                 <ul>
                     <li>
-                        <p data-lang="en"><strong>Abstract Algebra</strong><br>
-                        School of Mathematical Sciences, Sichuan Normal University<br>
-                        September 2024 – January 2025</p>
-                        <p data-lang="zh" style="display: none;"><strong>抽象代数</strong><br>
-                        四川师范大学 数学科学学院<br>
-                        2024年9月 – 2025年1月</p>
+                        <p data-lang="en">
+                            <strong>Abstract Algebra</strong><br>
+                            School of Mathematical Sciences, Sichuan Normal University<br>
+                            September 2024 – January 2025
+                        </p>
+                        <p data-lang="zh" style="display: none;">
+                            <strong>抽象代数</strong><br>
+                            四川师范大学 数学科学学院<br>
+                            2024年9月 – 2025年1月
+                        </p>
                     </li>
+
                     <li>
-                        <p data-lang="en"><strong>Elementary Number Theory</strong><br>
-                        School of Mathematical Sciences, Sichuan Normal University<br>
-                        March 2025 – July 2025</p>
-                        <p data-lang="zh" style="display: none;"><strong>初等数论</strong><br>
-                        四川师范大学 数学科学学院<br>
-                        2025年3月 – 2025年7月</p>
+                        <p data-lang="en">
+                            <strong>Elementary Number Theory</strong><br>
+                            School of Mathematical Sciences, Sichuan Normal University<br>
+                            March 2025 – July 2025
+                        </p>
+                        <p data-lang="zh" style="display: none;">
+                            <strong>初等数论</strong><br>
+                            四川师范大学 数学科学学院<br>
+                            2025年3月 – 2025年7月
+                        </p>
                     </li>
                 </ul>
             </section>
 
-<section id="awards">
-    <h2 data-lang="en">Awards & Honors</h2>
-    <h2 data-lang="zh" style="display: none;">获奖与荣誉</h2>
-    <ul>
-        <li>
-            <p data-lang="en"><a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x639282009785742871" target="_blank" rel="noopener noreferrer">National Scholarship for Graduate Students, Sichuan Normal University</a><br>
-            2026</p>
-            <p data-lang="zh" style="display: none;"><a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x639282009785742871" target="_blank" rel="noopener noreferrer">四川师范大学 研究生国家奖学金</a><br>
-            2026年</p>
-        </li>
-        <li>
-            <p data-lang="en"><a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x639282009785742871" target="_blank" rel="noopener noreferrer">Second-Class President's Scholarship for Graduate Students, Sichuan Normal University</a><br>
-            2025-2026 Academic Year</p>
-            <p data-lang="zh" style="display: none;"><a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x639282009785742871" target="_blank" rel="noopener noreferrer">四川师范大学 研究生校长奖学金二等奖</a><br>
-            2026年</p>
-        </li>
-        <li>
-            <p data-lang="en">"Merit Student" Honor for Master's Degree Students, Sichuan Normal University<br>
-            2026</p>
-            <p data-lang="zh" style="display: none;"><a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x639307698817188023" target="_blank">四川师范大学 硕士研究生“三好学生”荣誉称号<br>
-            2025-2026学年</p>
-        </li>
-        <li>
-            <p data-lang="en">"<a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638990825146339824" target="_blank">Merit Student" Honor for Master's degree student, Sichuan Normal University</a><br>
-            2025-2026 Academic Year</p>
-            <p data-lang="zh" style="display: none;"><a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638990825146339824" target="_blank">四川师范大学 硕士研究生 "三好学生" 荣誉称号</a><br>
-            2024-2025 学年</p>
-        </li>
-        <li>
-            <p data-lang="en"><a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638966614605863533" target="_blank">First-Class Academic Scholarship for Graduate Students, Sichuan Normal University</a><br>
-            2025 Year</p>
-            <p data-lang="zh" style="display: none;"><a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638966614605863533" target="_blank">四川师范大学 研究生学业一等奖学金</a><br>
-            2025年</p>
-        </li>
-        <li>
-            <p data-lang="en"><a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638670876702089484" target="_blank">President's Scholarship for Graduate Students, Sichuan Normal University</a><br>
-            2024 Year</p>
-            <p data-lang="zh" style="display: none;"><a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638670876702089484" target="_blank">四川师范大学 研究生校长奖学金</a><br>
-            2024年</p>
-        </li>
-        <li>
-            <p data-lang="en"><a href="https://jw.abtu.edu.cn/info/1131/3639.htm" target="_blank">The First Prize of Graduation Thesis for Undergraduate Students of the 2023 Cohort, Aba Teachers' University</a></p>
-            <p data-lang="zh" style="display: none;"><a href="https://jw.abtu.edu.cn/info/1131/3639.htm" target="_blank">阿坝师范学院 2023届本科优秀毕业论文一等奖</a></p>
-        </li>
-        <li>
-            <p data-lang="en">"Merit Student" Honor, Aba Teachers University<br>
-            2019 – 2020 Academic Year</p>
-            <p data-lang="zh" style="display: none;">阿坝师范学院 "三好学生" 荣誉称号<br>
-            2019 – 2020 学年</p>
-        </li>
-    </ul>
-</section>
+            <section id="awards">
+                <h2 data-lang="en">Awards & Honors</h2>
+                <h2 data-lang="zh" style="display: none;">获奖与荣誉</h2>
 
-<section id="projects">
-    <h2 data-lang="en">Hosted/Participated Projects</h2>
-    <h2 data-lang="zh" style="display: none;">主持/参与的项目</h2>
-    <ul>
-       <li>
-    <p data-lang="en">
-        <strong>Hosted Project</strong><br>
-        <a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638967198458156831" target="_blank">Exploration of the Properties of Generalized Roth-Lempel Codes</a><br>
-        Sichuan Normal University Graduate Student Innovation Ability Development Program<br>
-        2025 – 2026<br>
-        Project No.: KY2025022<br>
-        Supervisor: <a href="http://139.155.71.72:81/HomePage.aspx?ID=44" target="_blank">Prof. Qunying Liao</a>
-    </p>
-    <p data-lang="zh" style="display: none;">
-        <strong>主持项目</strong><br>
-        <a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638967198458156831" target="_blank">广义Roth-Lempel码的性质探究</a><br>
-        四川师范大学研究生创新能力培养项目<br>
-        2025年 – 2026年<br>
-        项目编号：KY2025022<br>
-        指导教师: <a href="http://139.155.71.72:81/HomePage.aspx?ID=44" target="_blank">廖群英 教授</a>
-    </p>
-</li>
+                <ul>
+                    <li>
+                        <p data-lang="en">
+                            <a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x639282009785742871" target="_blank" rel="noopener noreferrer">National Scholarship for Graduate Students, Sichuan Normal University</a><br>
+                            2026
+                        </p>
+                        <p data-lang="zh" style="display: none;">
+                            <a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x639282009785742871" target="_blank" rel="noopener noreferrer">四川师范大学 研究生国家奖学金</a><br>
+                            2026年
+                        </p>
+                    </li>
 
-<li>
-    <p data-lang="en">
-        <strong>Hosted Project</strong><br>
-        Research on Stability of a Class of Quasilinear Differential Equations<br>
-        University-Level Quality Project of Aba Teachers University & Sichuan Provincial College Student Innovation Training Program<br>
-        2020 – 2023<br>
-        Project No.: 202020115 (University-Level) & S202110646050 (Provincial)<br>
-        Supervisor: <a href="https://sj.abtu.edu.cn/info/1049/2003.htm" target="_blank">Assoc. Prof. Biao Dong</a>
-    </p>
-    <p data-lang="zh" style="display: none;">
-        <strong>主持项目</strong><br>
-        一类拟线性微分方程稳定性研究<br>
-        阿坝师范学院校级质量工程和四川省大学生创新训练项目<br>
-        2020年 – 2023年<br>
-        项目编号：202020115（校级）和 S202110646050（省级）<br>
-        指导老师: <a href="https://sj.abtu.edu.cn/info/1049/2003.htm" target="_blank">董彪 副教授</a>
-    </p>
-</li>
-    </ul>
-</section>
+                    <li>
+                        <p data-lang="en">
+                            <a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x639282009785742871" target="_blank" rel="noopener noreferrer">Second-Class President's Scholarship for Graduate Students, Sichuan Normal University</a><br>
+                            2025-2026 Academic Year
+                        </p>
+                        <p data-lang="zh" style="display: none;">
+                            <a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x639282009785742871" target="_blank" rel="noopener noreferrer">四川师范大学 研究生校长奖学金二等奖</a><br>
+                            2026年
+                        </p>
+                    </li>
 
-            <!-- 已发表论文 -->
+                    <li>
+                        <p data-lang="en">
+                            "Merit Student" Honor for Master's Degree Students, Sichuan Normal University<br>
+                            2026
+                        </p>
+                        <p data-lang="zh" style="display: none;">
+                            <a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x639307698817188023" target="_blank">四川师范大学 硕士研究生“三好学生”荣誉称号<br>
+                            2025-2026学年</a>
+                        </p>
+                    </li>
+
+                    <li>
+                        <p data-lang="en">
+                            "<a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638990825146339824" target="_blank">Merit Student" Honor for Master's degree student, Sichuan Normal University</a><br>
+                            2025-2026 Academic Year
+                        </p>
+                        <p data-lang="zh" style="display: none;">
+                            <a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638990825146339824" target="_blank">四川师范大学 硕士研究生 "三好学生" 荣誉称号</a><br>
+                            2024-2025 学年
+                        </p>
+                    </li>
+
+                    <li>
+                        <p data-lang="en">
+                            <a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638966614605863533" target="_blank">First-Class Academic Scholarship for Graduate Students, Sichuan Normal University</a><br>
+                            2025 Year
+                        </p>
+                        <p data-lang="zh" style="display: none;">
+                            <a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638966614605863533" target="_blank">四川师范大学 研究生学业一等奖学金</a><br>
+                            2025年
+                        </p>
+                    </li>
+
+                    <li>
+                        <p data-lang="en">
+                            <a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638670876702089484" target="_blank">President's Scholarship for Graduate Students, Sichuan Normal University</a><br>
+                            2024 Year
+                        </p>
+                        <p data-lang="zh" style="display: none;">
+                            <a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638670876702089484" target="_blank">四川师范大学 研究生校长奖学金</a><br>
+                            2024年
+                        </p>
+                    </li>
+
+                    <li>
+                        <p data-lang="en">
+                            <a href="https://jw.abtu.edu.cn/info/1131/3639.htm" target="_blank">The First Prize of Graduation Thesis for Undergraduate Students of the 2023 Cohort, Aba Teachers' University</a>
+                        </p>
+                        <p data-lang="zh" style="display: none;">
+                            <a href="https://jw.abtu.edu.cn/info/1131/3639.htm" target="_blank">阿坝师范学院 2023届本科优秀毕业论文一等奖</a>
+                        </p>
+                    </li>
+
+                    <li>
+                        <p data-lang="en">
+                            "Merit Student" Honor, Aba Teachers University<br>
+                            2019 – 2020 Academic Year
+                        </p>
+                        <p data-lang="zh" style="display: none;">
+                            阿坝师范学院 "三好学生" 荣誉称号<br>
+                            2019 – 2020 学年
+                        </p>
+                    </li>
+                </ul>
+            </section>
+
+            <section id="projects">
+                <h2 data-lang="en">Hosted/Participated Projects</h2>
+                <h2 data-lang="zh" style="display: none;">主持/参与的项目</h2>
+
+                <ul>
+                    <li>
+                        <p data-lang="en">
+                            <strong>Hosted Project</strong><br>
+                            <a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638967198458156831" target="_blank">Exploration of the Properties of Generalized Roth-Lempel Codes</a><br>
+                            Sichuan Normal University Graduate Student Innovation Ability Development Program<br>
+                            2025 – 2026<br>
+                            Project No.: KY2025022<br>
+                            Supervisor:
+                            <a href="http://139.155.71.72:81/HomePage.aspx?ID=44" target="_blank">Prof. Qunying Liao</a>
+                        </p>
+                        <p data-lang="zh" style="display: none;">
+                            <strong>主持项目</strong><br>
+                            <a href="https://yjsc.sicnu.edu.cn/p/0/?StId=st_app_news_i_x638967198458156831" target="_blank">广义Roth-Lempel码的性质探究</a><br>
+                            四川师范大学研究生创新能力培养项目<br>
+                            2025年 – 2026年<br>
+                            项目编号：KY2025022<br>
+                            指导教师:
+                            <a href="http://139.155.71.72:81/HomePage.aspx?ID=44" target="_blank">廖群英 教授</a>
+                        </p>
+                    </li>
+
+                    <li>
+                        <p data-lang="en">
+                            <strong>Hosted Project</strong><br>
+                            Research on Stability of a Class of Quasilinear Differential Equations<br>
+                            University-Level Quality Project of Aba Teachers University & Sichuan Provincial College Student Innovation Training Program<br>
+                            2020 – 2023<br>
+                            Project No.: 202020115 (University-Level) & S202110646050 (Provincial)<br>
+                            Supervisor:
+                            <a href="https://sj.abtu.edu.cn/info/1049/2003.htm" target="_blank">Assoc. Prof. Biao Dong</a>
+                        </p>
+                        <p data-lang="zh" style="display: none;">
+                            <strong>主持项目</strong><br>
+                            一类拟线性微分方程稳定性研究<br>
+                            阿坝师范学院校级质量工程和四川省大学生创新训练项目<br>
+                            2020年 – 2023年<br>
+                            项目编号：202020115（校级）和 S202110646050（省级）<br>
+                            指导老师:
+                            <a href="https://sj.abtu.edu.cn/info/1049/2003.htm" target="_blank">董彪 副教授</a>
+                        </p>
+                    </li>
+                </ul>
+            </section>
+
+            <!-- 已发表论文：序号由 CSS 自动生成 -->
             <section id="publications">
                 <h2 data-lang="en">Publications</h2>
                 <h2 data-lang="zh" style="display: none;">已发表论文</h2>
@@ -802,46 +954,60 @@
                 <div class="year-heading">2026</div>
                 <ul class="pub-list">
                     <li>
-                        <span class="pub-number">[1]</span>
                         <span class="pub-content">
                             <span class="red-author">Liang Z</span>, Liao Q.
                             <a href="https://ieeexplore.ieee.org/document/11514098" target="_blank" class="pub-title-link">Four classes of LCD codes from $(∗)$-$(\mathcal{L}, \mathcal{P})$-twisted generalized Reed-Solomon codes</a>
-                            <span class="pub-journal">IEEE Trans. Inf. Theory</span>, <span class="pub-meta">2026. <span class="top-journal-badge">(CCF-A, 编码领域 Top 期刊)</span></span>
+                            <span class="pub-journal">IEEE Trans. Inf. Theory</span>,
+                            <span class="pub-meta">
+                                2026.
+                                <span class="top-journal-badge">(CCF-A, 编码领域 Top 期刊)</span>
+                            </span>
                             <span class="pub-downloads">
-                                <a href="https://pan.baidu.com/s/1y9ZlpNCP4Bqu4nvdLs1OfQ?pwd=ae4w" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="https://pan.baidu.com/s/1y9ZlpNCP4Bqu4nvdLs1OfQ?pwd=ae4w" target="_blank">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
                             </span>
                         </span>
                     </li>
+
                     <li>
-                        <span class="pub-number">[2]</span>
                         <span class="pub-content">
                             <span class="red-author">Liang Z</span>, Liao Q.
                             <a href="https://www.sciencedirect.com/science/article/pii/S0012365X26001081" target="_blank" class="pub-title-link">The extended code for a class of generalized Roth-Lempel codes and their properties</a>
-                            <span class="pub-journal">Discrete Math.</span>, <span class="pub-meta">349(8):115084, 2026.</span>
+                            <span class="pub-journal">Discrete Math.</span>,
+                            <span class="pub-meta">349(8):115084, 2026.</span>
                             <span class="pub-downloads">
-                                <a href="https://pan.baidu.com/s/1nIPy-Ljew282hblRmYspXg?pwd=mksr" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="https://pan.baidu.com/s/1nIPy-Ljew282hblRmYspXg?pwd=mksr" target="_blank">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
                             </span>
                         </span>
                     </li>
+
                     <li>
-                        <span class="pub-number">[3]</span>
                         <span class="pub-content">
                             <span class="red-author">Liang Z</span>, Liao Q.
                             <a href="https://www.sciencedirect.com/science/article/pii/S1071579725002096" target="_blank" class="pub-title-link">Two classes of NMDS codes from Roth-Lempel codes</a>
-                            <span class="pub-journal">Finite Fields Appl.</span>, <span class="pub-meta">111:102779, 2026.</span>
+                            <span class="pub-journal">Finite Fields Appl.</span>,
+                            <span class="pub-meta">111:102779, 2026.</span>
                             <span class="pub-downloads">
-                                <a href="https://pan.baidu.com/s/1Od6R-Kzi6neVADr8sOgRfQ?pwd=do41" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="https://pan.baidu.com/s/1Od6R-Kzi6neVADr8sOgRfQ?pwd=do41" target="_blank">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
                             </span>
                         </span>
                     </li>
+
                     <li>
-                        <span class="pub-number">[4]</span>
                         <span class="pub-content">
                             Wan Y, <span class="red-author">Liang Z</span>, Liao Q.
                             <a href="https://articles.math.cas.cz/10.21136/MB.2026.0161-25" target="_blank" class="pub-title-link">The asymptotic estimation for two classes of generalized Fibonacci sub-sequences</a>
-                            <span class="pub-journal">Mathematica Bohemica</span>, <span class="pub-meta">2026.</span>
+                            <span class="pub-journal">Mathematica Bohemica</span>,
+                            <span class="pub-meta">2026.</span>
                             <span class="pub-downloads">
-                                <a href="https://mbpapers.math.cas.cz/full/online1st/MB.2026.0161-25.pdf" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="https://mbpapers.math.cas.cz/full/online1st/MB.2026.0161-25.pdf" target="_blank">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
                             </span>
                         </span>
                     </li>
@@ -850,10 +1016,13 @@
                 <div class="year-heading">2025</div>
                 <ul class="pub-list">
                     <li>
-                        <span class="pub-number">[5]</span>
                         <span class="pub-content">
-                            <span data-lang="en"><span class="red-author">Liang Z</span>, Yang S C, Liao Q Y.</span>
-                            <span data-lang="zh" style="display: none;"><span class="red-author">梁钟浩</span>, 杨仕椿, 廖群英.</span>
+                            <span data-lang="en">
+                                <span class="red-author">Liang Z</span>, Yang S C, Liao Q Y.
+                            </span>
+                            <span data-lang="zh" style="display: none;">
+                                <span class="red-author">梁钟浩</span>, 杨仕椿, 廖群英.
+                            </span>
                             <a href="https://gksx.cbpt.cnki.net/WKE2/WebPublication/paperDigest.aspx?paperID=fd66c66e-af28-4086-accc-eb1449d30733" target="_blank" class="pub-title-link">
                                 <span data-lang="en">Further refinement of estimates of $p_k$ and $\sum_{k=1}^{n}kp_k$ true bounds</span>
                                 <span data-lang="zh" style="display: none;">关于 $p_k$、$\sum_{k=1}^{n}kp_k$ 的确界估计的进一步精确</span>
@@ -861,9 +1030,16 @@
                             <span class="pub-journal">
                                 <span data-lang="en">College Mathematics</span>
                                 <span data-lang="zh" style="display: none;">大学数学</span>
-                            </span>, <span class="pub-meta">41(01):16–22, 2025. <span data-lang="en">(in Chinese)</span><span data-lang="zh" style="display: none;">(中文)</span></span>
+                            </span>,
+                            <span class="pub-meta">
+                                41(01):16–22, 2025.
+                                <span data-lang="en">(in Chinese)</span>
+                                <span data-lang="zh" style="display: none;">(中文)</span>
+                            </span>
                             <span class="pub-downloads">
-                                <a href="https://pan.baidu.com/s/1A-vLMTAXJBk57OYN0oiZfw?pwd=6666" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="https://pan.baidu.com/s/1A-vLMTAXJBk57OYN0oiZfw?pwd=6666" target="_blank">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
                             </span>
                         </span>
                     </li>
@@ -872,10 +1048,13 @@
                 <div class="year-heading">2024</div>
                 <ul class="pub-list">
                     <li>
-                        <span class="pub-number">[6]</span>
                         <span class="pub-content">
-                            <span data-lang="en"><span class="red-author">Liang Z</span>, Yang S C.</span>
-                            <span data-lang="zh" style="display: none;"><span class="red-author">梁钟浩</span>, 杨仕椿.</span>
+                            <span data-lang="en">
+                                <span class="red-author">Liang Z</span>, Yang S C.
+                            </span>
+                            <span data-lang="zh" style="display: none;">
+                                <span class="red-author">梁钟浩</span>, 杨仕椿.
+                            </span>
                             <a href="https://www.glkx.cbpt.cnki.net/WKE/WebPublication/paperDigest.aspx?paperID=79b758a3-b527-4bed-96d2-5023295ba316" target="_blank" class="pub-title-link">
                                 <span data-lang="en">Further intensification of an inequality about the number of prime numbers</span>
                                 <span data-lang="zh" style="display: none;">关于素数个数的一个不等式的加强</span>
@@ -883,16 +1062,23 @@
                             <span class="pub-journal">
                                 <span data-lang="en">Journal of Science of Teachers' College and University</span>
                                 <span data-lang="zh" style="display: none;">高师理科学刊</span>
-                            </span>, <span class="pub-meta">44(02):6–8+14, 2024. <span data-lang="en">(in Chinese)</span><span data-lang="zh" style="display: none;">(中文)</span></span>
+                            </span>,
+                            <span class="pub-meta">
+                                44(02):6–8+14, 2024.
+                                <span data-lang="en">(in Chinese)</span>
+                                <span data-lang="zh" style="display: none;">(中文)</span>
+                            </span>
                             <span class="pub-downloads">
-                                <a href="https://pan.baidu.com/s/1WRhJNXDFvCkKFzcYF_fFYA" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="https://pan.baidu.com/s/1WRhJNXDFvCkKFzcYF_fFYA" target="_blank">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
                             </span>
                         </span>
                     </li>
                 </ul>
             </section>
-        
-            <!-- 预印本（全部只保留英文） -->
+
+            <!-- 预印本：序号由 CSS 自动生成 -->
             <section id="preprints">
                 <h2 data-lang="en">ArXiv Preprints</h2>
                 <h2 data-lang="zh" style="display: none;">ArXiv预印本</h2>
@@ -900,58 +1086,66 @@
                 <div class="year-heading">2026</div>
                 <ul class="pub-list">
                     <li>
-    <span class="pub-number">[2]</span>
-    <span class="pub-content">
-        <span class="red-author">Liang Z</span>, Jia C, Liao Q.
-        <a href="https://arxiv.org/abs/2611.32212" target="_blank" class="pub-title-link">Parity‑check matrices and their MDS or NMDS properties for several classes of non‑GRS type linear codes</a>
-        <span class="pub-meta">arXiv:2611.32212, 2026.</span>
-        <span class="pub-downloads">
-            <a href="https://arxiv.org/pdf/2611.32212" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a>
-        </span>
-    </span>
-</li>
+                        <span class="pub-content">
+                            <span class="red-author">Liang Z</span>, Jia C, Liao Q.
+                            <a href="https://arxiv.org/abs/2611.32212" target="_blank" class="pub-title-link">Parity‑check matrices and their MDS or NMDS properties for several classes of non‑GRS type linear codes</a>
+                            <span class="pub-meta">arXiv:2611.32212, 2026.</span>
+                            <span class="pub-downloads">
+                                <a href="https://arxiv.org/pdf/2611.32212" target="_blank">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
+                            </span>
+                        </span>
+                    </li>
 
                     <li>
-                        <span class="pub-number">[2]</span>
                         <span class="pub-content">
                             Huang Y, <span class="red-author">Liang Z</span>, Jia C, Wan Y, Liao Q.
                             <a href="https://arxiv.org/abs/2607.07181" target="_blank" class="pub-title-link">Four classes of few-weight self-orthogonal codes and their applications for LCD codes and quantum codes</a>
                             <span class="pub-meta">arXiv:2607.07181, 2026.</span>
                             <span class="pub-downloads">
-                                <a href="https://arxiv.org/pdf/2607.07181" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="https://arxiv.org/pdf/2607.07181" target="_blank">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
                             </span>
                         </span>
                     </li>
+
                     <li>
-                        <span class="pub-number">[3]</span>
                         <span class="pub-content">
                             Jia C, <span class="red-author">Liang Z</span>, Huang Y, Liao Q.
                             <a href="https://arxiv.org/abs/2607.03802" target="_blank" class="pub-title-link">The Hermitian Hull Dimensions for a Class of $(\mathcal{L},\mathcal{P})$-Twisted Generalized Reed-Solomon Codes</a>
                             <span class="pub-meta">arXiv:2607.03802, 2026.</span>
                             <span class="pub-downloads">
-                                <a href="https://arxiv.org/pdf/2607.03802" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="https://arxiv.org/pdf/2607.03802" target="_blank">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
                             </span>
                         </span>
                     </li>
+
                     <li>
-                        <span class="pub-number">[4]</span>
                         <span class="pub-content">
                             <span class="red-author">Liang Z</span>, Liao Q, Zhang J, Li X.
                             <a href="https://arxiv.org/abs/2606.25662v1" target="_blank" class="pub-title-link">The MDS or NMDS for Modified GRS codes with flexible hull dimensions and lengths</a>
                             <span class="pub-meta">arXiv:2606.25662v1, 2026.</span>
                             <span class="pub-downloads">
-                                <a href="https://arxiv.org/pdf/2606.25662v1" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="https://arxiv.org/pdf/2606.25662v1" target="_blank">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
                             </span>
                         </span>
                     </li>
+
                     <li>
-                        <span class="pub-number">[5]</span>
                         <span class="pub-content">
                             <span class="red-author">Liang Z</span>, Huang D, Liao Q, et al.
                             <a href="https://arxiv.org/abs/2603.16187" target="_blank" class="pub-title-link">Non-GRS type Euclidean and Hermitian LCD codes and Their Applications for EAQECCs</a>
                             <span class="pub-meta">arXiv:2603.16187, 2026.</span>
                             <span class="pub-downloads">
-                                <a href="https://arxiv.org/pdf/2603.16187" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="https://arxiv.org/pdf/2603.16187" target="_blank">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
                             </span>
                         </span>
                     </li>
@@ -960,121 +1154,139 @@
                 <div class="year-heading">2025</div>
                 <ul class="pub-list">
                     <li>
-                        <span class="pub-number">[6]</span>
                         <span class="pub-content">
                             <span class="red-author">Liang Z</span>, Jia C, Huang D, Liao Q, Tang C.
                             <a href="https://arxiv.org/abs/2511.03398" target="_blank" class="pub-title-link">Multi-Twisted Generalized Reed-Solomon Codes: Structure, Properties, and Constructions</a>
                             <span class="pub-meta">arXiv:2511.03398, 2025.</span>
                             <span class="pub-downloads">
-                                <a href="https://arxiv.org/pdf/2511.03398.pdf" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="https://arxiv.org/pdf/2511.03398.pdf" target="_blank">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
                             </span>
                         </span>
                     </li>
+
                     <li>
-                        <span class="pub-number">[7]</span>
                         <span class="pub-content">
                             Wan Y, <span class="red-author">Liang Z</span>, Liao Q.
                             <a href="https://arxiv.org/abs/2509.14569" target="_blank" class="pub-title-link">The inverse of the (alternating) infinite sum of the reciprocal of the weighted sum for generalized Fibonacci sub-sequences</a>
                             <span class="pub-meta">arXiv:2509.14569, 2025.</span>
                             <span class="pub-downloads">
-                                <a href="https://arxiv.org/pdf/2509.14569.pdf" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="https://arxiv.org/pdf/2509.14569.pdf" target="_blank">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
                             </span>
                         </span>
                     </li>
+
                     <li>
-                        <span class="pub-number">[8]</span>
                         <span class="pub-content">
                             <span class="red-author">Liang Z</span>, Liao Q.
                             <a href="https://arxiv.org/abs/2506.03874" target="_blank" class="pub-title-link">The equivalent condition for GRL codes to be MDS, AMDS or self-dual</a>
                             <span class="pub-meta">arXiv:2506.03874, 2025.</span>
                             <span class="pub-downloads">
-                                <a href="https://arxiv.org/pdf/2506.03874.pdf" target="_blank"><i class="fas fa-file-pdf"></i> PDF</a>
+                                <a href="https://arxiv.org/pdf/2506.03874.pdf" target="_blank">
+                                    <i class="fas fa-file-pdf"></i> PDF
+                                </a>
                             </span>
                         </span>
                     </li>
                 </ul>
             </section>
 
-<section id="conference">
-    <h2 data-lang="en">Conference & Summer School Participation</h2>
-    <h2 data-lang="zh" style="display: none;">会议及暑期学校参与经历</h2>
+            <section id="conference">
+                <h2 data-lang="en">Conference & Summer School Participation</h2>
+                <h2 data-lang="zh" style="display: none;">会议及暑期学校参与经历</h2>
 
-    <h3 style="margin:16px 0 8px 0;">
-        <span data-lang="en">Conference</span>
-        <span data-lang="zh" style="display:none;">学术会议</span>
-    </h3>
-    <p style="font-weight:500; margin:0 0 10px 0;">
-        <a href="http://ffa2026.inconvene.com/meeting/home" target="_blank">
-            <span data-lang="en">THE 12TH WORKSHOP ON FINITE FIELDS AND THEIR APPLICATIONS</span>
-            <span data-lang="zh" style="display:none;">第十二届有限域及其应用研讨会（FFA2026）</span>
-        </a>
-    </p>
-    <div style="margin:0 0 30px 0;">
-        <img src="2026FFA1.jpg" loading="lazy" style="width:30%;margin:5px;" onclick="openImageModal(this.src)">
-        <img src="2026FFA2.jpg" loading="lazy" style="width:30%;margin:5px;" onclick="openImageModal(this.src)">
-        <img src="2026FFA4.jpg" loading="lazy" style="width:30%;margin:5px;" onclick="openImageModal(this.src)">
-    </div>
+                <h3 style="margin:16px 0 8px 0;">
+                    <span data-lang="en">Conference</span>
+                    <span data-lang="zh" style="display:none;">学术会议</span>
+                </h3>
 
-    <h3 style="margin:16px 0 8px 0;">
-        <span data-lang="en">Summer School</span>
-        <span data-lang="zh" style="display:none;">暑期学校</span>
-    </h3>
-    <p style="font-weight:500; margin:0 0 10px 0;">
-        <a href="#" target="_blank">
-            <span data-lang="en">2026 National Summer School on Mathematical Foundations of Coding and Cryptography</span>
-            <span data-lang="zh" style="display:none;">2026年“编码密码的数学基础”全国暑期班</span>
-        </a>
-    </p>
-    <div style="margin:0;">
-        <img src="2026summer.jpg" loading="lazy" style="width:30%;margin:5px;" onclick="openImageModal(this.src)">
-    </div>
-</section>
-<section id="services">
-    <h2 data-lang="en">Academic Service</h2>
-    <h2 data-lang="zh" style="display: none;">学术服务</h2>
+                <p style="font-weight:500; margin:0 0 10px 0;">
+                    <a href="http://ffa2026.inconvene.com/meeting/home" target="_blank">
+                        <span data-lang="en">THE 12TH WORKSHOP ON FINITE FIELDS AND THEIR APPLICATIONS</span>
+                        <span data-lang="zh" style="display:none;">第十二届有限域及其应用研讨会（FFA2026）</span>
+                    </a>
+                </p>
 
-    <h3 data-lang="en" style="margin:16px 0 8px 0;">Reviewer for:</h3>
-    <h3 data-lang="zh" style="display: none; margin:16px 0 8px 0;">审稿与评论服务：</h3>
-    <ul>
-        <li>
-            <a href="https://www.itsoc.org/it-trans" target="_blank" rel="noopener noreferrer" class="pub-title-link">IEEE Transactions on Information Theory</a>
-            <span class="pub-meta">(TIT)</span>
-        </li>
-        <li>
-            <a href="https://www.comsoc.org/publications/journals/ieee-transactions-communications" target="_blank" rel="noopener noreferrer" class="pub-title-link">IEEE Transactions on Communications</a>
-            <span class="pub-meta">(TCOM)</span>
-        </li>
-        <li>
-            <a href="https://www.sciencedirect.com/journal/finite-fields-and-their-applications" target="_blank" rel="noopener noreferrer" class="pub-title-link">Finite Fields and Their Applications</a>
-            <span class="pub-meta">(FFA)</span>
-        </li>
-        <li>
-            <a href="https://link.springer.com/journal/10623" target="_blank" rel="noopener noreferrer" class="pub-title-link">Designs, Codes and Cryptography</a>
-            <span class="pub-meta">(DCC)</span>
-        </li>
-        <li>
-            <a href="https://link.springer.com/journal/12095" target="_blank" rel="noopener noreferrer" class="pub-title-link">Cryptography and Communications</a>
-            <span class="pub-meta">(CCDS)</span>
-        </li>
-        <li>
-            <a href="https://www.sciencedirect.com/journal/discrete-mathematics" target="_blank" rel="noopener noreferrer" class="pub-title-link">Discrete Mathematics</a>
-            <span class="pub-meta">(DM)</span>
-        </li>
-        <li>
-            <a href="https://link.springer.com/journal/12190" target="_blank" rel="noopener noreferrer" class="pub-title-link">Journal of Applied Mathematics and Computing</a>
-            <span class="pub-meta">(JAMC)</span>
-        </li>
-        <li>
-            <a href="https://cje.ejournal.org.cn/" target="_blank" rel="noopener noreferrer" class="pub-title-link">Chinese Journal of Electronics</a>
-            <span class="pub-meta">(CJE)</span>
-        </li>
-        <li>
-            <a href="https://mathscinet.ams.org/mathscinet/info/index.html" target="_blank" rel="noopener noreferrer" class="pub-title-link">Mathematical Reviews</a>
-            <span class="pub-meta">(MR)</span>
-        </li>
-    </ul>
-</section>
+                <div style="margin:0 0 30px 0;">
+                    <img src="2026FFA1.jpg" loading="lazy" style="width:30%;margin:5px;" onclick="openImageModal(this.src)">
+                    <img src="2026FFA2.jpg" loading="lazy" style="width:30%;margin:5px;" onclick="openImageModal(this.src)">
+                    <img src="2026FFA4.jpg" loading="lazy" style="width:30%;margin:5px;" onclick="openImageModal(this.src)">
+                </div>
 
+                <h3 style="margin:16px 0 8px 0;">
+                    <span data-lang="en">Summer School</span>
+                    <span data-lang="zh" style="display:none;">暑期学校</span>
+                </h3>
+
+                <p style="font-weight:500; margin:0 0 10px 0;">
+                    <a href="#" target="_blank">
+                        <span data-lang="en">2026 National Summer School on Mathematical Foundations of Coding and Cryptography</span>
+                        <span data-lang="zh" style="display:none;">2026年“编码密码的数学基础”全国暑期班</span>
+                    </a>
+                </p>
+
+                <div style="margin:0;">
+                    <img src="2026summer.jpg" loading="lazy" style="width:30%;margin:5px;" onclick="openImageModal(this.src)">
+                </div>
+            </section>
+
+            <section id="services">
+                <h2 data-lang="en">Academic Service</h2>
+                <h2 data-lang="zh" style="display: none;">学术服务</h2>
+
+                <h3 data-lang="en" style="margin:16px 0 8px 0;">Reviewer for:</h3>
+                <h3 data-lang="zh" style="display: none; margin:16px 0 8px 0;">审稿与评论服务：</h3>
+
+                <ul>
+                    <li>
+                        <a href="https://www.itsoc.org/it-trans" target="_blank" rel="noopener noreferrer" class="pub-title-link">IEEE Transactions on Information Theory</a>
+                        <span class="pub-meta">(TIT)</span>
+                    </li>
+
+                    <li>
+                        <a href="https://www.comsoc.org/publications/journals/ieee-transactions-communications" target="_blank" rel="noopener noreferrer" class="pub-title-link">IEEE Transactions on Communications</a>
+                        <span class="pub-meta">(TCOM)</span>
+                    </li>
+
+                    <li>
+                        <a href="https://www.sciencedirect.com/journal/finite-fields-and-their-applications" target="_blank" rel="noopener noreferrer" class="pub-title-link">Finite Fields and Their Applications</a>
+                        <span class="pub-meta">(FFA)</span>
+                    </li>
+
+                    <li>
+                        <a href="https://link.springer.com/journal/10623" target="_blank" rel="noopener noreferrer" class="pub-title-link">Designs, Codes and Cryptography</a>
+                        <span class="pub-meta">(DCC)</span>
+                    </li>
+
+                    <li>
+                        <a href="https://link.springer.com/journal/12095" target="_blank" rel="noopener noreferrer" class="pub-title-link">Cryptography and Communications</a>
+                        <span class="pub-meta">(CCDS)</span>
+                    </li>
+
+                    <li>
+                        <a href="https://www.sciencedirect.com/journal/discrete-mathematics" target="_blank" rel="noopener noreferrer" class="pub-title-link">Discrete Mathematics</a>
+                        <span class="pub-meta">(DM)</span>
+                    </li>
+
+                    <li>
+                        <a href="https://link.springer.com/journal/12190" target="_blank" rel="noopener noreferrer" class="pub-title-link">Journal of Applied Mathematics and Computing</a>
+                        <span class="pub-meta">(JAMC)</span>
+                    </li>
+
+                    <li>
+                        <a href="https://cje.ejournal.org.cn/" target="_blank" rel="noopener noreferrer" class="pub-title-link">Chinese Journal of Electronics</a>
+                        <span class="pub-meta">(CJE)</span>
+                    </li>
+
+                    <li>
+                        <a href="https://mathscinet.ams.org/mathscinet/info/index.html" target="_blank" rel="noopener noreferrer" class="pub-title-link">Mathematical Reviews</a>
+                        <span class="pub-meta">(MR)</span>
+                    </li>
+                </ul>
+            </section>
         </main>
     </div>
 
@@ -1088,62 +1300,71 @@
         const btnZh = document.getElementById('langZh');
         const allLangDom = document.querySelectorAll('[data-lang]');
 
-        btnEn.addEventListener('click',()=>{
-            allLangDom.forEach(item=>{
-                if(item.dataset.lang === 'en'){
+        btnEn.addEventListener('click', () => {
+            allLangDom.forEach(item => {
+                if (item.dataset.lang === 'en') {
                     item.style.display = '';
-                }else{
+                } else {
                     item.style.display = 'none';
                 }
             });
+
             btnEn.classList.add('active');
             btnZh.classList.remove('active');
         });
 
-        btnZh.addEventListener('click',()=>{
-            allLangDom.forEach(item=>{
-                if(item.dataset.lang === 'zh'){
+        btnZh.addEventListener('click', () => {
+            allLangDom.forEach(item => {
+                if (item.dataset.lang === 'zh') {
                     item.style.display = '';
-                }else{
+                } else {
                     item.style.display = 'none';
                 }
             });
+
             btnZh.classList.add('active');
             btnEn.classList.remove('active');
         });
 
         const menuToggle = document.querySelector('.menu-toggle');
         const sidebar = document.querySelector('.sidebar');
-        menuToggle.addEventListener('click',()=>{
+
+        menuToggle.addEventListener('click', () => {
             sidebar.classList.toggle('show');
         });
 
-        function openImageModal(src){
+        function openImageModal(src) {
             document.getElementById('modalImage').src = src;
             document.getElementById('imageModal').style.display = 'flex';
         }
-        function closeImageModal(){
+
+        function closeImageModal() {
             document.getElementById('imageModal').style.display = 'none';
         }
 
         const sections = document.querySelectorAll('section[id]');
         const navLinks = document.querySelectorAll('.menu-item a');
-        window.addEventListener('scroll', ()=>{
+
+        window.addEventListener('scroll', () => {
             let current = "";
-            sections.forEach(sec=>{
+
+            sections.forEach(sec => {
                 const secTop = sec.offsetTop;
                 const secHeight = sec.offsetHeight;
-                if(window.scrollY >= secTop - 120){
+
+                if (window.scrollY >= secTop - 120) {
                     current = sec.getAttribute('id');
                 }
-            })
-            navLinks.forEach(link=>{
+            });
+
+            navLinks.forEach(link => {
                 link.classList.remove('active');
-                if(link.getAttribute('href') === `#${current}`){
+
+                if (link.getAttribute('href') === `#${current}`) {
                     link.classList.add('active');
                 }
-            })
-        })
+            });
+        });
     </script>
 </body>
 </html>
